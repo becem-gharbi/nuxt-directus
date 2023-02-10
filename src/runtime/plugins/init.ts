@@ -4,6 +4,7 @@ import {
   useNuxtApp,
   addRouteMiddleware,
   useRuntimeConfig,
+  useState,
 } from "#app";
 import useDirectusAuth from "../composables/useDirectusAuth";
 import common from "../middleware/common.global";
