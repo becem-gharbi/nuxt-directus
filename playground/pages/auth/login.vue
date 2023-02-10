@@ -15,13 +15,12 @@ const { login, requestPasswordReset, loginWithProvider } = useDirectusAuth()
 
 
 async function handleLogin() {
-    await login({ email: "becem.gharbi@live.com", password: "hello123" })
-
-    // console.log({ data: data.value?.data.access_token, error: error.value?.data.errors[0].message })
+    const { data, error } = await login({ email: "becem.gharbi@live.com", password: "hello123" })
+    console.log("data ", data.value?.access_token)
+    console.log("error", error.value?.errors[0].message)
 }
 
 async function handleRequestPasswordReset() {
-    const { error } = await requestPasswordReset("becem.gharbi96@gmail.com")
-    console.log(error.value?.data.errors[0].message)
+    await requestPasswordReset("becem.gharbi96@gmail.com")
 }
 </script>

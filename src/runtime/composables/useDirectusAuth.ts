@@ -1,6 +1,12 @@
 import type { Ref } from "vue";
-import { UserItem, ItemInput } from "@directus/sdk";
-import { useRuntimeConfig, useRoute, navigateTo, useState } from "#app";
+import { UserItem, ItemInput, TransportError, AuthResult } from "@directus/sdk";
+import {
+  useRuntimeConfig,
+  useRoute,
+  navigateTo,
+  useState,
+  AsyncData,
+} from "#app";
 
 type AuthProvider =
   | "google"
@@ -15,6 +21,8 @@ type AuthProvider =
   | "twitch"
   | "apple";
 
+type FetchReturnT<T> = Promise<AsyncData<T | null, TransportError | null>>;
+
 export default function () {
   const publicConfig = useRuntimeConfig().public.directus;
   const useUser: () => Ref<ItemInput<UserItem> | null> = () =>
@@ -23,16 +31,22 @@ export default function () {
 
   const { $directus } = useNuxtApp();
 
-  async function login(credentials: { email: string; password: string }) {
-    return $directus.auth
-      .login({
-        email: credentials.email,
-        password: credentials.password,
-      })
-      .then(async () => {
-        await fetchUser();
-        await navigateTo(publicConfig.auth.redirect.home);
-      });
+  async function login(credentials: {
+    email: string;
+    password: string;
+  }): FetchReturnT<AuthResult> {
+    return useAsyncData(() =>
+      $directus.auth
+        .login({
+          email: credentials.email,
+          password: credentials.password,
+        })
+        .then(async (res) => {
+          await fetchUser();
+          await navigateTo(publicConfig.auth.redirect.home);
+          return res;
+        })
+    );
   }
 
   async function loginWithProvider(provider: AuthProvider) {
@@ -58,10 +72,17 @@ export default function () {
     });
   }
 
-  function register(input: { email: string; password: string }) {
+  function register(input: {
+    email: string;
+    password: string;
+    first_name?: string;
+    last_name?: string;
+  }) {
     return $directus.transport.post("/users", {
       email: input.email,
       password: input.password,
+      first_name: input.first_name,
+      last_name: input.last_name,
       role: publicConfig.auth.defaultRoleId,
     });
   }

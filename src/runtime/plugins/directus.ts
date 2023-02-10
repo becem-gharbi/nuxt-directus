@@ -10,6 +10,7 @@ import {
   TransportResponse,
   TransportRequestOptions,
   BaseStorage,
+  TransportError,
 } from "@directus/sdk";
 import { appendHeader, setCookie, getCookie, deleteCookie } from "h3";
 
@@ -78,10 +79,17 @@ export default defineNuxtPlugin(async () => {
           return {
             raw: "",
             //@ts-ignore
-            data: res._data["data"],
+            data: res._data.data,
             status: res.status,
             headers: res.headers,
           } as TransportResponse<T>;
+        })
+        .catch((error) => {
+          throw new TransportError<T>(error, {
+            raw: "",
+            errors: error.data.errors,
+            status: error.status,
+          });
         });
     }
 
