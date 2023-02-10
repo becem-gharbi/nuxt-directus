@@ -64,12 +64,20 @@ export default defineNuxtPlugin(async () => {
       }
 
       const query = qs.stringify(options?.params);
+      
+      const credentials = [
+        "/auth/login",
+        "/auth/logout",
+        "/auth/refresh",
+      ].includes(path)
+        ? "include"
+        : "omit";
 
       return $fetch
         .raw<T>(`${path}?${query}`, {
           baseURL: publicConfig.baseUrl,
           method: method,
-          credentials: "include",
+          credentials: credentials,
           headers: options?.headers,
           body: data,
         })
