@@ -12,6 +12,7 @@ composable<br>
 ✔️ Expose directus instance via `$directus` helper<br>
 ✔️ Typescript support
 
+## 👉 Demo [nuxt-directus-starter](https://directus-starter.bg-corner.tech/) 
 ## Requirement
 Node.js 16 ([issue](https://github.com/nuxt/nuxt/issues/12552) on Node.js 18)
 ## Installation
