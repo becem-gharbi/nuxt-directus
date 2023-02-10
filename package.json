@@ -34,18 +34,18 @@
   },
   "dependencies": {
     "@directus/sdk": "^10.3.1",
-    "@nuxt/kit": "^3.1.2",
+    "@nuxt/kit": "^3.2.0",
     "defu": "^6.1.2",
     "qs": "^6.11.0"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.2.1",
-    "@nuxt/schema": "^3.1.2",
+    "@nuxt/schema": "^3.2.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/qs": "^6.9.7",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.33.0",
-    "nuxt": "^3.1.2",
+    "nuxt": "^3.2.0",
     "semantic-release": "^20.1.0"
   },
   "repository": "https://github.com/becem-gharbi/nuxt-directus.git",

@@ -71,28 +71,32 @@ export default defineNuxtPlugin(async () => {
         ? "include"
         : "omit";
 
-      return $fetch
-        .raw<T>(`${path}?${query}`, {
-          baseURL: publicConfig.baseUrl,
-          method: method,
-          credentials: credentials,
-          headers: options?.headers,
-          body: data,
-        })
-        .then((res) => {
+      let transportResponse: TransportResponse<T>;
+
+      return $fetch<T>(`${path}?${query}`, {
+        baseURL: publicConfig.baseUrl,
+        method: method,
+        credentials: credentials,
+        headers: options?.headers,
+        body: data,
+        onResponse({ response }) {
           if (path === "/auth/refresh" && method === "POST" && process.server) {
-            const setCookies = res.headers.get("set-cookie") || "";
+            const setCookies = response.headers.get("set-cookie") || "";
             appendHeader(event, "set-cookie", setCookies);
           }
-          return {
+
+          transportResponse = {
             raw: "",
             //@ts-ignore
-            data: res._data.data,
-            status: res.status,
-            headers: res.headers,
-          } as TransportResponse<T>;
-        })
+            data: response._data["data"],
+            status: response.status,
+            headers: response.headers,
+          };
+        },
+      })
+        .then(() => transportResponse)
         .catch((error) => {
+          console.log(error);
           throw new TransportError<T>(error, {
             raw: "",
             errors: error.data.errors,
