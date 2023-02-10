@@ -1,14 +1,29 @@
-import { defineNuxtPlugin, useNuxtApp } from "#app";
+import { defineNuxtPlugin, useNuxtApp, useRuntimeConfig } from "#app";
 import useDirectusAuth from "./composables/useDirectusAuth";
 
 export default defineNuxtPlugin(async () => {
   try {
-    const { useUser, fetchUser } = useDirectusAuth();
-    const user = useUser();
+    const useInitialized = () =>
+      useState("directus_auth_initialized", () => false);
+
+    const initialized = useInitialized();
+
+    if (initialized.value) {
+      return;
+    }
+
+    initialized.value = true;
 
     const { $directus } = useNuxtApp();
-  //  if (user.value || !$directus.storage.auth_token) return;
-    await fetchUser();
+    const { fetchUser } = useDirectusAuth();
+    const publicConfig = useRuntimeConfig().public.directus;
+    const refreshToken = $directus.storage.get(
+      publicConfig.auth.refreshTokenCookieName
+    );
+
+    if (refreshToken || process.client) {
+      await fetchUser();
+    }
   } catch (error) {
     console.error(error);
   }

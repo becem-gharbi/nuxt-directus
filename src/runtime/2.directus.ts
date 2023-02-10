@@ -16,6 +16,7 @@ import { appendHeader, setCookie, getCookie, deleteCookie } from "h3";
 export default defineNuxtPlugin(async () => {
   const publicConfig = useRuntimeConfig().public.directus;
   const event = useRequestEvent();
+  const route = useRoute();
 
   class MyTransport extends ITransport {
     async buildResponse<T>(
@@ -24,11 +25,11 @@ export default defineNuxtPlugin(async () => {
       options?: TransportRequestOptions,
       data?: any
     ) {
+      console.log("Fetch ", { path, server: process.server });
+
       const refreshToken = directus.storage.get(
         publicConfig.auth.refreshTokenCookieName
       );
-
-      console.log("Fetch ", { path, server: process.server, refreshToken });
 
       if (path === "/auth/refresh" && method === "POST") {
         if (process.server) {
@@ -47,7 +48,8 @@ export default defineNuxtPlugin(async () => {
       else if (refreshToken || process.client) {
         if (directus.storage.auth_token) {
           await directus.auth.refreshIfExpired();
-        } else {
+        } else if (route.path === publicConfig.auth.redirect.callback) {
+          // Handle case of refresh after loginWithProvider
           await directus.auth.refresh();
         }
         options = {
