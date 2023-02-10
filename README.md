@@ -9,6 +9,7 @@ A module wrapper of [Directus JS SDK](https://github.com/directus/sdk) for Nuxt 
 composable<br>
 ✔️ Page route protection with auto redirection<br>
 ✔️ Auto refresh of access token<br>
+✔️ Expose directus instance via `$directus` helper<br>
 ✔️ Typescript support
 
 ## Installation

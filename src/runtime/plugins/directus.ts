@@ -64,7 +64,7 @@ export default defineNuxtPlugin(async () => {
       }
 
       const query = qs.stringify(options?.params);
-      
+
       const credentials = [
         "/auth/login",
         "/auth/logout",
@@ -164,10 +164,16 @@ export default defineNuxtPlugin(async () => {
     }
     set(key: string, value: string) {
       if (process.server) {
-        setCookie(event, key, value);
+        setCookie(event, key, value, {
+          sameSite: "lax",
+          secure: true,
+        });
         this.temp[key] = value;
       } else {
-        const cookie = useCookie(key);
+        const cookie = useCookie(key, {
+          sameSite: "lax",
+          secure: true,
+        });
         cookie.value = value;
       }
       return value;
