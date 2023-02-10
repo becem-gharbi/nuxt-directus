@@ -8,7 +8,7 @@ import {
 } from "@nuxt/kit";
 
 import { defu } from "defu";
-import directusServer from "./runtime/3.auth";
+import directusServer from "./runtime/plugins/init";
 
 export interface ModuleOptions {
   baseUrl: string;
@@ -57,12 +57,10 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir);
 
     //Add plugins
-    const pluginMiddlewares = resolve(runtimeDir, "1.middlewares");
-    const pluginDirectus = resolve(runtimeDir, "2.directus");
-    const pluginAuth = resolve(runtimeDir, "3.auth");
-    addPlugin(pluginMiddlewares, { append: true });
-    addPlugin(pluginDirectus, { append: true });
-    addPlugin(pluginAuth, { append: true });
+    const directusPlugin = resolve(runtimeDir, "plugins/directus");
+    const initPlugin = resolve(runtimeDir, "plugins/init");
+    addPlugin(directusPlugin, { append: true });
+    addPlugin(initPlugin, { append: true });
 
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
