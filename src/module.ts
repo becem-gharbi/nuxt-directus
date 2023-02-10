@@ -8,7 +8,6 @@ import {
 } from "@nuxt/kit";
 
 import { defu } from "defu";
-import directusServer from "./runtime/plugins/init";
 
 export interface ModuleOptions {
   baseUrl: string;

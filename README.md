@@ -8,7 +8,8 @@ A module wrapper of [Directus JS SDK](https://github.com/directus/sdk) for Nuxt 
 ✔️ Handles authentication through `useDirectusAuth`
 composable<br>
 ✔️ Page route protection with auto redirection<br>
-✔️ Auto refresh of access token
+✔️ Auto refresh of access token<br>
+✔️ Typescript support
 
 ## Installation
 
@@ -42,6 +43,14 @@ export default defineNuxtConfig({
   },
   //...
 });
+```
+
+Add your collections's types definition for better DX by setting `DirectusCollections` in the global typescript declaration file `./global.d.ts`
+
+```typescript
+type DirectusCollections = {
+  collection: {};
+};
 ```
 
 ## Usage

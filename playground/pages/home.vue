@@ -18,7 +18,11 @@ const user = useUser()
 const { $directus } = useNuxtApp()
 
 async function fetchItem() {
-    await $directus.items("post").readOne(1)
+    const posts = await $directus.items("post").readByQuery({
+        fields: ["title"]
+    })
+
+    console.log(posts)
 }
 
 async function handleLogout() {
