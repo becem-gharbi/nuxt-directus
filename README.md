@@ -1,18 +1,14 @@
-# Nuxt Directus Auth
+# Nuxt Directus
 
-A Nuxt 3 module to handle Directus authentication
+A module wrapper of [Directus JS SDK](https://github.com/directus/sdk) for Nuxt 3
 
 ## Features
 
-- Support for Universal and SPA Nuxt 3 applications
-- Implements Directus authentication through `useDirectusAuth` composable
-- Auto refresh of access token through `useDirectusFetch` composable
-- Route middleware auth protection
-- Typescript support
-
-## Demo
-
-Follow this [link](https://directus-starter.bg-corner.tech)
+✔️ Support for Universal and SPA Nuxt 3 apps <br>
+✔️ Handles authentication through `useDirectusAuth`
+composable<br>
+✔️ Page route protection with auto redirection<br>
+✔️ Auto refresh of access token
 
 ## Installation
 
@@ -22,32 +18,31 @@ npm i @bg-dev/nuxt-directus
 
 ## Setup
 
-Add `@bg-dev/nuxt-directus` to your nuxt modules and set `directusAuth` options
+Add `@bg-dev/nuxt-directus` to your nuxt modules and set `directus` options
 
 ```javascript
 export default defineNuxtConfig({
   //...
   modules: ["@bg-dev/nuxt-directus"],
-
-  directusAuth: {
-    baseUrl: "http://localhost:8055", // Directus API base url
+  directus: {
+    baseUrl: "http://localhost:8055", // Directus app base url
     nuxtBaseUrl: "http://localhost:3000", // Nuxt app base url
-    enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
-    refreshTokenCookieName: "directus_refresh_token", // Directus refresh token cookie name (optional)
-    defaultRoleId: "", // Role id assigned for registered users
-    redirect: {
-      login: "/auth/login", // Path to redirect when login is required
-      logout: "/auth/login", // Path to redirect after logout
-      home: "/home", // Path to redirect after successful login
-      resetPassword: "/auth/reset-password", // Path to redirect for password reset
-      callback: "/auth/callback", // Path to redirect after login with provider
+    auth: {
+      enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
+      refreshTokenCookieName: "directus_refresh_token",
+      defaultRoleId: "", // Role id assigned for new registered users
+      redirect: {
+        login: "/auth/login", // Path to redirect when login is required
+        logout: "/auth/login", // Path to redirect after logout
+        home: "/home", // Path to redirect after successful login
+        resetPassword: "/auth/reset-password", // Path to redirect for password reset
+        callback: "/auth/callback", // Path to redirect after login with provider
+      },
     },
   },
   //...
 });
 ```
-
-####
 
 ## Usage
 
@@ -75,12 +70,8 @@ definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 
 ## Notes
 
-- In production, Directus and Nuxt applications **SHOULD** share the same domain name
+- In production, Directus and Nuxt apps **SHOULD** share the same domain name (SameSite cookies)
 - Refer to [directus docs](https://docs.directus.io/self-hosted/sso.html) for configuration
-
-## Appendix
-
-![workflow](https://github.com/becem-gharbi/nuxt-directus/blob/main/workflow.png)
 
 ## Development
 

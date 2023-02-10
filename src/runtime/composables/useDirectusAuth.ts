@@ -51,7 +51,7 @@ export default function () {
     );
   }
 
-  async function loginWithProvider(provider: AuthProvider) {
+  function loginWithProvider(provider: AuthProvider) {
     const redirectUrl = getRedirectUrl(publicConfig.auth.redirect.callback);
 
     if (process.client) {
