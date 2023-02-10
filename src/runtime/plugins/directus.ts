@@ -27,8 +27,6 @@ export default defineNuxtPlugin(async () => {
       options?: TransportRequestOptions,
       data?: any
     ) {
-      console.log("Fetch ", { path, server: process.server });
-
       const refreshToken = directus.storage.get(
         publicConfig.auth.refreshTokenCookieName
       );
