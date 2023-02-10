@@ -17,6 +17,6 @@ async function handleRegister() {
     })
 
     console.log(data.value)
-    console.log(error.value.data.errors[0].message)
+    console.log(error.value.errors[0].message)
 }
 </script>

@@ -1,3 +1,4 @@
+import type { Ref } from "vue";
 import {
   defineNuxtPlugin,
   useNuxtApp,
@@ -21,8 +22,8 @@ export default defineNuxtPlugin(async () => {
 
     addRouteMiddleware("guest", guest);
 
-    const useInitialized = () =>
-      useState("directus_auth_initialized", () => false);
+    const useInitialized: () => Ref<boolean> = () =>
+      useState<boolean>("nuxt_directus_initialized", () => false);
 
     const initialized = useInitialized();
 

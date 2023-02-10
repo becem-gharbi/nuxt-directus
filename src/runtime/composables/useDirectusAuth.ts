@@ -23,10 +23,12 @@ type AuthProvider =
 
 type FetchReturnT<T> = Promise<AsyncData<T | null, TransportError | null>>;
 
+type UserT = ItemInput<UserItem>;
+
 export default function () {
   const publicConfig = useRuntimeConfig().public.directus;
-  const useUser: () => Ref<ItemInput<UserItem> | null> = () =>
-    useState<ItemInput<UserItem> | null>("directus_auth_user", () => null);
+  const useUser: () => Ref<UserT | null> = () =>
+    useState<UserT | null>("nuxt_directus_auth_user", () => null);
   const route = useRoute();
 
   const { $directus } = useNuxtApp();
@@ -59,50 +61,63 @@ export default function () {
     }
   }
 
-  async function fetchUser() {
+  async function fetchUser(): FetchReturnT<UserT> {
     const user = useUser();
-    user.value = await $directus.users.me.read();
+    return useAsyncData(() =>
+      $directus.users.me.read().then((res) => (user.value = res))
+    );
   }
 
-  async function logout() {
+  async function logout(): FetchReturnT<void> {
     const user = useUser();
-    return $directus.auth.logout().then(async () => {
-      user.value = null;
-      await navigateTo(publicConfig.auth.redirect.logout);
-    });
+    return useAsyncData(() =>
+      $directus.auth.logout().then(async () => {
+        user.value = null;
+        await navigateTo(publicConfig.auth.redirect.logout);
+      })
+    );
   }
 
-  function register(input: {
+  async function register(input: {
     email: string;
     password: string;
     first_name?: string;
     last_name?: string;
-  }) {
-    return $directus.transport.post("/users", {
-      email: input.email,
-      password: input.password,
-      first_name: input.first_name,
-      last_name: input.last_name,
-      role: publicConfig.auth.defaultRoleId,
-    });
+  }): FetchReturnT<any> {
+    return useAsyncData(() =>
+      $directus.transport.post("/users", {
+        email: input.email,
+        password: input.password,
+        first_name: input.first_name,
+        last_name: input.last_name,
+        role: publicConfig.auth.defaultRoleId,
+      })
+    );
   }
 
   function getRedirectUrl(path: string) {
     return publicConfig.nuxtBaseUrl + path;
   }
 
-  async function requestPasswordReset(email: string) {
-    return $directus.transport.post("/auth/password/request", {
-      email: email,
-      reset_url: getRedirectUrl(publicConfig.auth.redirect.resetPassword),
-    });
+  /**
+   * Don't forget to set PASSWORD_RESET_URL_ALLOW_LIST directus env
+   */
+  async function requestPasswordReset(email: string): FetchReturnT<any> {
+    return useAsyncData(() =>
+      $directus.transport.post("/auth/password/request", {
+        email: email,
+        reset_url: getRedirectUrl(publicConfig.auth.redirect.resetPassword),
+      })
+    );
   }
 
-  async function resetPassword(password: string) {
-    return $directus.transport.post("/auth/password/reset", {
-      password: password,
-      token: route.query.token,
-    });
+  async function resetPassword(password: string): FetchReturnT<any> {
+    return useAsyncData(() =>
+      $directus.transport.post("/auth/password/reset", {
+        password: password,
+        token: route.query.token,
+      })
+    );
   }
 
   return {

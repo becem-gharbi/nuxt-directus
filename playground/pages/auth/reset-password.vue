@@ -11,7 +11,8 @@ definePageMeta({ middleware: "guest" })
 const { resetPassword } = useDirectusAuth()
 
 async function handleResetPassword() {
-    await resetPassword("123456")
+    const { error } = await resetPassword("abc123")
+    console.log(error.value.errors[0].message)
 }
 
 </script>

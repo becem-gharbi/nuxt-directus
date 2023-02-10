@@ -22,6 +22,7 @@ async function fetchItem() {
 }
 
 async function handleLogout() {
-    await logout()
+    const { error } = await logout()
+    console.log(error.value?.errors[0])
 }
 </script>
