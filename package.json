@@ -9,11 +9,6 @@
     "directus",
     "authentication"
   ],
-  "release": {
-    "branches": [
-      "main"
-    ]
-  },
   "publishConfig": {
     "access": "public",
     "tag": "latest"
