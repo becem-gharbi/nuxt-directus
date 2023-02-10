@@ -13,6 +13,7 @@ import {
   TransportError,
 } from "@directus/sdk";
 import { appendHeader, setCookie, getCookie, deleteCookie } from "h3";
+import qs from "qs";
 
 export default defineNuxtPlugin(async () => {
   const publicConfig = useRuntimeConfig().public.directus;
@@ -62,11 +63,12 @@ export default defineNuxtPlugin(async () => {
         };
       }
 
+      const query = qs.stringify(options?.params);
+
       return $fetch
-        .raw<T>(path, {
+        .raw<T>(`${path}?${query}`, {
           baseURL: publicConfig.baseUrl,
           method: method,
-          query: options?.params,
           credentials: "include",
           headers: options?.headers,
           body: data,

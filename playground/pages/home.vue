@@ -18,11 +18,22 @@ const user = useUser()
 const { $directus } = useNuxtApp()
 
 async function fetchItem() {
-    const posts = await $directus.items("post").readByQuery({
-        fields: ["title"]
+    const Author = $directus.items("author")
+
+    const authors = await Author.readByQuery({
+        fields: "posts.translations.*",
+        deep: {
+            posts: {
+                translations: {
+                    _filter: {
+                        languages_id: { _eq: "fr-FR" }
+                    }
+                }
+            }
+        },
     })
 
-    console.log(posts)
+    console.log(authors)
 }
 
 async function handleLogout() {
