@@ -11,19 +11,11 @@ import {
   TransportRequestOptions,
   BaseStorage,
 } from "@directus/sdk";
-import { appendHeader, setCookie } from "h3";
-
-function extractCookie(cookies: string, name: string) {
-  const value = `; ${cookies}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift();
-}
+import { appendHeader, setCookie, getCookie, deleteCookie } from "h3";
 
 export default defineNuxtPlugin(async () => {
   const publicConfig = useRuntimeConfig().public.directus;
   const event = useRequestEvent();
-  const cookies = useRequestHeaders(["cookie"]).cookie || "";
-  let temp: Record<string, string> = {};
 
   class MyTransport extends ITransport {
     async buildResponse<T>(
@@ -32,15 +24,16 @@ export default defineNuxtPlugin(async () => {
       options?: TransportRequestOptions,
       data?: any
     ) {
-      console.log("hitting ", { path });
+      console.log("Fetch ", { path, server: process.server });
 
       if (path === "/auth/refresh" && method === "POST") {
         if (process.server) {
+          const cookie = useRequestHeaders(["cookie"]).cookie || "";
           options = {
             ...options,
             headers: {
               ...options?.headers,
-              cookie: cookies,
+              cookie,
               Authorization: null,
             },
           };
@@ -129,9 +122,11 @@ export default defineNuxtPlugin(async () => {
   }
 
   class MyStorage extends BaseStorage {
+    temp: Record<string, string> = {};
+
     get(key: string) {
       if (process.server) {
-        return temp[key] || extractCookie(cookies, key) || "";
+        return this.temp[key] || getCookie(event, key) || "";
       } else {
         const cookie = useCookie(key);
         return cookie.value || "";
@@ -140,7 +135,7 @@ export default defineNuxtPlugin(async () => {
     set(key: string, value: string) {
       if (process.server) {
         setCookie(event, key, value);
-        temp[key] = value;
+        this.temp[key] = value;
       } else {
         const cookie = useCookie(key);
         cookie.value = value;
@@ -149,8 +144,8 @@ export default defineNuxtPlugin(async () => {
     }
     delete(key: string) {
       if (process.server) {
-        setCookie(event, key, "");
-        temp[key] = "";
+        deleteCookie(event, key);
+        this.temp[key] = "";
       } else {
         const cookie = useCookie(key);
         cookie.value = null;
