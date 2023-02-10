@@ -24,7 +24,11 @@ export default defineNuxtPlugin(async () => {
       options?: TransportRequestOptions,
       data?: any
     ) {
-      console.log("Fetch ", { path, server: process.server });
+      const refreshToken = directus.storage.get(
+        publicConfig.auth.refreshTokenCookieName
+      );
+
+      console.log("Fetch ", { path, server: process.server, refreshToken });
 
       if (path === "/auth/refresh" && method === "POST") {
         if (process.server) {
@@ -38,8 +42,14 @@ export default defineNuxtPlugin(async () => {
             },
           };
         }
-      } else if (directus.storage.auth_token) {
-        await directus.auth.refreshIfExpired();
+      }
+      // Refresh token is only accessible server side (httpOnly)
+      else if (refreshToken || process.client) {
+        if (directus.storage.auth_token) {
+          await directus.auth.refreshIfExpired();
+        } else {
+          await directus.auth.refresh();
+        }
         options = {
           ...options,
           headers: {
@@ -155,13 +165,13 @@ export default defineNuxtPlugin(async () => {
   }
 
   const directus = new Directus(publicConfig.baseUrl, {
+    transport: new MyTransport(),
     storage: new MyStorage(),
     auth: {
       autoRefresh: true,
       mode: "cookie",
       msRefreshBeforeExpires: 3000,
     },
-    transport: new MyTransport(),
   });
 
   return {

@@ -7,7 +7,7 @@ export default defineNuxtPlugin(async () => {
     const user = useUser();
 
     const { $directus } = useNuxtApp();
-    if (user.value || !$directus.storage.auth_token) return;
+  //  if (user.value || !$directus.storage.auth_token) return;
     await fetchUser();
   } catch (error) {
     console.error(error);
