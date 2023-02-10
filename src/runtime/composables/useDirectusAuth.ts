@@ -6,6 +6,8 @@ import {
   navigateTo,
   useState,
   AsyncData,
+  useNuxtApp,
+  useAsyncData,
 } from "#app";
 
 type AuthProvider =

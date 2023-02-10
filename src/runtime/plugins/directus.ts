@@ -3,6 +3,8 @@ import {
   useRuntimeConfig,
   useCookie,
   useRequestEvent,
+  useRoute,
+  useRequestHeaders,
 } from "#app";
 import {
   Directus,
