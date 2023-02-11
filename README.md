@@ -84,7 +84,7 @@ definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 
 ## Notes
 
-- Directus and Nuxt apps SHOULD share the same domain name (SameSite cookies), on development host SHOULD be 127.0.0.1
+- Directus and Nuxt apps SHOULD share the same domain name (SameSite cookies), on development domain SHOULD be 127.0.0.1 ([issue](https://github.com/unjs/ofetch/issues/156))
 - Refer to [directus docs](https://docs.directus.io/self-hosted/sso.html) for general configuration
 
 ## Development

@@ -56,8 +56,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir);
 
     //Add plugins
-    const directusPlugin = resolve(runtimeDir, "plugins/directus");
-    const initPlugin = resolve(runtimeDir, "plugins/init");
+    const directusPlugin = resolve(runtimeDir, "directus");
+    const initPlugin = resolve(runtimeDir, "init");
     addPlugin(directusPlugin, { append: true });
     addPlugin(initPlugin, { append: true });
 

@@ -6,10 +6,10 @@ import {
   useRuntimeConfig,
   useState,
 } from "#app";
-import useDirectusAuth from "../composables/useDirectusAuth";
-import common from "../middleware/common.global";
-import auth from "../middleware/auth";
-import guest from "../middleware/guest";
+import useDirectusAuth from "./composables/useDirectusAuth";
+import common from "./middleware/common.global";
+import auth from "./middleware/auth";
+import guest from "./middleware/guest";
 
 export default defineNuxtPlugin(async () => {
   try {
