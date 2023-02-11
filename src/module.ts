@@ -32,8 +32,8 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: "directus",
   },
   defaults: {
-    baseUrl: "http://localhost:8055",
-    nuxtBaseUrl: "http://localhost:3000",
+    baseUrl: "http://127.0.0.1:8055",
+    nuxtBaseUrl: "http://127.0.0.1:3000",
     auth: {
       defaultRoleId: "",
       enableGlobalAuthMiddleware: false,
