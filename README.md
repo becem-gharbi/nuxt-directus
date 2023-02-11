@@ -1,5 +1,4 @@
 # Nuxt Directus
-
 Directus sdk for Nuxt 3 applications
 
 ## Features
