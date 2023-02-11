@@ -1,6 +1,6 @@
 # Nuxt Directus
 
-A module wrapper of [Directus JS SDK](https://github.com/directus/sdk) for Nuxt 3
+A module wrapper of Directus JS SDK for Nuxt 3
 
 ## Features
 
@@ -12,9 +12,8 @@ composable<br>
 ✔️ Expose directus instance via `$directus` helper<br>
 ✔️ Typescript support
 
-## 👉 Demo [nuxt-directus-starter](https://directus-starter.bg-corner.tech/) 
-## Requirement
-Node.js 16 ([issue](https://github.com/nuxt/nuxt/issues/12552) on Node.js 18)
+## 👉 Demo [nuxt-directus-starter](https://directus-starter.bg-corner.tech/)
+
 ## Installation
 
 ```bash
@@ -30,8 +29,8 @@ export default defineNuxtConfig({
   //...
   modules: ["@bg-dev/nuxt-directus"],
   directus: {
-    baseUrl: "http://localhost:8055", // Directus app base url
-    nuxtBaseUrl: "http://localhost:3000", // Nuxt app base url
+    baseUrl: "http://127.0.0.1:8055", // Directus app base url
+    nuxtBaseUrl: "http://127.0.0.1:3000", // Nuxt app base url
     auth: {
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       refreshTokenCookieName: "directus_refresh_token",
@@ -59,7 +58,9 @@ type DirectusCollections = {
 
 ## Usage
 
-For protecting routes, 2 possible approachs can be used
+Refer to [Directus SDK](https://github.com/directus/sdk) for api documentation.
+
+For protecting routes, 2 possible approachs can be used:
 
 - Globally enable and locally disable
 
@@ -83,8 +84,8 @@ definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 
 ## Notes
 
-- In production, Directus and Nuxt apps SHOULD share the same domain name (SameSite cookies)
-- Refer to [directus docs](https://docs.directus.io/self-hosted/sso.html) for configuration
+- Directus and Nuxt apps SHOULD share the same domain name (SameSite cookies), on development host SHOULD be 127.0.0.1
+- Refer to [directus docs](https://docs.directus.io/self-hosted/sso.html) for general configuration
 
 ## Development
 
