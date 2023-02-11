@@ -1,6 +1,6 @@
 # Nuxt Directus
 
-A module wrapper of Directus JS SDK for Nuxt 3
+Directus sdk for Nuxt 3 applications
 
 ## Features
 
