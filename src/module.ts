@@ -5,6 +5,7 @@ import {
   addPlugin,
   createResolver,
   addImportsDir,
+  extendViteConfig,
 } from "@nuxt/kit";
 
 import { defu } from "defu";
@@ -64,6 +65,13 @@ export default defineNuxtModule<ModuleOptions>({
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
     addImportsDir(composables);
+
+    //Optimize axios & qs to ESM
+    extendViteConfig((config) => {
+      config.optimizeDeps = config.optimizeDeps || {};
+      config.optimizeDeps.include = config.optimizeDeps.include || [];
+      config.optimizeDeps.include.push("axios", "qs");
+    });
 
     //Initialize the module options
     nuxt.options.runtimeConfig.public.directus = defu(
