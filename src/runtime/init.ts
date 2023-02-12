@@ -1,12 +1,12 @@
 import type { Ref } from "vue";
 import {
   defineNuxtPlugin,
-  useNuxtApp,
   addRouteMiddleware,
   useRuntimeConfig,
   useState,
 } from "#app";
 import useDirectusAuth from "./composables/useDirectusAuth";
+import useDirectus from "./composables/useDirectus";
 import common from "./middleware/common.global";
 import auth from "./middleware/auth";
 import guest from "./middleware/guest";
@@ -34,9 +34,11 @@ export default defineNuxtPlugin(async () => {
 
     initialized.value = true;
 
-    const { $directus } = useNuxtApp();
+    const directus = useDirectus();
+
     const { fetchUser } = useDirectusAuth();
-    const refreshToken = $directus.storage.get(
+
+    const refreshToken = directus.storage.get(
       publicConfig.auth.refreshTokenCookieName
     );
 

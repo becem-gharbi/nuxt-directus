@@ -15,13 +15,13 @@ const { logout, fetchUser, useUser } = useDirectusAuth()
 
 const user = useUser()
 
-const { $directus } = useNuxtApp()
+const directus = useDirectus();
 
 async function fetchItem() {
-    const Author = $directus.items("author")
+    const Author = directus.items("author")
 
     const authors = await Author.readByQuery({
-        fields: "posts.translations.*",
+        fields: "*.translations",
         deep: {
             posts: {
                 translations: {

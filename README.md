@@ -1,14 +1,15 @@
 # Nuxt Directus
+
 Directus sdk for Nuxt 3 applications
 
 ## Features
 
 ✔️ Support for Universal and SPA Nuxt 3 apps <br>
-✔️ Handles authentication through `useDirectusAuth`
+✔️ Handles authentication via `useDirectusAuth`
 composable<br>
 ✔️ Page route protection with auto redirection<br>
 ✔️ Auto refresh of access token<br>
-✔️ Expose directus instance via `$directus` helper<br>
+✔️ Exposes directus instance via `useDirectus` composable<br>
 ✔️ Typescript support
 
 ## 👉 Demo [nuxt-directus-starter](https://directus-starter.bg-corner.tech/)

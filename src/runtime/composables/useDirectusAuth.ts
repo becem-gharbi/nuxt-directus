@@ -6,9 +6,9 @@ import {
   navigateTo,
   useState,
   AsyncData,
-  useNuxtApp,
   useAsyncData,
 } from "#app";
+import useDirectus from "./useDirectus";
 
 type AuthProvider =
   | "google"
@@ -33,14 +33,14 @@ export default function () {
     useState<UserT | null>("nuxt_directus_auth_user", () => null);
   const route = useRoute();
 
-  const { $directus } = useNuxtApp();
+  const directus = useDirectus();
 
   async function login(credentials: {
     email: string;
     password: string;
   }): FetchReturnT<AuthResult> {
     return useAsyncData(() =>
-      $directus.auth
+      directus.auth
         .login({
           email: credentials.email,
           password: credentials.password,
@@ -66,14 +66,14 @@ export default function () {
   async function fetchUser(): FetchReturnT<UserT> {
     const user = useUser();
     return useAsyncData(() =>
-      $directus.users.me.read().then((res) => (user.value = res))
+      directus.users.me.read().then((res) => (user.value = res))
     );
   }
 
   async function logout(): FetchReturnT<void> {
     const user = useUser();
     return useAsyncData(() =>
-      $directus.auth.logout().then(async () => {
+      directus.auth.logout().then(async () => {
         user.value = null;
         await navigateTo(publicConfig.auth.redirect.logout);
       })
@@ -87,7 +87,7 @@ export default function () {
     last_name?: string;
   }): FetchReturnT<any> {
     return useAsyncData(() =>
-      $directus.transport.post("/users", {
+      directus.transport.post("/users", {
         email: input.email,
         password: input.password,
         first_name: input.first_name,
@@ -106,7 +106,7 @@ export default function () {
    */
   async function requestPasswordReset(email: string): FetchReturnT<any> {
     return useAsyncData(() =>
-      $directus.transport.post("/auth/password/request", {
+      directus.transport.post("/auth/password/request", {
         email: email,
         reset_url: getRedirectUrl(publicConfig.auth.redirect.resetPassword),
       })
@@ -115,7 +115,7 @@ export default function () {
 
   async function resetPassword(password: string): FetchReturnT<any> {
     return useAsyncData(() =>
-      $directus.transport.post("/auth/password/reset", {
+      directus.transport.post("/auth/password/reset", {
         password: password,
         token: route.query.token,
       })
