@@ -48,12 +48,16 @@ export default defineNuxtConfig({
 });
 ```
 
-Add your collections's types definition for better DX by setting `DirectusCollections` in the global typescript declaration file `./global.d.ts`
+## Typescript
+
+For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via `global.d.ts` file.
 
 ```typescript
-type DirectusCollections = {
-  collection: {};
-};
+import { CustomDirectusTypes } from "./types";
+
+declare global {
+  type MyDirectusTypes = CustomDirectusTypes;
+}
 ```
 
 ## Usage

@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+
 definePageMeta({ middleware: "auth" })
 
 const { logout, fetchUser, useUser } = useDirectusAuth()
@@ -21,19 +22,8 @@ async function fetchItem() {
     const Author = directus.items("author")
 
     const authors = await Author.readByQuery({
-        fields: "*.translations",
-        deep: {
-            posts: {
-                translations: {
-                    _filter: {
-                        languages_id: { _eq: "fr-FR" }
-                    }
-                }
-            }
-        },
+        fields: ["posts.*"],
     })
-
-    console.log(authors)
 }
 
 async function handleLogout() {

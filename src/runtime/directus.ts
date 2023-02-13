@@ -194,7 +194,7 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  const directus = new Directus<DirectusCollections>(publicConfig.baseUrl, {
+  const directus = new Directus<MyDirectusTypes>(publicConfig.baseUrl, {
     transport: new MyTransport(),
     storage: new MyStorage(),
     auth: {
