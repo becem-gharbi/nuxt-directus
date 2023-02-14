@@ -98,10 +98,9 @@ export default defineNuxtPlugin(async () => {
       })
         .then(() => transportResponse)
         .catch((error) => {
-          console.log(error);
           throw new TransportError<T>(error, {
             raw: "",
-            errors: error.data.errors,
+            errors: error.data["errors"],
             status: error.status,
           });
         });
@@ -198,6 +197,7 @@ export default defineNuxtPlugin(async () => {
     transport: new MyTransport(),
     storage: new MyStorage(),
     auth: {
+      staticToken: publicConfig.auth.staticToken,
       autoRefresh: true,
       mode: "cookie",
       msRefreshBeforeExpires: 3000,
