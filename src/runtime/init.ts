@@ -15,6 +15,10 @@ export default defineNuxtPlugin(async () => {
   try {
     const publicConfig = useRuntimeConfig().public.directus;
 
+    if (!publicConfig.auth) {
+      return;
+    }
+    
     addRouteMiddleware(common);
 
     addRouteMiddleware("auth", auth, {

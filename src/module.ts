@@ -37,6 +37,8 @@ export default defineNuxtModule<ModuleOptions>({
     baseUrl: "http://127.0.0.1:8055",
     nuxtBaseUrl: "http://127.0.0.1:3000",
     auth: {
+      staticToken: "",
+      defaultRoleId: "",
       enableGlobalAuthMiddleware: false,
       refreshTokenCookieName: "directus_refresh_token",
       redirect: {

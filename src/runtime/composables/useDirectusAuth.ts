@@ -29,6 +29,7 @@ type UserT = ItemInput<UserItem>;
 
 export default function () {
   const publicConfig = useRuntimeConfig().public.directus;
+
   const useUser: () => Ref<UserT | null> = () =>
     useState<UserT | null>("nuxt_directus_auth_user", () => null);
   const route = useRoute();
