@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.4.0",
+    "nuxt": "3.2.0"
+  },
+  "dependencies": {
+    "@bg-dev/nuxt-directus": "^1.0.0-beta.10",
+    "@bg-dev/nuxt-naiveui": "^1.0.0-beta.2"
+  }
+}
