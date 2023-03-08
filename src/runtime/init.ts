@@ -15,10 +15,6 @@ export default defineNuxtPlugin(async () => {
   try {
     const publicConfig = useRuntimeConfig().public.directus;
 
-    if (!publicConfig.auth) {
-      return;
-    }
-    
     addRouteMiddleware(common);
 
     addRouteMiddleware("auth", auth, {
@@ -26,6 +22,10 @@ export default defineNuxtPlugin(async () => {
     });
 
     addRouteMiddleware("guest", guest);
+
+    if (!publicConfig.auth?.enabled) {
+      return;
+    }
 
     const useInitialized: () => Ref<boolean> = () =>
       useState<boolean>("nuxt_directus_initialized", () => false);

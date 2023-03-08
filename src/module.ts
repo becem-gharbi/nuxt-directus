@@ -1,19 +1,20 @@
 import { fileURLToPath } from "url";
-
 import {
   defineNuxtModule,
   addPlugin,
   createResolver,
   addImportsDir,
   extendViteConfig,
+  logger,
 } from "@nuxt/kit";
-
+import { name, version } from "../package.json";
 import { defu } from "defu";
 
 export interface ModuleOptions {
   baseUrl: string;
   nuxtBaseUrl: string;
   auth?: {
+    enabled: boolean;
     staticToken?: string;
     defaultRoleId?: string;
     enableGlobalAuthMiddleware?: boolean;
@@ -30,13 +31,18 @@ export interface ModuleOptions {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "@bg-dev/nuxt-directus",
+    name,
+    version,
     configKey: "directus",
+    compatibility: {
+      nuxt: "^3.0.0",
+    },
   },
   defaults: {
     baseUrl: "http://127.0.0.1:8055",
     nuxtBaseUrl: "http://127.0.0.1:3000",
     auth: {
+      enabled: false,
       staticToken: "",
       defaultRoleId: "",
       enableGlobalAuthMiddleware: false,
@@ -51,6 +57,20 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
   setup(options, nuxt) {
+    if (!options.baseUrl) {
+      logger.warn(
+        `Please make sure to set Directus baseUrl in ${name} options`
+      );
+    }
+
+    if (!options.nuxtBaseUrl) {
+      logger.warn(`Please make sure to set Nuxt baseUrl in ${name} options`);
+    }
+
+    if (!options.auth?.enabled) {
+      logger.info(`Auth is disabled in ${name} options`);
+    }
+
     //Get the runtime directory
     const { resolve } = createResolver(import.meta.url);
     const runtimeDir = fileURLToPath(new URL("./runtime", import.meta.url));
