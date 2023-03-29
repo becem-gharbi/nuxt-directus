@@ -67,7 +67,6 @@ export default function () {
 
   async function fetchUser(): FetchReturnT<UserT> {
     const user = useUser();
-    console.log(publicConfig.auth.userFields);
     return useAsyncData(() =>
       directus.users.me.read({fields:publicConfig.auth.userFields}).then((res) => (user.value = res))
     );
