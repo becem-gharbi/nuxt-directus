@@ -30,10 +30,13 @@ type UserT = ItemInput<UserItem>;
 export default function () {
   const publicConfig = useRuntimeConfig().public.directus;
 
-  const useUser: () => Ref<(UserT & MyDirectusTypes["directus_users"]) | null> = () =>
+  const useUser: () => Ref<
+    (UserT & MyDirectusTypes["directus_users"]) | null
+  > = () =>
     useState<(UserT & MyDirectusTypes["directus_users"]) | null>(
       "nuxt_directus_auth_user",
-      () => null);
+      () => null
+    );
 
   const route = useRoute();
 
@@ -45,13 +48,11 @@ export default function () {
     otp?: string;
   }): FetchReturnT<AuthResult> {
     return useAsyncData(() =>
-      directus.auth
-        .login(credentials)
-        .then(async (res) => {
-          await fetchUser();
-          await navigateTo(publicConfig.auth.redirect.home);
-          return res;
-        })
+      directus.auth.login(credentials).then(async (res) => {
+        await fetchUser();
+        await navigateTo(publicConfig.auth.redirect.home);
+        return res;
+      })
     );
   }
 
@@ -67,9 +68,10 @@ export default function () {
 
   async function fetchUser(): FetchReturnT<UserT> {
     const user = useUser();
-    console.log(publicConfig.auth.userFields);
     return useAsyncData(() =>
-      directus.users.me.read({fields:publicConfig.auth.userFields}).then((res) => (user.value = res))
+      directus.users.me
+        .read({ fields: publicConfig.auth.userFields })
+        .then((res) => (user.value = res))
     );
   }
 
