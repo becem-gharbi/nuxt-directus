@@ -43,6 +43,7 @@ export default defineNuxtConfig({
     auth: {
       enabled: false,
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
+      userFields: [], // Select user fields 
       refreshTokenCookieName: "directus_refresh_token",
       defaultRoleId: "", // Role id assigned for new registered users
       redirect: {
