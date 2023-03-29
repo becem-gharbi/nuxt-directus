@@ -42,13 +42,11 @@ export default function () {
   async function login(credentials: {
     email: string;
     password: string;
+    otp?: string;
   }): FetchReturnT<AuthResult> {
     return useAsyncData(() =>
       directus.auth
-        .login({
-          email: credentials.email,
-          password: credentials.password,
-        })
+        .login(credentials)
         .then(async (res) => {
           await fetchUser();
           await navigateTo(publicConfig.auth.redirect.home);
