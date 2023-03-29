@@ -18,6 +18,7 @@ export interface ModuleOptions {
     staticToken?: string;
     defaultRoleId?: string;
     enableGlobalAuthMiddleware?: boolean;
+    userFields?: string[];
     refreshTokenCookieName?: string;
     redirect: {
       login: string;
@@ -46,6 +47,7 @@ export default defineNuxtModule<ModuleOptions>({
       staticToken: "",
       defaultRoleId: "",
       enableGlobalAuthMiddleware: false,
+      userFields: [],
       refreshTokenCookieName: "directus_refresh_token",
       redirect: {
         home: "/home",
