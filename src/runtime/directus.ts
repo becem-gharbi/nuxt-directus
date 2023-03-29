@@ -15,7 +15,6 @@ import {
   TransportError,
 } from "@directus/sdk";
 import { appendHeader, setCookie, getCookie, deleteCookie } from "h3";
-import qs from "qs";
 
 export default defineNuxtPlugin(async () => {
   const publicConfig = useRuntimeConfig().public.directus;
@@ -63,8 +62,6 @@ export default defineNuxtPlugin(async () => {
         };
       }
 
-      const query = qs.stringify(options?.params);
-
       const credentials = [
         "/auth/login",
         "/auth/logout",
@@ -75,12 +72,13 @@ export default defineNuxtPlugin(async () => {
 
       let transportResponse: TransportResponse<T>;
 
-      return $fetch<T>(`${path}?${query}`, {
+      return $fetch<T>(path, {
         baseURL: publicConfig.baseUrl,
         method: method,
         credentials: credentials,
         headers: options?.headers,
         body: data,
+        params: options?.params,
         onResponse({ response }) {
           if (path === "/auth/refresh" && method === "POST" && process.server) {
             const setCookies = response.headers.get("set-cookie") || "";

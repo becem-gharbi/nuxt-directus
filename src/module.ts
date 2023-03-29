@@ -90,11 +90,11 @@ export default defineNuxtModule<ModuleOptions>({
     const composables = resolve(runtimeDir, "composables");
     addImportsDir(composables);
 
-    //Optimize axios & qs to ESM
+    //Optimize axios to ESM
     extendViteConfig((config) => {
       config.optimizeDeps = config.optimizeDeps || {};
       config.optimizeDeps.include = config.optimizeDeps.include || [];
-      config.optimizeDeps.include.push("axios", "qs");
+      config.optimizeDeps.include.push("axios");
     });
 
     //Initialize the module options
