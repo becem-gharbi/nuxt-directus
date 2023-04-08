@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.1...v0.1.2)
+
+
+### 💅 Refactors
+
+  - Edit logger messages ([f2c45cf](https://github.com/becem-gharbi/nuxt-directus/commit/f2c45cf))
+
+### 📖 Documentation
+
+  - Update readme ([7c1652c](https://github.com/becem-gharbi/nuxt-directus/commit/7c1652c))
+
+### 🏡 Chore
+
+  - Upgrade demo app deps ([bd3f85d](https://github.com/becem-gharbi/nuxt-directus/commit/bd3f85d))
+
+### ❤️  Contributors
+
+- Becem-gharbi
+
 ## v0.1.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v1.0.0-beta.14...v0.1.1)
