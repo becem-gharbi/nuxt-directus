@@ -2,7 +2,11 @@
 export default defineNuxtConfig({
   css: ["~/assets/fonts/gellix/style.css"],
 
-  modules: ["@bg-dev/nuxt-directus", "@nuxtjs/tailwindcss", "@bg-dev/nuxt-naiveui"],
+  modules: [
+    "@bg-dev/nuxt-directus",
+    "@nuxtjs/tailwindcss",
+    "@bg-dev/nuxt-naiveui",
+  ],
 
   app: {
     pageTransition: { name: "page", mode: "out-in" },
@@ -17,6 +21,7 @@ export default defineNuxtConfig({
     baseUrl: process.env.NUXT_DIRECTUS_BASE_URL || "http://127.0.0.1:8055", // Directus app base url
     nuxtBaseUrl: process.env.NUXT_BASE_URL || "http://127.0.0.1:3000", // Nuxt app base url
     auth: {
+      enabled: true,
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       refreshTokenCookieName: "directus_refresh_token",
       defaultRoleId:
