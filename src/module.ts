@@ -61,16 +61,16 @@ export default defineNuxtModule<ModuleOptions>({
   setup(options, nuxt) {
     if (!options.baseUrl) {
       logger.warn(
-        `Please make sure to set Directus baseUrl in ${name} options`
+        `[${name}] Please make sure to set Directus baseUrl`
       );
     }
 
     if (!options.nuxtBaseUrl) {
-      logger.warn(`Please make sure to set Nuxt baseUrl in ${name} options`);
+      logger.warn(`[${name}] Please make sure to set Nuxt baseUrl`);
     }
 
     if (!options.auth?.enabled) {
-      logger.info(`Auth is disabled in ${name} options`);
+      logger.info(`[${name}] Auth is disabled`);
     }
 
     //Get the runtime directory
