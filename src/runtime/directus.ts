@@ -89,6 +89,7 @@ export default defineNuxtPlugin(async () => {
             raw: "",
             //@ts-ignore
             data: response._data["data"],
+            meta: response._data["meta"],
             status: response.status,
             headers: response.headers,
           };
