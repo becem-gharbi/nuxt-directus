@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.2...v0.1.3)
+
+
+### 🩹 Fixes
+
+  - Add missing meta data ([c6bf4a5](https://github.com/becem-gharbi/nuxt-directus/commit/c6bf4a5))
+
+### 📖 Documentation
+
+  - Update readme ([41d33ca](https://github.com/becem-gharbi/nuxt-directus/commit/41d33ca))
+  - Display total downloads ([c7023b0](https://github.com/becem-gharbi/nuxt-directus/commit/c7023b0))
+
+### 🏡 Chore
+
+  - Upgrade demo app deps ([effae84](https://github.com/becem-gharbi/nuxt-directus/commit/effae84))
+
+### ❤️  Contributors
+
+- Becem-gharbi
+
 ## v0.1.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.1...v0.1.2)
