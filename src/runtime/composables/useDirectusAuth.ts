@@ -38,8 +38,6 @@ export default function () {
       () => null
     );
 
-  const route = useRoute();
-
   const directus = useDirectus();
 
   async function login(credentials: {
@@ -119,6 +117,8 @@ export default function () {
   }
 
   async function resetPassword(password: string): FetchReturnT<any> {
+    const route = useRoute();
+
     return useAsyncData(() =>
       directus.transport.post("/auth/password/reset", {
         password: password,
