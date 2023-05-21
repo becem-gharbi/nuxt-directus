@@ -3,7 +3,7 @@
         <h1>Login</h1>
         <button @click="handleLogin">Login</button>
         <button @click="handleRequestPasswordReset">Forgot password</button>
-        <button @click="() => loginWithProvider('google')">Login with google</button>
+        <button @click="() => loginWithProvider({ provider: 'google', redirect: '/protected' })">Login with google</button>
     </div>
 </template>
 

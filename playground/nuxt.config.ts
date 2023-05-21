@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   directus: {
     auth: {
       enabled: true,
-      defaultRoleId: "722a1f32-cf16-4a09-942e-148885df0ec2",
+      defaultRoleId: "90087fa8-3bf4-4e1f-9b14-f4aadb4c4d0a",
       redirect: {
         home: "/home",
         login: "/auth/login",

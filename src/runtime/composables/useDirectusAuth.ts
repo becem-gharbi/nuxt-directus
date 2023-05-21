@@ -9,6 +9,7 @@ import {
   useAsyncData,
 } from "#app";
 import useDirectus from "./useDirectus";
+import { withQuery } from "ufo";
 
 type AuthProvider =
   | "google"
@@ -44,22 +45,46 @@ export default function () {
     email: string;
     password: string;
     otp?: string;
+    redirect?: string;
   }): FetchReturnT<AuthResult> {
+    const route = useRoute();
+
+    // The path of the protected route the user has entered
+    const returnToPath = route.query.redirect?.toString();
+
+    // The path to redirect to on login success
+    const redirectTo =
+      credentials.redirect || returnToPath || publicConfig.auth.redirect.home;
+
     return useAsyncData(() =>
       directus.auth.login(credentials).then(async (res) => {
         await fetchUser();
-        await navigateTo(publicConfig.auth.redirect.home);
+        await navigateTo(redirectTo);
         return res;
       })
     );
   }
 
-  function loginWithProvider(provider: AuthProvider) {
-    const redirectUrl = getRedirectUrl(publicConfig.auth.redirect.callback);
+  function loginWithProvider(arg: {
+    provider: AuthProvider;
+    redirect?: string;
+  }) {
+    const route = useRoute();
+
+    // The path of the protected route the user has entered
+    const returnToPath = route.query.redirect?.toString();
+
+    const redirectTo = arg.redirect || returnToPath;
+
+    let redirectUrl = getRedirectUrl(publicConfig.auth.redirect.callback);
+
+    if (redirectTo) {
+      redirectUrl = withQuery(redirectUrl, { redirect: redirectTo });
+    }
 
     if (process.client) {
       window.location.replace(
-        `${publicConfig.baseUrl}/auth/login/${provider}?redirect=${redirectUrl}`
+        `${publicConfig.baseUrl}/auth/login/${arg.provider}?redirect=${redirectUrl}`
       );
     }
   }
