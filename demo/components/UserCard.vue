@@ -1,7 +1,7 @@
 <template>
     <n-card>
         <template #header>
-            <NaiveIcon name="fluent-emoji-flat:clapping-hands" size="36"></NaiveIcon>
+            <NaiveIcon name="fluent-emoji-flat:clapping-hands" :size="36"></NaiveIcon>
             {{ "Welcome " + user?.first_name + " " + user?.last_name }}
         </template>
 

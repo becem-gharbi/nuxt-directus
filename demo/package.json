@@ -8,11 +8,11 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.6.5",
-    "nuxt": "3.3.3"
+    "@nuxtjs/tailwindcss": "^6.7.0",
+    "nuxt": "3.5.0"
   },
   "dependencies": {
-    "@bg-dev/nuxt-directus": "^0.1.2",
-    "@bg-dev/nuxt-naiveui": "^1.0.9"
+    "@bg-dev/nuxt-directus": "^0.1.4",
+    "@bg-dev/nuxt-naiveui": "^1.1.1"
   }
 }
