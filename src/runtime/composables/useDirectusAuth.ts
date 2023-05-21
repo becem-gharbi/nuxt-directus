@@ -9,7 +9,7 @@ import {
   useAsyncData,
 } from "#app";
 import useDirectus from "./useDirectus";
-import { withQuery } from "ufo";
+import { withQuery, joinURL } from "ufo";
 
 type AuthProvider =
   | "google"
@@ -83,9 +83,12 @@ export default function () {
     }
 
     if (process.client) {
-      window.location.replace(
-        `${publicConfig.baseUrl}/auth/login/${arg.provider}?redirect=${redirectUrl}`
+      const url = withQuery(
+        joinURL(publicConfig.baseUrl, "/auth/login", arg.provider),
+        { redirect: redirectUrl }
       );
+
+      window.location.replace(url);
     }
   }
 
@@ -126,7 +129,7 @@ export default function () {
   }
 
   function getRedirectUrl(path: string) {
-    return publicConfig.nuxtBaseUrl + path;
+    return joinURL(publicConfig.nuxtBaseUrl, path);
   }
 
   /**
