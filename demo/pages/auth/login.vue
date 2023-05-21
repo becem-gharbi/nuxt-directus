@@ -15,7 +15,7 @@
                         <n-text type="primary">Forgot password?</n-text>
                     </NuxtLink>
                     <n-button attr-type="submit" block :loading="pending" :disabled="pending">Login</n-button>
-                    <n-button @click="loginWithProvider('google')" block>
+                    <n-button @click="loginWithProvider({ provider: 'google' })" block>
                         <template #icon>
                             <NaiveIcon name="logos:google-icon"></NaiveIcon>
                         </template>
