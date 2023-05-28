@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.1.5
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.4...v0.1.5)
+
+
+### 🩹 Fixes
+
+  - **demo:** Update arg on loginWithProvider ([b7f1813](https://github.com/becem-gharbi/nuxt-directus/commit/b7f1813))
+  - **logout:** Deleted cache of fetched data on logout ([fd25afa](https://github.com/becem-gharbi/nuxt-directus/commit/fd25afa))
+
+### 🏡 Chore
+
+  - **demo:** Upgrade dependencies ([d6faf44](https://github.com/becem-gharbi/nuxt-directus/commit/d6faf44))
+
+### ❤️  Contributors
+
+- Becem-gharbi
+
 ## v0.1.4
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.3...v0.1.4)
