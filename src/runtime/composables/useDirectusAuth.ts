@@ -7,6 +7,7 @@ import {
   useState,
   AsyncData,
   useAsyncData,
+  clearNuxtData,
 } from "#app";
 import useDirectus from "./useDirectus";
 import { withQuery, joinURL } from "ufo";
@@ -106,6 +107,9 @@ export default function () {
     return useAsyncData(() =>
       directus.auth.logout().then(async () => {
         user.value = null;
+
+        clearNuxtData();
+
         await navigateTo(publicConfig.auth.redirect.logout);
       })
     );
