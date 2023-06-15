@@ -1,7 +1,7 @@
 import { defineNuxtRouteMiddleware, useRuntimeConfig, navigateTo } from "#app";
 import useDirectusAuth from "../composables/useDirectusAuth";
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to) => {
   const publicConfig = useRuntimeConfig().public.directus;
 
   if (
@@ -23,7 +23,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (!user.value) {
     return navigateTo({
       path: publicConfig.auth.redirect.login,
-      query: { redirect: from.path },
+      query: { redirect: to.path },
     });
   }
 });
