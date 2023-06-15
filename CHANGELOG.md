@@ -11,6 +11,11 @@
   - **deps:** Update dependency @bg-dev/nuxt-directus to v0.1.5 ([a0d62d3](https://github.com/becem-gharbi/nuxt-directus/commit/a0d62d3))
   - **deps:** Update all non-major dependencies ([bb4551d](https://github.com/becem-gharbi/nuxt-directus/commit/bb4551d))
   - **deps:** Update nuxt 3 to v3.5.3 ([2537e30](https://github.com/becem-gharbi/nuxt-directus/commit/2537e30))
+  - Fix middleware from.path to to.path([8586e22](https://github.com/becem-gharbi/nuxt-directus/commit/8586e22))
+
+### ❤️  Contributors
+
+- Ling - [vanling](https://github.com/vanling)
 
 ## v0.1.5
 
