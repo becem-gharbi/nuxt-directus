@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.7.0",
-    "nuxt": "3.5.3"
+    "nuxt": "3.6.0"
   },
   "dependencies": {
     "@bg-dev/nuxt-directus": "^0.1.4",
