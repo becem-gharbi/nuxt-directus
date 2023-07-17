@@ -1,6 +1,34 @@
 # Changelog
 
 
+## v0.0.1-next
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.6...v0.0.1-next)
+
+### 🩹 Fixes
+
+- **deps:** Update dependency @bg-dev/nuxt-directus to v0.1.6 ([ca6bed4](https://github.com/becem-gharbi/nuxt-directus/commit/ca6bed4))
+
+### 📖 Documentation
+
+- **readme:** Add ext version note ([03ef8d7](https://github.com/becem-gharbi/nuxt-directus/commit/03ef8d7))
+- Update installation section ([2e15860](https://github.com/becem-gharbi/nuxt-directus/commit/2e15860))
+
+### 🏡 Chore
+
+- Update changelog ([335e7d1](https://github.com/becem-gharbi/nuxt-directus/commit/335e7d1))
+- **demo:** Upgrade dependencies ([dd96160](https://github.com/becem-gharbi/nuxt-directus/commit/dd96160))
+- Rename package tag to ext ([55fa973](https://github.com/becem-gharbi/nuxt-directus/commit/55fa973))
+- Remove old sdk ([1068da2](https://github.com/becem-gharbi/nuxt-directus/commit/1068da2))
+- Add next suffix to version ([5eba52d](https://github.com/becem-gharbi/nuxt-directus/commit/5eba52d))
+- Update changelogen versionSuffix ([ba7d21c](https://github.com/becem-gharbi/nuxt-directus/commit/ba7d21c))
+- Comment old sdk related code ([92cc2ca](https://github.com/becem-gharbi/nuxt-directus/commit/92cc2ca))
+- Test changelogen bump ([49bd08e](https://github.com/becem-gharbi/nuxt-directus/commit/49bd08e))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.6
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.5...v0.1.6)
