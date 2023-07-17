@@ -1,5 +1,5 @@
 import type { Ref } from "vue";
-import { UserItem, ItemInput, TransportError, AuthResult } from "@directus/sdk";
+// import { UserItem, ItemInput, TransportError, AuthResult } from "@directus/sdk";
 import {
   useRuntimeConfig,
   useRoute,
