@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@bg-dev/nuxt-directus':
-    specifier: ^0.1.6
-    version: 0.1.6
+    specifier: 0.0.1-next
+    version: 0.0.1-next
   '@bg-dev/nuxt-naiveui':
     specifier: ^1.2.1
     version: 1.2.1(vue@3.3.4)
@@ -334,14 +334,13 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@bg-dev/nuxt-directus@0.1.6:
-    resolution: {integrity: sha512-aqq+zYckYg1Q20IYfTCq6HBRydBuI1KjKrruuzH6XyDvOD9YFChRC2uEW9mMPO62HfaQPVjnzgpRxoMj7MKU9w==}
+  /@bg-dev/nuxt-directus@0.0.1-next:
+    resolution: {integrity: sha512-8XCriS1Ob5/jZvLMJQy3XoSaxsPBp1izPXTVrpbUqHLZOQcBw43MdoBXrkMhPLCqZEIYHm1WHmD3J5s3mgh6jw==}
     dependencies:
-      '@directus/sdk': 10.3.5
+      '@directus/sdk': 11.0.0-beta.4
       '@nuxt/kit': 3.6.3
       defu: 6.1.2
     transitivePeerDependencies:
-      - debug
       - rollup
       - supports-color
     dev: true
@@ -415,12 +414,9 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: true
 
-  /@directus/sdk@10.3.5:
-    resolution: {integrity: sha512-ZLn85mfy3MWyIhTSrw46Eka1XdjoRIugZXNQy9w+zSEFm3hAzgB74N1qH7zARj9dGCWx+bAAno3n29Y2NqQv/A==}
-    dependencies:
-      axios: 0.27.2
-    transitivePeerDependencies:
-      - debug
+  /@directus/sdk@11.0.0-beta.4:
+    resolution: {integrity: sha512-lAZn0tH+3FGr23E1Iq9pnUZLlWqTollhaS7he6DPUbhRPDMJ5M4345EIDTW8YjrHNOoD6IKJ7fKFk46kV+K/7A==}
+    engines: {node: '>=18.0.0'}
     dev: true
 
   /@emotion/hash@0.8.0:
@@ -1847,10 +1843,6 @@ packages:
     resolution: {integrity: sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==}
     dev: true
 
-  /asynckit@0.4.0:
-    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
-    dev: true
-
   /at-least-node@1.0.0:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
     engines: {node: '>= 4.0.0'}
@@ -1870,15 +1862,6 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.26
       postcss-value-parser: 4.2.0
-    dev: true
-
-  /axios@0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-    transitivePeerDependencies:
-      - debug
     dev: true
 
   /balanced-match@1.0.2:
@@ -2163,13 +2146,6 @@ packages:
 
   /colorette@2.0.20:
     resolution: {integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==}
-    dev: true
-
-  /combined-stream@1.0.8:
-    resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      delayed-stream: 1.0.0
     dev: true
 
   /commander@2.20.3:
@@ -2516,11 +2492,6 @@ packages:
 
   /defu@6.1.2:
     resolution: {integrity: sha512-+uO4+qr7msjNNWKYPHqN/3+Dx3NFkmIzayk2L1MyZQlvgZb/J1A0fo410dpKrN2SnqFjt8n4JL8fDJE0wIgjFQ==}
-    dev: true
-
-  /delayed-stream@1.0.0:
-    resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
-    engines: {node: '>=0.4.0'}
     dev: true
 
   /delegates@1.0.0:
@@ -2913,15 +2884,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
-
-  /form-data@4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
     dev: true
 
   /formdata-polyfill@4.0.10:
