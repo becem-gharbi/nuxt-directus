@@ -5,7 +5,9 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-A Nuxt 3 module for integrating the official Directus JS SDK into your Nuxt 3 project
+A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/sdk) into your Nuxt 3 project. 
+
+Currently a new rebuild of JS SDK is under **Beta** stage. You can find it [here](https://github.com/directus/directus/tree/sdk-revamp/sdk). It comes with performance and DX improvements. Meanwhile, a new rebuild of this module is being developed under `next` branch.
 
 ## Features
 

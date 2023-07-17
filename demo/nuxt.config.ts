@@ -8,11 +8,6 @@ export default defineNuxtConfig({
     "@bg-dev/nuxt-naiveui",
   ],
 
-  app: {
-    pageTransition: { name: "page", mode: "out-in" },
-    layoutTransition: { name: "layout", mode: "out-in" },
-  },
-
   tailwindcss: {
     viewer: false,
   },
