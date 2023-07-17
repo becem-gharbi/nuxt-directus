@@ -21,7 +21,7 @@ Currently a new rebuild of JS SDK is under **Beta** stage. You can find it [here
 
 ## Installation
 
-Add `@bg-dev/nuxt-directus` dependency to your project
+Add `@bg-dev/nuxt-directus@next` dependency to your project
 
 ```bash
 # Using npm
