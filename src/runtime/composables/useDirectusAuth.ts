@@ -1,5 +1,5 @@
 import type { Ref } from "vue";
-// import { UserItem, ItemInput, TransportError, AuthResult } from "@directus/sdk";
+// import type { DirectusUser } from "@directus/sdk";
 import {
   useRuntimeConfig,
   useRoute,
@@ -25,20 +25,23 @@ type AuthProvider =
   | "twitch"
   | "apple";
 
-type FetchReturnT<T> = Promise<AsyncData<T | null, TransportError | null>>;
+// type FetchReturnT<T> = Promise<AsyncData<T | null, TransportError | null>>;
 
-type UserT = ItemInput<UserItem>;
+// type UserT = ItemInput<UserItem>;
 
 export default function () {
   const publicConfig = useRuntimeConfig().public.directus;
 
-  const useUser: () => Ref<
-    (UserT & MyDirectusTypes["directus_users"]) | null
-  > = () =>
-    useState<(UserT & MyDirectusTypes["directus_users"]) | null>(
-      "nuxt_directus_auth_user",
-      () => null
-    );
+  const useUser: () => Ref =
+    // <
+    //   (UserT & MyDirectusTypes["directus_users"]) | null
+    //   >
+    () =>
+      useState(
+        // <(UserT & MyDirectusTypes["directus_users"]) | null>
+        "nuxt_directus_auth_user",
+        () => null
+      );
 
   const directus = useDirectus();
 
@@ -47,7 +50,8 @@ export default function () {
     password: string;
     otp?: string;
     redirect?: string;
-  }): FetchReturnT<AuthResult> {
+  }) {
+    //: FetchReturnT<AuthResult>
     const route = useRoute();
 
     // The path of the protected route the user has entered
@@ -57,12 +61,13 @@ export default function () {
     const redirectTo =
       credentials.redirect || returnToPath || publicConfig.auth.redirect.home;
 
-    return useAsyncData(() =>
-      directus.auth.login(credentials).then(async (res) => {
-        await fetchUser();
-        await navigateTo(redirectTo);
-        return res;
-      })
+    return useAsyncData(
+      () => Promise.resolve()
+      // directus.auth.login(credentials).then(async (res) => {
+      //   await fetchUser();
+      //   await navigateTo(redirectTo);
+      //   return res;
+      // })
     );
   }
 
@@ -93,25 +98,29 @@ export default function () {
     }
   }
 
-  async function fetchUser(): FetchReturnT<UserT> {
+  async function fetchUser() {
+    //: FetchReturnT<UserT>
     const user = useUser();
-    return useAsyncData(() =>
-      directus.users.me
-        .read({ fields: publicConfig.auth.userFields })
-        .then((res) => (user.value = res))
+    return useAsyncData(
+      () => Promise.resolve()
+      // directus.users.me
+      //   .read({ fields: publicConfig.auth.userFields })
+      //   .then((res) => (user.value = res))
     );
   }
 
-  async function logout(): FetchReturnT<void> {
+  async function logout() {
+    // : FetchReturnT<void>
     const user = useUser();
-    return useAsyncData(() =>
-      directus.auth.logout().then(async () => {
-        user.value = null;
+    return useAsyncData(
+      () => Promise.resolve()
+      // directus.auth.logout().then(async () => {
+      //   user.value = null;
 
-        clearNuxtData();
+      //   clearNuxtData();
 
-        await navigateTo(publicConfig.auth.redirect.logout);
-      })
+      //   await navigateTo(publicConfig.auth.redirect.logout);
+      // })
     );
   }
 
@@ -120,15 +129,17 @@ export default function () {
     password: string;
     first_name?: string;
     last_name?: string;
-  }): FetchReturnT<any> {
-    return useAsyncData(() =>
-      directus.transport.post("/users", {
-        email: input.email,
-        password: input.password,
-        first_name: input.first_name,
-        last_name: input.last_name,
-        role: publicConfig.auth.defaultRoleId,
-      })
+  }) {
+    //: FetchReturnT<any>
+    return useAsyncData(
+      () => Promise.resolve()
+      // directus.transport.post("/users", {
+      //   email: input.email,
+      //   password: input.password,
+      //   first_name: input.first_name,
+      //   last_name: input.last_name,
+      //   role: publicConfig.auth.defaultRoleId,
+      // })
     );
   }
 
@@ -139,23 +150,27 @@ export default function () {
   /**
    * Don't forget to set PASSWORD_RESET_URL_ALLOW_LIST directus env
    */
-  async function requestPasswordReset(email: string): FetchReturnT<any> {
-    return useAsyncData(() =>
-      directus.transport.post("/auth/password/request", {
-        email: email,
-        reset_url: getRedirectUrl(publicConfig.auth.redirect.resetPassword),
-      })
+  async function requestPasswordReset(email: string) {
+    // : FetchReturnT<any>
+    return useAsyncData(
+      () => Promise.resolve()
+      // directus.transport.post("/auth/password/request", {
+      //   email: email,
+      //   reset_url: getRedirectUrl(publicConfig.auth.redirect.resetPassword),
+      // })
     );
   }
 
-  async function resetPassword(password: string): FetchReturnT<any> {
+  async function resetPassword(password: string) {
+    //: FetchReturnT<any>
     const route = useRoute();
 
-    return useAsyncData(() =>
-      directus.transport.post("/auth/password/reset", {
-        password: password,
-        token: route.query.token,
-      })
+    return useAsyncData(
+      () => Promise.resolve()
+      // directus.transport.post("/auth/password/reset", {
+      //   password: password,
+      //   token: route.query.token,
+      // })
     );
   }
 

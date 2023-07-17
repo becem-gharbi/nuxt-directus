@@ -42,9 +42,10 @@ export default defineNuxtPlugin(async () => {
 
     const { fetchUser } = useDirectusAuth();
 
-    const refreshToken = directus.storage.get(
-      publicConfig.auth.refreshTokenCookieName
-    );
+    const refreshToken = "";
+    //directus.storage.get(
+    // publicConfig.auth.refreshTokenCookieName
+    // );
 
     if (refreshToken || process.client) {
       await fetchUser();
