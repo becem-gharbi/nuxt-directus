@@ -8,6 +8,8 @@ export default defineNuxtConfig({
   directus: {
     auth: {
       enabled: true,
+      baseUrl: "http://localhost:8055",
+      nuxtBaseUrl: "http://localhost:3000",
       defaultRoleId: "90087fa8-3bf4-4e1f-9b14-f4aadb4c4d0a",
       redirect: {
         home: "/home",
