@@ -86,7 +86,7 @@ export default defineNuxtPlugin(async () => {
           }
 
           transportResponse = {
-            raw: "",
+            raw: response._data,
             //@ts-ignore
             data: response._data["data"],
             meta: response._data["meta"],
@@ -98,7 +98,7 @@ export default defineNuxtPlugin(async () => {
         .then(() => transportResponse)
         .catch((error) => {
           throw new TransportError<T>(error, {
-            raw: "",
+            raw: error.data,
             errors: error.data["errors"],
             status: error.status,
           });
