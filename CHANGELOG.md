@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.1.7
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.6...v0.1.7)
+
+### 🩹 Fixes
+
+- **deps:** Update dependency @bg-dev/nuxt-directus to v0.1.6 ([ca6bed4](https://github.com/becem-gharbi/nuxt-directus/commit/ca6bed4))
+
+### 📖 Documentation
+
+- **readme:** Add ext version note ([03ef8d7](https://github.com/becem-gharbi/nuxt-directus/commit/03ef8d7))
+
+### 🏡 Chore
+
+- Update changelog ([335e7d1](https://github.com/becem-gharbi/nuxt-directus/commit/335e7d1))
+- **demo:** Upgrade dependencies ([dd96160](https://github.com/becem-gharbi/nuxt-directus/commit/dd96160))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.6
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.5...v0.1.6)
