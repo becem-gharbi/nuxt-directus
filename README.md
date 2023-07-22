@@ -19,10 +19,10 @@ _Currently the new Directus SDK is in Beta stage, thus not ready for production 
 
 - [x] Add a plugin to create a Directus client
 - [x] Provide `$directus` helper to expose Directus client
-- [ ] Consider auto import of directus sdk APIs
-- [ ] Consider the usage of `$fetch` over `fetch` for transport
 - [ ] Add authentication composable & page middlewares
-- [ ] Handle universal refresh of access token with cookie storage 
+- [ ] Handle universal refresh of access token with cookie storage
+- [ ] Consider auto import of `@directus/sdk` APIs
+- [ ] Consider the usage of `$fetch` over `fetch` for transport
 - [ ] Consider usage of realtime APIs with SSR.
 
 ## Installation
@@ -82,7 +82,6 @@ declare global {
 
 ## Usage
 
-
 For protecting page routes, 2 possible approachs can be used:
 
 - Globally enable and locally disable
@@ -104,7 +103,6 @@ definePageMeta({ middleware: "auth" }); // Redirects to login path when not logg
 ```js
 definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 ```
-
 
 ## Contributing
 
