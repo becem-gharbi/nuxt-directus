@@ -5,19 +5,24 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/sdk) into your Nuxt 3 project. 
+This is a rebuild of the module based on the [new Directus SDK](https://github.com/directus/directus/tree/sdk-revamp/sdk) providing performance & DX improvements
 
-Currently a new rebuild of JS SDK is under **Beta** stage. You can find it [here](https://github.com/directus/directus/tree/sdk-revamp/sdk). It comes with performance and DX improvements. Meanwhile, a new rebuild of this module is being developed under `next` branch.
+- ✔️ Typescript first
+- ✔️ Lightweight & dependency free
+- ✔️ Module architecture with tree shaking
+- ✔️ `fetch` over `axios` for portability
+- ✔️ Built-in realtime support
 
-## Features
+_Currently the new Directus SDK is in Beta stage, thus not ready for production use_
 
-- ✔️ Customized Transport & Storage for Nuxt 3
-- ✔️ Handles authentication via `useDirectusAuth`
-  composable
-- ✔️ Provides auth route middlewares
-- ✔️ Auto refresh of access token
-- ✔️ Exposes directus instance via `useDirectus` composable
-- ✔️ Typescript support
+## Todos
+
+- [ ] Add a plugin to create a customized Directus client configured via module options
+- [ ] Provide `$directus` helper to expose Directus client
+- [ ] Consider the usage of `$fetch` over `fetch` for transport
+- [ ] Add authentication composable & page middlewares
+- [ ] Handle universal refresh of access token with cookie storage 
+- [ ] Consider usage of realtime APIs with SSR.
 
 ## Installation
 
@@ -45,7 +50,7 @@ export default defineNuxtConfig({
     auth: {
       enabled: false,
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
-      userFields: [], // Select user fields 
+      userFields: [], // Select user fields
       refreshTokenCookieName: "directus_refresh_token",
       defaultRoleId: "", // Role id assigned for new registered users
       redirect: {
@@ -76,7 +81,6 @@ declare global {
 
 ## Usage
 
-Refer to [Directus SDK](https://github.com/directus/sdk) for api documentation.
 
 For protecting page routes, 2 possible approachs can be used:
 
@@ -100,10 +104,6 @@ definePageMeta({ middleware: "auth" }); // Redirects to login path when not logg
 definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 ```
 
-## Notes
-
-- When auth is enabled, Directus and Nuxt apps SHOULD share the same domain name because cookies's sameSite policy is set to `lax`, in development domain SHOULD be 127.0.0.1 ([issue](https://github.com/unjs/ofetch/issues/156))
-- Refer to [directus docs](https://docs.directus.io/self-hosted/sso.html) for general configuration
 
 ## Contributing
 
