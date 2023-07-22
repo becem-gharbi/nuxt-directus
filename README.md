@@ -9,7 +9,7 @@ This is a rebuild of the module based on the [new Directus SDK](https://github.c
 
 - ✔️ Typescript first
 - ✔️ Lightweight & dependency free
-- ✔️ Module architecture with tree shaking
+- ✔️ Modular architecture with tree shaking
 - ✔️ `fetch` over `axios` for portability
 - ✔️ Built-in realtime support
 
