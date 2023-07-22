@@ -58,8 +58,8 @@ export default function () {
     const returnToPath = route.query.redirect?.toString();
 
     // The path to redirect to on login success
-    const redirectTo =
-      credentials.redirect || returnToPath || publicConfig.auth.redirect.home;
+    // const redirectTo =
+    //   credentials.redirect || returnToPath || publicConfig.auth.redirect.home;
 
     return useAsyncData(
       () => Promise.resolve()
@@ -82,7 +82,7 @@ export default function () {
 
     const redirectTo = arg.redirect || returnToPath;
 
-    let redirectUrl = getRedirectUrl(publicConfig.auth.redirect.callback);
+    let redirectUrl = ""; // getRedirectUrl(publicConfig.auth.redirect.callback);
 
     if (redirectTo) {
       redirectUrl = withQuery(redirectUrl, { redirect: redirectTo });
