@@ -25,6 +25,21 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     baseUrl: "http://127.0.0.1:8055",
     nuxtBaseUrl: "http://127.0.0.1:3000",
+    rest: {},
+    graphql: {},
+    realtime: {},
+    auth: {
+      enableGlobalAuthMiddleware: false,
+      userFields: [],
+      refreshTokenCookieName: "directus_refresh_token",
+      redirect: {
+        home: "/home",
+        login: "/auth/login",
+        logout: "/auth/login",
+        resetPassword: "/auth/reset-password",
+        callback: "/auth/callback",
+      },
+    },
   },
 
   setup(options, nuxt) {
@@ -45,9 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     //Add plugins
     const directusPlugin = resolve(runtimeDir, "directus");
-    const initPlugin = resolve(runtimeDir, "init");
     addPlugin(directusPlugin, { append: true });
-    addPlugin(initPlugin, { append: true });
 
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
