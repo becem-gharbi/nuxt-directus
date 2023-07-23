@@ -1,8 +1,4 @@
-import type {
-  RestConfig,
-  AuthenticationConfig,
-  AuthenticationMode,
-} from "@directus/sdk";
+import type { RestConfig } from "@directus/sdk";
 
 interface Rest extends RestConfig {}
 
@@ -10,8 +6,7 @@ interface Graphql {}
 
 interface Realtime {}
 
-interface Authentication extends AuthenticationConfig {
-  mode: AuthenticationMode;
+interface Authentication {
   staticToken?: string;
   defaultRoleId?: string;
   enableGlobalAuthMiddleware?: boolean;

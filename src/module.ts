@@ -29,7 +29,6 @@ export default defineNuxtModule<ModuleOptions>({
     graphql: {},
     realtime: {},
     auth: {
-      mode: "cookie",
       enableGlobalAuthMiddleware: false,
       userFields: [],
       refreshTokenCookieName: "directus_refresh_token",

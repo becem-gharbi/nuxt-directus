@@ -1,19 +1,41 @@
 import { authentication } from "@directus/sdk";
 import { useRuntimeConfig } from "#app";
 import useDirectus from "./useDirectus";
+
 import type { Authentication } from "../types/config";
 import type { LoginCredentials } from "../types/index";
+import type { AuthenticationStorage, AuthenticationData } from "@directus/sdk";
 
 export default function useDirectusAuth() {
   const loggedIn = useState("directus-logged-in", () => false);
 
   const config = useRuntimeConfig().public.directus.auth as Authentication;
 
+  const storage: AuthenticationStorage = {
+    get() {
+      const data: AuthenticationData = {
+        access_token: useCookie("access_token").value || "",
+        expires: parseInt(useCookie("directus_expires").value || ""),
+        expires_at: parseInt(useCookie("directus_expires_at").value || ""),
+        refresh_token: useCookie("directus_refresh_token").value || "",
+      };
+
+      return data;
+    },
+
+    set(data) {
+      useCookie("access_token").value = data?.access_token;
+      useCookie("directus_expires").value = data?.expires?.toString();
+      useCookie("directus_expires_at").value = data?.expires_at?.toString();
+      useCookie("directus_refresh_token").value = data?.refresh_token;
+    },
+  };
+
   const client = useDirectus().with(
-    authentication(config.mode, {
-      autoRefresh: config.autoRefresh,
-      msRefreshBeforeExpires: config.msRefreshBeforeExpires,
-      storage: config.storage,
+    authentication("json", {
+      autoRefresh: true,
+      msRefreshBeforeExpires: 3000,
+      storage,
     })
   );
 
