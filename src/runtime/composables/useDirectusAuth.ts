@@ -1,15 +1,23 @@
-import { authentication } from "@directus/sdk";
+import { authentication, readMe } from "@directus/sdk";
 import { useRuntimeConfig } from "#app";
 import useDirectus from "./useDirectus";
+import useDirectusRest from "./useDirectusRest";
+
 import type { Authentication } from "../types/config";
 import type { LoginCredentials } from "../types/index";
-import type { AuthenticationStorage, AuthenticationData } from "@directus/sdk";
+import type {
+  AuthenticationStorage,
+  AuthenticationData,
+  DirectusUser,
+} from "@directus/sdk";
 import type { Ref } from "#imports";
 
 export default function useDirectusAuth() {
   const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
     useCookie("directus_access_token").value ? true : false
   );
+
+  const user: Ref<DirectusUser<never> | undefined> = useState("directus-user");
 
   const config = useRuntimeConfig().public.directus.auth as Authentication;
 
@@ -53,6 +61,7 @@ export default function useDirectusAuth() {
         const returnToPath = route.query.redirect?.toString();
         const redirectTo = returnToPath || config.redirect.home;
         loggedIn.value = true;
+        await fetchUser();
         return navigateTo(redirectTo);
       });
   }
@@ -61,9 +70,15 @@ export default function useDirectusAuth() {
     return client.logout().then(async () => {
       clearNuxtData();
       loggedIn.value = false;
+      user.value = undefined;
       return navigateTo(config.redirect.logout);
     });
   }
 
-  return { login, logout, storage, loggedIn };
+  async function fetchUser() {
+    //@ts-ignore
+    user.value = await useDirectusRest().request(readMe());
+  }
+
+  return { login, logout, fetchUser, loggedIn, user };
 }

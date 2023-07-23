@@ -8,7 +8,7 @@ import {
 } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import { defu } from "defu";
-import type { PublicConfig } from "./runtime/types/config";
+import type { PublicConfig } from "./runtime/types";
 
 export interface ModuleOptions extends PublicConfig {}
 

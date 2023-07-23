@@ -1,7 +1,10 @@
 <template>
     <div>
         <h1>Home</h1>
+        {{ user }}
+        <hr>
         {{ books }}
+        <hr>
         <button @click="logout()">Logout</button>
         <button @click="refresh()">REFRESH</button>
     </div>
@@ -12,7 +15,7 @@ import { readItems } from "@directus/sdk"
 
 definePageMeta({ middleware: "auth" })
 
-const { logout } = useDirectusAuth()
+const { logout, user } = useDirectusAuth()
 
 const { data: books, refresh } = useAsyncData("books", () => useDirectusRest().request(readItems("book")))
 
