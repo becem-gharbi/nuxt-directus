@@ -61,7 +61,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     //Add plugins
     const directusPlugin = resolve(runtimeDir, "directus");
+    const initPlugin = resolve(runtimeDir, "init");
     addPlugin(directusPlugin, { append: true });
+    addPlugin(initPlugin, { append: true });
 
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");

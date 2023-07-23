@@ -38,5 +38,9 @@ export default function useDirectusAuth() {
     });
   }
 
-  return { login, logout };
+  async function refresh() {
+    return client.refresh();
+  }
+
+  return { login, logout, refresh, loggedIn };
 }
