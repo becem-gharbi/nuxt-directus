@@ -1,6 +1,4 @@
-import type { RestConfig } from "@directus/sdk";
-
-interface Rest extends RestConfig {}
+interface Rest {}
 
 interface Graphql {}
 

@@ -1,12 +1,23 @@
 import { rest } from "@directus/sdk";
-import { useRuntimeConfig } from "#app";
 import useDirectus from "./useDirectus";
-import type { Rest } from "../types/config";
 
 export default function useDirectusRest() {
-  const config = useRuntimeConfig().public.directus.rest as Rest;
+  const accessToken = useCookie("directus_access_token");
 
-  const client = useDirectus().with(rest(config));
+  const client = useDirectus().with(
+    rest({
+      onRequest(request) {
+        if (accessToken.value) {
+          request.headers = {
+            ...request.headers,
+            authorization: `Bearer ${accessToken.value}`,
+          };
+        }
+
+        return request;
+      },
+    })
+  );
 
   return client;
 }

@@ -8,7 +8,7 @@ import type { Ref } from "#imports";
 
 export default function useDirectusAuth() {
   const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
-    useCookie("access_token").value ? true : false
+    useCookie("directus_access_token").value ? true : false
   );
 
   const config = useRuntimeConfig().public.directus.auth as Authentication;
@@ -16,7 +16,7 @@ export default function useDirectusAuth() {
   const storage: AuthenticationStorage = {
     get() {
       const data: AuthenticationData = {
-        access_token: useCookie("access_token").value || "",
+        access_token: useCookie("directus_access_token").value || "",
         expires: parseInt(useCookie("directus_expires").value || ""),
         expires_at: parseInt(useCookie("directus_expires_at").value || ""),
         refresh_token: useCookie("directus_refresh_token").value || "",
@@ -29,7 +29,7 @@ export default function useDirectusAuth() {
       const maxAge = data?.expires && data.expires / 1000;
       const options = maxAge ? { maxAge } : {};
 
-      useCookie("access_token", options).value = data?.access_token;
+      useCookie("directus_access_token", options).value = data?.access_token;
       useCookie("directus_expires").value = data?.expires?.toString();
       useCookie("directus_expires_at").value = data?.expires_at?.toString();
       useCookie("directus_refresh_token").value = data?.refresh_token;
@@ -65,5 +65,5 @@ export default function useDirectusAuth() {
     });
   }
 
-  return { login, logout, loggedIn };
+  return { login, logout, storage, loggedIn };
 }
