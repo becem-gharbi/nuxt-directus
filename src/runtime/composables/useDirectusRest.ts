@@ -1,5 +1,6 @@
 import { rest } from "@directus/sdk";
 import { useCookie, useDirectus } from "#imports";
+import type { DirectusClient, RestClient } from "@directus/sdk";
 
 export default function useDirectusRest() {
   const accessToken = useCookie("directus_access_token");
@@ -17,7 +18,7 @@ export default function useDirectusRest() {
         return request;
       },
     })
-  );
+  ) as DirectusClient<MyDirectusTypes> & RestClient<MyDirectusTypes>;
 
   return client;
 }
