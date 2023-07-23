@@ -1,6 +1,57 @@
 # Changelog
 
 
+## v0.0.2-next
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.0.1-next...v0.0.2-next)
+
+### 🚀 Enhancements
+
+- Create $directus helper ([e497fcb](https://github.com/becem-gharbi/nuxt-directus/commit/e497fcb))
+- Create useDirectusRest composable ([c398690](https://github.com/becem-gharbi/nuxt-directus/commit/c398690))
+- Create useDirectusAuth composable ([ee8c21c](https://github.com/becem-gharbi/nuxt-directus/commit/ee8c21c))
+- **auth:** Add login & logout methods ([80f5e25](https://github.com/becem-gharbi/nuxt-directus/commit/80f5e25))
+- **auth:** Add page middlewares ([3dfba09](https://github.com/becem-gharbi/nuxt-directus/commit/3dfba09))
+- **auth:** Implement storage getter/setter ([52f83ff](https://github.com/becem-gharbi/nuxt-directus/commit/52f83ff))
+- **auth:** Update loggedIn on page reload ([f1debcf](https://github.com/becem-gharbi/nuxt-directus/commit/f1debcf))
+- **auth:** Add user state ([ec0f8ac](https://github.com/becem-gharbi/nuxt-directus/commit/ec0f8ac))
+
+### 🩹 Fixes
+
+- **auth:** Add authorization header when token available ([f2bea83](https://github.com/becem-gharbi/nuxt-directus/commit/f2bea83))
+- **auth:** Update user state on page load ([54ded9f](https://github.com/becem-gharbi/nuxt-directus/commit/54ded9f))
+- **auth:** Call refresh method on initialization ([5f03756](https://github.com/becem-gharbi/nuxt-directus/commit/5f03756))
+- **auth:** Add missing imports ([c5f5b59](https://github.com/becem-gharbi/nuxt-directus/commit/c5f5b59))
+- **rest:** Add client type ([45c1c43](https://github.com/becem-gharbi/nuxt-directus/commit/45c1c43))
+
+### 💅 Refactors
+
+- Group types under /types ([f3b3fcc](https://github.com/becem-gharbi/nuxt-directus/commit/f3b3fcc))
+
+### 📖 Documentation
+
+- **readme:** Update installation section ([a8967cc](https://github.com/becem-gharbi/nuxt-directus/commit/a8967cc))
+- Add todos section ([1f22144](https://github.com/becem-gharbi/nuxt-directus/commit/1f22144))
+- Update README.md ([b8b81da](https://github.com/becem-gharbi/nuxt-directus/commit/b8b81da))
+- Update todos list ([1226128](https://github.com/becem-gharbi/nuxt-directus/commit/1226128))
+
+### 🌊 Types
+
+- **auth:** Add loggedIn type ([f555760](https://github.com/becem-gharbi/nuxt-directus/commit/f555760))
+
+### 🏡 Chore
+
+- **demo:** Install new module ([dd11fcb](https://github.com/becem-gharbi/nuxt-directus/commit/dd11fcb))
+- Upgrade dependencies ([cb860f6](https://github.com/becem-gharbi/nuxt-directus/commit/cb860f6))
+- **demo:** Install new module ([e7742d4](https://github.com/becem-gharbi/nuxt-directus/commit/e7742d4))
+- **auth:** Check mode cookie ([efde604](https://github.com/becem-gharbi/nuxt-directus/commit/efde604))
+- Disable SSR ([df3e309](https://github.com/becem-gharbi/nuxt-directus/commit/df3e309))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v0.0.1-next
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.6...v0.0.1-next)
