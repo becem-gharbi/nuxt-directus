@@ -1,13 +1,13 @@
 import { authentication } from "@directus/sdk";
 import { useRuntimeConfig } from "#app";
 import useDirectus from "./useDirectus";
-
 import type { Authentication } from "../types/config";
 import type { LoginCredentials } from "../types/index";
 import type { AuthenticationStorage, AuthenticationData } from "@directus/sdk";
+import type { Ref } from "#imports";
 
 export default function useDirectusAuth() {
-  const loggedIn = useState("directus-logged-in", () =>
+  const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
     useCookie("access_token").value ? true : false
   );
 

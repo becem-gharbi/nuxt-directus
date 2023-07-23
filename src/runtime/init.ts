@@ -1,11 +1,4 @@
-import type { Ref } from "vue";
-import {
-  defineNuxtPlugin,
-  addRouteMiddleware,
-  useRuntimeConfig,
-  useState,
-} from "#app";
-import useDirectusAuth from "./composables/useDirectusAuth";
+import { defineNuxtPlugin, addRouteMiddleware, useRuntimeConfig } from "#app";
 import common from "./middleware/common";
 import auth from "./middleware/auth";
 import guest from "./middleware/guest";
