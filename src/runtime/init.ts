@@ -14,6 +14,25 @@ export default defineNuxtPlugin(async () => {
     });
 
     addRouteMiddleware("guest", guest);
+
+    const useInitialized: () => Ref<boolean> = () =>
+      useState<boolean>("nuxt_directus_initialized", () => false);
+
+    const initialized = useInitialized();
+
+    if (initialized.value) {
+      return;
+    }
+
+    initialized.value = true;
+
+    const refreshToken = useCookie("directus_refresh_token");
+
+    if (refreshToken.value || process.client) {
+      const { fetchUser } = useDirectusAuth();
+
+      await fetchUser();
+    }
   } catch (error) {
     console.error(error);
   }
