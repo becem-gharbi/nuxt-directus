@@ -70,6 +70,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     //Initialize the module options
     nuxt.options.runtimeConfig.public.directus = defu(
+      //@ts-ignore
       nuxt.options.runtimeConfig.public.directus,
       { ...options }
     );

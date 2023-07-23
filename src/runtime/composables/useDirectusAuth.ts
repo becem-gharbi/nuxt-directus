@@ -3,21 +3,24 @@ import { useRuntimeConfig } from "#app";
 import useDirectus from "./useDirectus";
 import useDirectusRest from "./useDirectusRest";
 
-import type { Authentication } from "../types/config";
-import type { LoginCredentials } from "../types/index";
 import type {
+  LoginCredentials,
   AuthenticationStorage,
   AuthenticationData,
   DirectusUser,
-} from "@directus/sdk";
-import type { Ref } from "#imports";
+  Authentication,
+  Ref,
+} from "../types/index";
 
 export default function useDirectusAuth() {
   const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
     useCookie("directus_access_token").value ? true : false
   );
 
-  const user: Ref<DirectusUser<never> | undefined> = useState("directus-user");
+  const user: Ref<DirectusUser<never> | null> = useState(
+    "directus-user",
+    () => null
+  );
 
   const config = useRuntimeConfig().public.directus.auth as Authentication;
 
@@ -70,7 +73,7 @@ export default function useDirectusAuth() {
     return client.logout().then(async () => {
       clearNuxtData();
       loggedIn.value = false;
-      user.value = undefined;
+      user.value = null;
       return navigateTo(config.redirect.logout);
     });
   }
