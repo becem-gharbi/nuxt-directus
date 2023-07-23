@@ -19,7 +19,7 @@ _Currently the new Directus SDK is in Beta stage, thus not ready for production 
 
 - [x] Add a plugin to create a Directus client
 - [x] Provide `$directus` helper to expose Directus client
-- [ ] Add authentication composable & page middlewares
+- [x] Add authentication composable & page middlewares
 - [ ] Handle universal refresh of access token with cookie storage
 - [ ] Consider auto import of `@directus/sdk` APIs
 - [ ] Consider the usage of `$fetch` over `fetch` for transport
