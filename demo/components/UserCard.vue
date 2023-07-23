@@ -18,6 +18,5 @@
 </template>
 
 <script setup lang="ts">
-const { useUser, logout } = useDirectusAuth()
-const user = useUser().value
+const { user, logout } = useDirectusAuth()
 </script>

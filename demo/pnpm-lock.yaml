@@ -4,10 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-devDependencies:
+dependencies:
   '@bg-dev/nuxt-directus':
-    specifier: 0.0.1-next
-    version: 0.0.1-next
+    specifier: link:..\package
+    version: link:../package
+
+devDependencies:
   '@bg-dev/nuxt-naiveui':
     specifier: ^1.2.1
     version: 1.2.1(vue@3.3.4)
@@ -334,17 +336,6 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@bg-dev/nuxt-directus@0.0.1-next:
-    resolution: {integrity: sha512-8XCriS1Ob5/jZvLMJQy3XoSaxsPBp1izPXTVrpbUqHLZOQcBw43MdoBXrkMhPLCqZEIYHm1WHmD3J5s3mgh6jw==}
-    dependencies:
-      '@directus/sdk': 11.0.0-beta.4
-      '@nuxt/kit': 3.6.3
-      defu: 6.1.2
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
   /@bg-dev/nuxt-naiveui@1.2.1(vue@3.3.4):
     resolution: {integrity: sha512-zseqbRaa34X2Io0rTMpnbKlB3hlKNtvWOrrVa0cxR5SArHkfwm8M4ub/ZWO2v7Kiirt05xIHadVThbNA5Rfnyg==}
     dependencies:
@@ -412,11 +403,6 @@ packages:
       postcss-selector-parser: ^6.0.10
     dependencies:
       postcss-selector-parser: 6.0.13
-    dev: true
-
-  /@directus/sdk@11.0.0-beta.4:
-    resolution: {integrity: sha512-lAZn0tH+3FGr23E1Iq9pnUZLlWqTollhaS7he6DPUbhRPDMJ5M4345EIDTW8YjrHNOoD6IKJ7fKFk46kV+K/7A==}
-    engines: {node: '>=18.0.0'}
     dev: true
 
   /@emotion/hash@0.8.0:

@@ -1,0 +1,48 @@
+{
+  "name": "@bg-dev/nuxt-directus",
+  "version": "0.0.1-next",
+  "license": "MIT",
+  "type": "module",
+  "author": "Becem Gharbi",
+  "keywords": [
+    "nuxt",
+    "directus",
+    "authentication"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "release": "npm run prepack && changelogen --release --versionSuffix next && npm publish && git push --follow-tags"
+  },
+  "dependencies": {
+    "@directus/sdk": "^11.0.0-beta.6",
+    "@nuxt/kit": "^3.6.5",
+    "defu": "^6.1.2"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "^0.4.0",
+    "@nuxt/schema": "^3.6.5",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "changelogen": "^0.5.4",
+    "eslint": "^8.45.0",
+    "nuxt": "^3.6.5"
+  },
+  "repository": "https://github.com/becem-gharbi/nuxt-directus.git"
+}

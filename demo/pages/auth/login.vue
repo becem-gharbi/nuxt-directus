@@ -14,13 +14,14 @@
                     <NuxtLink to="/auth/request-password-reset" class="no-underline">
                         <n-text type="primary">Forgot password?</n-text>
                     </NuxtLink>
-                    <n-button attr-type="submit" block :loading="pending" :disabled="pending" type="primary">Login</n-button>
-                    <n-button @click="loginWithProvider({ provider: 'google' })" block>
+                    <n-button attr-type="submit" block :loading="pending" :disabled="pending"
+                        type="primary">Login</n-button>
+                    <!-- <n-button @click="loginWithProvider({ provider: 'google' })" block>
                         <template #icon>
                             <NaiveIcon name="logos:google-icon"></NaiveIcon>
                         </template>
                         Continue with Google
-                    </n-button>
+                    </n-button> -->
                 </div>
             </n-form>
         </n-card>
@@ -42,7 +43,7 @@ definePageMeta({
 })
 
 const { formRef, rules, pending, apiErrors, onSubmit } = useNaiveForm()
-const { login, loginWithProvider } = useDirectusAuth()
+const { login } = useDirectusAuth()
 
 const model = ref({
     email: "",
@@ -80,14 +81,14 @@ rules.value = {
 }
 
 async function handleSubmit() {
-    const { error } = await login({
+    await login({
         email: model.value.email,
         password: model.value.password
     });
 
-    if (error.value) {
-        apiErrors.value.wrongCredentials = error.value.errors.some(e => e.message === "Invalid user credentials.")
-        apiErrors.value.invalidProvider = error.value.errors.some(e => e.message === "Invalid provider.")
-    }
+    // if (error.value) {
+    //     apiErrors.value.wrongCredentials = error.value.errors.some(e => e.message === "Invalid user credentials.")
+    //     apiErrors.value.invalidProvider = error.value.errors.some(e => e.message === "Invalid provider.")
+    // }
 }
 </script>

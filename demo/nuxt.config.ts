@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
+
   css: ["~/assets/fonts/gellix/style.css"],
 
   modules: [
@@ -10,6 +12,14 @@ export default defineNuxtConfig({
 
   tailwindcss: {
     viewer: false,
+  },
+
+  vite: {
+    server: {
+      fs: {
+        allow: ["../package"],
+      },
+    },
   },
 
   directus: {
