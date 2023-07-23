@@ -2,7 +2,7 @@ import { authentication, readMe } from "@directus/sdk";
 import { useRuntimeConfig } from "#app";
 import useDirectus from "./useDirectus";
 import useDirectusRest from "./useDirectusRest";
-
+import { useCookie } from "#app";
 import type {
   LoginCredentials,
   AuthenticationStorage,
@@ -26,6 +26,7 @@ export default function useDirectusAuth() {
 
   const storage: AuthenticationStorage = {
     get() {
+      console.log("calling get");
       const data: AuthenticationData = {
         access_token: useCookie("directus_access_token").value || "",
         expires: parseInt(useCookie("directus_expires").value || ""),
@@ -83,5 +84,9 @@ export default function useDirectusAuth() {
     user.value = await useDirectusRest().request(readMe());
   }
 
-  return { login, logout, fetchUser, loggedIn, user };
+  async function refresh() {
+    return client.refresh();
+  }
+
+  return { login, logout, fetchUser, refresh, loggedIn, user };
 }
