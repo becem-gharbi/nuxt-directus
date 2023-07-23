@@ -21,27 +21,6 @@ export default defineNuxtPlugin(async () => {
     });
 
     addRouteMiddleware("guest", guest);
-
-    const useInitialized: () => Ref<boolean> = () =>
-      useState<boolean>("nuxt_directus_initialized", () => false);
-
-    const initialized = useInitialized();
-
-    if (initialized.value) {
-      return;
-    }
-
-    initialized.value = true;
-
-    const { refresh } = useDirectusAuth();
-
-    // const refreshToken = directus.storage.get(
-    //   publicConfig.auth.refreshTokenCookieName
-    // );
-
-    // if (refreshToken || process.client) {
-    //   await fetchUser();
-    // }
   } catch (error) {
     console.error(error);
   }

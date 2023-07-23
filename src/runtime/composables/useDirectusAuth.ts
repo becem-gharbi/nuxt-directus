@@ -7,7 +7,9 @@ import type { LoginCredentials } from "../types/index";
 import type { AuthenticationStorage, AuthenticationData } from "@directus/sdk";
 
 export default function useDirectusAuth() {
-  const loggedIn = useState("directus-logged-in", () => false);
+  const loggedIn = useState("directus-logged-in", () =>
+    useCookie("access_token").value ? true : false
+  );
 
   const config = useRuntimeConfig().public.directus.auth as Authentication;
 
@@ -24,7 +26,10 @@ export default function useDirectusAuth() {
     },
 
     set(data) {
-      useCookie("access_token").value = data?.access_token;
+      const maxAge = data?.expires && data.expires / 1000;
+      const options = maxAge ? { maxAge } : {};
+
+      useCookie("access_token", options).value = data?.access_token;
       useCookie("directus_expires").value = data?.expires?.toString();
       useCookie("directus_expires_at").value = data?.expires_at?.toString();
       useCookie("directus_refresh_token").value = data?.refresh_token;
@@ -60,9 +65,5 @@ export default function useDirectusAuth() {
     });
   }
 
-  async function refresh() {
-    return client.refresh();
-  }
-
-  return { login, logout, refresh, loggedIn };
+  return { login, logout, loggedIn };
 }
