@@ -1,5 +1,5 @@
 import { rest } from "@directus/sdk";
-import useDirectus from "./useDirectus";
+import { useCookie, useDirectus } from "#imports";
 
 export default function useDirectusRest() {
   const accessToken = useCookie("directus_access_token");

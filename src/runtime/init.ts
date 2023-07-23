@@ -1,4 +1,11 @@
-import { defineNuxtPlugin, addRouteMiddleware, useRuntimeConfig } from "#app";
+import {
+  defineNuxtPlugin,
+  addRouteMiddleware,
+  useRuntimeConfig,
+  useState,
+  useCookie,
+  useDirectusAuth,
+} from "#imports";
 import common from "./middleware/common";
 import auth from "./middleware/auth";
 import guest from "./middleware/guest";

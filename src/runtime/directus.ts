@@ -1,5 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig } from "#app";
-
+import { defineNuxtPlugin, useRuntimeConfig } from "#imports";
 import { createDirectus } from "@directus/sdk";
 
 export default defineNuxtPlugin(() => {
