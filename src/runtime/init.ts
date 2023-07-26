@@ -22,10 +22,7 @@ export default defineNuxtPlugin(async () => {
 
     addRouteMiddleware("guest", guest);
 
-    const useInitialized: () => Ref<boolean> = () =>
-      useState<boolean>("nuxt_directus_initialized", () => false);
-
-    const initialized = useInitialized();
+    const initialized = useState("nuxt_directus_initialized", () => false);
 
     if (initialized.value) {
       return;
