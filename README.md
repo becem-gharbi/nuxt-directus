@@ -13,7 +13,6 @@ This is a rebuild of the module based on the [new Directus SDK](https://github.c
 - ✔️ `fetch` over `axios` for portability
 - ✔️ Built-in realtime support
 
-
 ## Todos
 
 - [x] Add a plugin to create a Directus client
@@ -75,7 +74,7 @@ For better DX, you can get the types definition of your directus project via [di
 import { CustomDirectusTypes } from "./types";
 
 declare global {
-  type MyDirectusTypes = CustomDirectusTypes;
+  interface DirectusSchema extends CustomDirectusTypes {}
 }
 ```
 

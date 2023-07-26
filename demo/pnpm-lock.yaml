@@ -8,6 +8,9 @@ dependencies:
   '@bg-dev/nuxt-directus':
     specifier: link:..\package
     version: link:../package
+  '@directus/sdk':
+    specifier: ^11.0.0
+    version: 11.0.0
 
 devDependencies:
   '@bg-dev/nuxt-naiveui':
@@ -404,6 +407,11 @@ packages:
     dependencies:
       postcss-selector-parser: 6.0.13
     dev: true
+
+  /@directus/sdk@11.0.0:
+    resolution: {integrity: sha512-cYqvidmPi9PjxeANW1sgzjE1P4mWqy9QZ90LIO+I6hS9dKH6558YExD/Ylopn46yWuoDn/rAUKGHuh04WXEqvg==}
+    engines: {node: '>=18.0.0'}
+    dev: false
 
   /@emotion/hash@0.8.0:
     resolution: {integrity: sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==}

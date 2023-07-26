@@ -13,6 +13,7 @@
     "nuxt": "3.6.3"
   },
   "dependencies": {
-    "@bg-dev/nuxt-directus": "link:..\\package"
+    "@bg-dev/nuxt-directus": "link:..\\package",
+    "@directus/sdk": "^11.0.0"
   }
 }
