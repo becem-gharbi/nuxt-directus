@@ -3,7 +3,6 @@ import {
   addRouteMiddleware,
   useRuntimeConfig,
   useState,
-  useCookie,
   useDirectusAuth,
 } from "#imports";
 import common from "./middleware/common";
@@ -30,12 +29,11 @@ export default defineNuxtPlugin(async () => {
 
     initialized.value = true;
 
-    const { fetchUser, refresh, storage } = useDirectusAuth();
+    const { fetchUser, storage } = useDirectusAuth();
 
-    const refreshToken = storage.get().refresh_token;
+    const { refresh_token } = storage.get();
 
-    if (refreshToken || process.client) {
-      await refresh();
+    if (refresh_token || process.client) {
       await fetchUser();
     }
   } catch (error) {
