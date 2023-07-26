@@ -18,7 +18,7 @@ This is a rebuild of the module based on the [new Directus SDK](https://github.c
 - [x] Add a plugin to create a Directus client
 - [x] Provide `$directus` helper to expose Directus client
 - [x] Add authentication composable & page middlewares
-- [ ] Handle universal refresh of access token with cookie storage
+- [x] Handle universal refresh of access token with cookie storage
 - [ ] Consider auto import of `@directus/sdk` APIs
 - [ ] Consider the usage of `$fetch` over `fetch` for transport
 - [ ] Consider usage of realtime APIs with SSR.
@@ -51,6 +51,8 @@ export default defineNuxtConfig({
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       userFields: [], // Select user fields
       refreshTokenCookieName: "directus_refresh_token",
+      accessTokenCookieName: "directus_access_token",
+      msRefreshBeforeExpires: 3000,
       defaultRoleId: "", // Role id assigned for new registered users
       redirect: {
         login: "/auth/login", // Path to redirect when login is required
