@@ -45,11 +45,10 @@ export default function useDirectusAuth() {
 
     set(data) {
       const maxAge = data?.expires ? data.expires / 1000 : undefined;
-      const value = data.access_token || "";
       const name = "directus_access_token";
 
       if (process.server) {
-        setCookie(event, name, value, {
+        setCookie(event, name, data.access_token || "", {
           sameSite: "lax",
           secure: true,
           maxAge,
@@ -60,7 +59,7 @@ export default function useDirectusAuth() {
           secure: true,
           maxAge,
         });
-        cookie.value = value;
+        cookie.value = data.access_token;
       }
     },
 
@@ -121,28 +120,25 @@ export default function useDirectusAuth() {
   async function refresh() {
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
 
-    const { data } = await $fetch<{ data: AuthenticationData }>(
-      "/auth/refresh",
-      {
-        baseURL: config.baseUrl,
-        method: "POST",
-        credentials: "include",
-        body: {
-          mode: "cookie",
-        },
-        headers: {
-          cookie,
-        },
-        onResponse: ({ response }) => {
-          if (response.ok && process.server) {
-            const cookie = response.headers.get("set-cookie") || "";
-            appendHeader(event, "set-cookie", cookie);
-          }
-        },
-      }
-    );
-
-    storage.set(data);
+    await $fetch<{ data: AuthenticationData }>("/auth/refresh", {
+      baseURL: config.baseUrl,
+      method: "POST",
+      credentials: "include",
+      body: {
+        mode: "cookie",
+      },
+      headers: {
+        cookie,
+      },
+      onResponse: ({ response }) => {
+        if (response.ok && process.server) {
+          const cookie = response.headers.get("set-cookie") || "";
+          appendHeader(event, "set-cookie", cookie);
+        }
+      },
+    })
+      .then(({ data }) => storage.set(data))
+      .catch(() => storage.clear());
   }
 
   return { login, logout, fetchUser, refresh, storage, loggedIn, user };
