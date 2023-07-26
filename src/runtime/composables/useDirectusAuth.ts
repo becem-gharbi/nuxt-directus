@@ -46,8 +46,6 @@ export default function useDirectusAuth() {
 
       useCookie("directus_access_token", options).value = data?.access_token;
       useCookie("directus_expires").value = data?.expires?.toString();
-      useCookie("directus_expires_at").value = data?.expires_at?.toString();
-      useCookie("directus_refresh_token").value = data?.refresh_token;
     },
   };
 
@@ -55,31 +53,54 @@ export default function useDirectusAuth() {
 
   const client = $directus.with(
     authentication("cookie", {
-      autoRefresh: true,
-      msRefreshBeforeExpires: 3000,
+      autoRefresh: false,
       storage,
     })
   );
 
   async function login(email: string, password: string) {
+    const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
+      baseURL: config.baseUrl,
+      method: "POST",
+      credentials: "include",
+      body: {
+        mode: "cookie",
+        email,
+        password,
+      },
+    });
+
     const route = useRoute();
 
-    return client.login(email, password).then(async () => {
-      const returnToPath = route.query.redirect?.toString();
-      const redirectTo = returnToPath || config.auth.redirect.home;
-      loggedIn.value = true;
-      await fetchUser();
-      return navigateTo(redirectTo);
-    });
+    const returnToPath = route.query.redirect?.toString();
+    const redirectTo = returnToPath || config.auth.redirect.home;
+    loggedIn.value = true;
+
+    await storage.set(data);
+
+    await fetchUser();
+    return navigateTo(redirectTo);
   }
 
   async function logout() {
-    return client.logout().then(async () => {
-      clearNuxtData();
-      loggedIn.value = false;
-      user.value = null;
-      return navigateTo(config.auth.redirect.logout);
+    await $fetch("/auth/logout", {
+      baseURL: config.baseUrl,
+      method: "POST",
+      credentials: "include",
     });
+
+    storage.set({
+      access_token: null,
+      expires: null,
+      expires_at: null,
+      refresh_token: null,
+    });
+
+    clearNuxtData();
+    loggedIn.value = false;
+    user.value = null;
+
+    return navigateTo(config.auth.redirect.logout);
   }
 
   async function fetchUser() {
