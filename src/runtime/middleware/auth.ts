@@ -6,16 +6,16 @@ import {
 } from "#imports";
 
 export default defineNuxtRouteMiddleware((to) => {
-  const config = useRuntimeConfig().public.directus.auth;
+  const config = useRuntimeConfig().public.directus;
 
   if (
-    to.path === config.redirect.login ||
-    to.path === config.redirect.callback
+    to.path === config.auth.redirect.login ||
+    to.path === config.auth.redirect.callback
   ) {
     return;
   }
 
-  if (config.enableGlobalAuthMiddleware === true) {
+  if (config.auth.enableGlobalAuthMiddleware === true) {
     if (to.meta.auth === false) {
       return;
     }
@@ -25,7 +25,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
   if (!loggedIn.value) {
     return navigateTo({
-      path: config.redirect.login,
+      path: config.auth.redirect.login,
       query: { redirect: to.path },
     });
   }

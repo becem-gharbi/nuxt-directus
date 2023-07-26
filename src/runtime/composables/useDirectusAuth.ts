@@ -10,7 +10,7 @@ import {
   clearNuxtData,
 } from "#imports";
 import type { Ref } from "#imports";
-import type { LoginParams, Authentication } from "../types/index";
+import type { LoginParams } from "../types/index";
 import type {
   AuthenticationStorage,
   AuthenticationData,
@@ -27,7 +27,7 @@ export default function useDirectusAuth() {
     () => null
   );
 
-  const config = useRuntimeConfig().public.directus.auth as Authentication;
+  const config = useRuntimeConfig().public.directus;
 
   const storage: AuthenticationStorage = {
     get() {
@@ -65,7 +65,7 @@ export default function useDirectusAuth() {
 
     return client.login(params.email, params.password).then(async () => {
       const returnToPath = route.query.redirect?.toString();
-      const redirectTo = returnToPath || config.redirect.home;
+      const redirectTo = returnToPath || config.auth.redirect.home;
       loggedIn.value = true;
       await fetchUser();
       return navigateTo(redirectTo);
@@ -77,7 +77,7 @@ export default function useDirectusAuth() {
       clearNuxtData();
       loggedIn.value = false;
       user.value = null;
-      return navigateTo(config.redirect.logout);
+      return navigateTo(config.auth.redirect.logout);
     });
   }
 

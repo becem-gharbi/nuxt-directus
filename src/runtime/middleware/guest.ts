@@ -6,11 +6,11 @@ import {
 } from "#imports";
 
 export default defineNuxtRouteMiddleware((to) => {
-  const config = useRuntimeConfig().public.directus.auth;
+  const config = useRuntimeConfig().public.directus;
 
   if (
-    to.path === config.redirect.login ||
-    to.path === config.redirect.callback
+    to.path === config.auth.redirect.login ||
+    to.path === config.auth.redirect.callback
   ) {
     return;
   }
@@ -18,6 +18,6 @@ export default defineNuxtRouteMiddleware((to) => {
   const { loggedIn } = useDirectusAuth();
 
   if (loggedIn.value) {
-    return navigateTo(config.redirect.home);
+    return navigateTo(config.auth.redirect.home);
   }
 });
