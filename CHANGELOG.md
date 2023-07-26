@@ -1,6 +1,59 @@
 # Changelog
 
 
+## v0.1.1-next
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.0.2-next...v0.1.1-next)
+
+### 🚀 Enhancements
+
+- **rest:** Set useDirectusRest as wrapper for request method ([35e9aa6](https://github.com/becem-gharbi/nuxt-directus/commit/35e9aa6))
+- **auth:** Implement login & logout from REST ([45426ad](https://github.com/becem-gharbi/nuxt-directus/commit/45426ad))
+- **auth:** Implement refresh from REST ([531b8e7](https://github.com/becem-gharbi/nuxt-directus/commit/531b8e7))
+- **auth:** Implement custom storage ([0c7b6aa](https://github.com/becem-gharbi/nuxt-directus/commit/0c7b6aa))
+- **auth:** Implement client side auto refresh ([a87b4f9](https://github.com/becem-gharbi/nuxt-directus/commit/a87b4f9))
+- **auth:** Implement universal auto refresh ([82f3032](https://github.com/becem-gharbi/nuxt-directus/commit/82f3032))
+- **auth:** Add loginWithProvider for SSO login ([51c9551](https://github.com/becem-gharbi/nuxt-directus/commit/51c9551))
+
+### 🩹 Fixes
+
+- **auth:** Clear storage of refresh fail ([0e88b8b](https://github.com/becem-gharbi/nuxt-directus/commit/0e88b8b))
+- **auth:** On SSR share access token via vent object ([29d34d9](https://github.com/becem-gharbi/nuxt-directus/commit/29d34d9))
+- **auth:** Update conditions for fetchUser on initilization ([41c489b](https://github.com/becem-gharbi/nuxt-directus/commit/41c489b))
+- **auth:** Add delay between login & fetchUser to insure access token cookie is set ([ceb9791](https://github.com/becem-gharbi/nuxt-directus/commit/ceb9791))
+
+### 💅 Refactors
+
+- Insure config variable always refer to module options ([5218e10](https://github.com/becem-gharbi/nuxt-directus/commit/5218e10))
+- **init plugin:** Remove unnecessary useInitialized method ([4fc44a9](https://github.com/becem-gharbi/nuxt-directus/commit/4fc44a9))
+- Remove useDirectus as it might be misleading ([90da8bb](https://github.com/becem-gharbi/nuxt-directus/commit/90da8bb))
+- **auth:** Update login signature to match sdk ([061b43a](https://github.com/becem-gharbi/nuxt-directus/commit/061b43a))
+- Add accessTokenCookieName config option ([03fef2c](https://github.com/becem-gharbi/nuxt-directus/commit/03fef2c))
+- Add msRefreshBeforeExpires config option to account for network latency ([9e63941](https://github.com/becem-gharbi/nuxt-directus/commit/9e63941))
+
+### 📖 Documentation
+
+- Update todos list ([fef5051](https://github.com/becem-gharbi/nuxt-directus/commit/fef5051))
+- **readme:** Remove new sdk beta warning ([964cf20](https://github.com/becem-gharbi/nuxt-directus/commit/964cf20))
+- **readme:** Update Todos & config options ([88c4e85](https://github.com/becem-gharbi/nuxt-directus/commit/88c4e85))
+- **readme:** Update new sdk url ([5e10844](https://github.com/becem-gharbi/nuxt-directus/commit/5e10844))
+
+### 🌊 Types
+
+- Add $directus helper type ([e8460e6](https://github.com/becem-gharbi/nuxt-directus/commit/e8460e6))
+- Rename MyDirectusTypes to DirectusSchema, check readme ([176509a](https://github.com/becem-gharbi/nuxt-directus/commit/176509a))
+- Update AuthStorage type definition ([9102f78](https://github.com/becem-gharbi/nuxt-directus/commit/9102f78))
+
+### 🏡 Chore
+
+- Upgrade to latest @directus/sdk ([234d7dc](https://github.com/becem-gharbi/nuxt-directus/commit/234d7dc))
+- **demo:** Test schema type injection ([9edfcd9](https://github.com/becem-gharbi/nuxt-directus/commit/9edfcd9))
+- **demo:** Test auth ([5951d57](https://github.com/becem-gharbi/nuxt-directus/commit/5951d57))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.0.2-next
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.0.1-next...v0.0.2-next)
