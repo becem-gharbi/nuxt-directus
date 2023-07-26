@@ -17,6 +17,6 @@ definePageMeta({ middleware: "auth" })
 
 const { logout, user } = useDirectusAuth()
 
-const { data: books, refresh } = useAsyncData("books", () => useDirectusRest().request(readItems("book")))
+const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
 
 </script>

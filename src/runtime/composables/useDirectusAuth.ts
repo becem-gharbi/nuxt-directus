@@ -83,7 +83,7 @@ export default function useDirectusAuth() {
 
   async function fetchUser() {
     //@ts-ignore
-    user.value = await useDirectusRest().request(readMe());
+    user.value = await useDirectusRest(readMe());
   }
 
   async function refresh() {
