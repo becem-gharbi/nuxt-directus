@@ -1,4 +1,5 @@
-import type { CustomDirectusTypes } from "./types";
+import { CustomDirectusTypes } from "./types";
+
 declare global {
-  type MyDirectusTypes = CustomDirectusTypes;
+  interface DirectusSchema extends CustomDirectusTypes {}
 }

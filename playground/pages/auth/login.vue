@@ -1,7 +1,8 @@
 <template>
     <div>
         <h1>Login</h1>
-        <button @click="handleLogin">Login</button>
+        <button @click="login('tester@test.com', 'test123')">Login</button>
+        <button @click="loginWithProvider('google')">Login with google</button>
     </div>
 </template>
 
@@ -9,9 +10,5 @@
 
 definePageMeta({ middleware: "guest" })
 
-const { login } = useDirectusAuth()
-
-async function handleLogin() {
-    await login("tester@test.com", "test123")
-}
+const { login, loginWithProvider } = useDirectusAuth()
 </script>

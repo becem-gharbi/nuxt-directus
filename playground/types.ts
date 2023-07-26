@@ -1,3 +1,22 @@
+export type PrismaMigrations = {
+  applied_steps_count: number;
+  checksum: string;
+  finished_at?: string | null;
+  id: string;
+  logs?: string | null;
+  migration_name: string;
+  rolled_back_at?: string | null;
+  started_at: string;
+};
+
+export type Book = {
+  author?: string | null;
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: number;
+  name?: string | null;
+};
+
 export type DirectusActivity = {
   action: string;
   collection: string;
@@ -26,6 +45,7 @@ export type DirectusCollections = {
   icon?: string | null;
   item_duplication_fields?: unknown | null;
   note?: string | null;
+  preview_url?: string | null;
   singleton: boolean;
   sort?: number | null;
   sort_field?: string | null;
@@ -179,7 +199,7 @@ export type DirectusPresets = {
   collection?: string | null;
   color?: string | null;
   filter?: unknown | null;
-  icon: string;
+  icon?: string | null;
   id: number;
   layout?: string | null;
   layout_options?: unknown | null;
@@ -256,7 +276,6 @@ export type DirectusSettings = {
   storage_asset_presets?: unknown | null;
   storage_asset_transform?: string | null;
   storage_default_folder?: string | DirectusFolders | null;
-  translation_strings?: unknown | null;
 };
 
 export type DirectusShares = {
@@ -274,6 +293,13 @@ export type DirectusShares = {
   user_created?: string | DirectusUsers | null;
 };
 
+export type DirectusTranslations = {
+  id: string;
+  key: string;
+  language: string;
+  value: string;
+};
+
 export type DirectusUsers = {
   auth_data?: unknown | null;
   avatar?: string | DirectusFiles | null;
@@ -281,7 +307,6 @@ export type DirectusUsers = {
   email?: string | null;
   email_notifications?: boolean | null;
   external_identifier?: string | null;
-  favorites?: any[] | Favorites[] | null;
   first_name?: string | null;
   id: string;
   language?: string | null;
@@ -312,16 +337,9 @@ export type DirectusWebhooks = {
   url: string;
 };
 
-export type Favorites = {
-  date_created?: string | null;
-  date_updated?: string | null;
-  id: number;
-  title?: string | null;
-  user?: string | DirectusUsers | null;
-  user_created?: string | DirectusUsers | null;
-};
-
 export type CustomDirectusTypes = {
+  _prisma_migrations: PrismaMigrations;
+  book: Book;
   directus_activity: DirectusActivity;
   directus_collections: DirectusCollections;
   directus_dashboards: DirectusDashboards;
@@ -341,7 +359,7 @@ export type CustomDirectusTypes = {
   directus_sessions: DirectusSessions;
   directus_settings: DirectusSettings;
   directus_shares: DirectusShares;
+  directus_translations: DirectusTranslations;
   directus_users: DirectusUsers;
   directus_webhooks: DirectusWebhooks;
-  favorites: Favorites;
 };

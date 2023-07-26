@@ -36,5 +36,7 @@ export default defineNuxtPlugin(async () => {
     if (refresh_token || process.client) {
       await fetchUser();
     }
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
 });

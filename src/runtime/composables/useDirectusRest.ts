@@ -5,6 +5,8 @@ import type { RestCommand } from "@directus/sdk";
 export default async function useDirectusRest(
   options: RestCommand<object, DirectusSchema>
 ): Promise<object> {
+  const { $directus } = useNuxtApp();
+
   const { storage, refresh } = useDirectusAuth();
 
   const { access_token, refresh_token } = storage.get();
@@ -12,8 +14,6 @@ export default async function useDirectusRest(
   if (!access_token && (refresh_token || process.client)) {
     await refresh();
   }
-
-  const { $directus } = useNuxtApp();
 
   return $directus
     .with(

@@ -10,6 +10,7 @@ import {
   useRequestEvent,
   useRequestHeaders,
 } from "#imports";
+import { joinURL, withQuery } from "ufo";
 import { appendHeader, getCookie, setCookie } from "h3";
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
@@ -18,18 +19,9 @@ import type { AuthStorage } from "../types";
 export default function useDirectusAuth() {
   const event = useRequestEvent();
 
-  const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
-    useCookie("directus_access_token").value ? true : false
-  );
-
-  const user: Ref<DirectusUser<never> | null> = useState(
-    "directus-user",
-    () => null
-  );
-
-  const config = useRuntimeConfig().public.directus;
-
   const storage: AuthStorage = {
+    _temp: "",
+
     get() {
       function _getCookie(name: string) {
         if (process.server) {
@@ -38,7 +30,7 @@ export default function useDirectusAuth() {
         return useCookie(name).value;
       }
       return {
-        access_token: _getCookie("directus_access_token") || "",
+        access_token: _getCookie("directus_access_token") || this._temp,
         refresh_token: _getCookie("directus_refresh_token") || "",
       };
     },
@@ -48,7 +40,9 @@ export default function useDirectusAuth() {
       const name = "directus_access_token";
 
       if (process.server) {
-        setCookie(event, name, data.access_token || "", {
+        this._temp = data.access_token || "";
+
+        setCookie(event, name, this._temp, {
           sameSite: "lax",
           secure: true,
           maxAge,
@@ -72,6 +66,13 @@ export default function useDirectusAuth() {
     },
   };
 
+  const user: Ref<DirectusUser<never> | null> = useState(
+    "directus-user",
+    () => null
+  );
+
+  const config = useRuntimeConfig().public.directus;
+
   async function login(email: string, password: string) {
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
       baseURL: config.baseUrl,
@@ -88,7 +89,6 @@ export default function useDirectusAuth() {
 
     const returnToPath = route.query.redirect?.toString();
     const redirectTo = returnToPath || config.auth.redirect.home;
-    loggedIn.value = true;
 
     storage.set(data);
 
@@ -106,7 +106,6 @@ export default function useDirectusAuth() {
     storage.clear();
 
     clearNuxtData();
-    loggedIn.value = false;
     user.value = null;
 
     return navigateTo(config.auth.redirect.logout);
@@ -114,6 +113,7 @@ export default function useDirectusAuth() {
 
   async function fetchUser() {
     //@ts-ignore
+
     user.value = await useDirectusRest(readMe());
   }
 
@@ -141,5 +141,36 @@ export default function useDirectusAuth() {
       .catch(() => storage.clear());
   }
 
-  return { login, logout, fetchUser, refresh, storage, loggedIn, user };
+  async function loginWithProvider(provider: string) {
+    const route = useRoute();
+
+    const returnToPath = route.query.redirect?.toString();
+
+    let redirectUrl = joinURL(
+      config.nuxtBaseUrl,
+      config.auth.redirect.callback
+    );
+
+    if (returnToPath) {
+      redirectUrl = withQuery(redirectUrl, { redirect: returnToPath });
+    }
+
+    if (process.client) {
+      const url = withQuery(joinURL(config.baseUrl, "/auth/login", provider), {
+        redirect: redirectUrl,
+      });
+
+      window.location.replace(url);
+    }
+  }
+
+  return {
+    login,
+    logout,
+    fetchUser,
+    refresh,
+    loginWithProvider,
+    storage,
+    user,
+  };
 }

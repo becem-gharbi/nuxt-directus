@@ -15,9 +15,10 @@ export default defineNuxtRouteMiddleware((to) => {
     return;
   }
 
-  const { loggedIn } = useDirectusAuth();
+  const { storage } = useDirectusAuth();
+  const { access_token } = storage.get();
 
-  if (loggedIn.value) {
+  if (access_token) {
     return navigateTo(config.auth.redirect.home);
   }
 });

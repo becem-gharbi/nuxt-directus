@@ -8,6 +8,10 @@ interface AuthStorageData {
 }
 
 export interface AuthStorage {
+  /**
+   * Holds access token in-memory for server-side usage
+   */
+  _temp: string | null;
   get: () => AuthStorageData;
   set: (data: AuthStorageData) => void;
   clear: () => void;
