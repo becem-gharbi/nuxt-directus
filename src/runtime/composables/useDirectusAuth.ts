@@ -56,12 +56,11 @@ export default function useDirectusAuth() {
           }
         );
       } else {
-        const cookie = useCookie(config.auth.accessTokenCookieName, {
+        useCookie(config.auth.accessTokenCookieName, {
           sameSite: "lax",
           secure: true,
           maxAge,
-        });
-        cookie.value = data.access_token;
+        }).value = data.access_token;
       }
     },
 
@@ -92,8 +91,11 @@ export default function useDirectusAuth() {
 
     storage.set(data);
 
-    await fetchUser();
-    return navigateTo(redirectTo);
+    // A workaround to insure access token cookie is set
+    setTimeout(async () => {
+      await fetchUser();
+      return navigateTo(redirectTo);
+    }, 100);
   }
 
   async function logout() {
