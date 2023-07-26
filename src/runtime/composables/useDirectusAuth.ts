@@ -56,7 +56,6 @@ export default function useDirectusAuth() {
       this.set({
         access_token: null,
         expires: null,
-        refresh_token: null,
       });
     },
   };
@@ -108,7 +107,6 @@ export default function useDirectusAuth() {
 
   async function fetchUser() {
     //@ts-ignore
-
     user.value = await useDirectusRest(readMe());
   }
 

@@ -3,12 +3,11 @@ export * from "./modules";
 
 interface AuthStorageData {
   access_token: string | null | undefined;
-  expires?: number | null;
-  refresh_token?: string | null;
+  refresh_token: string | null | undefined;
 }
 
 export interface AuthStorage {
   get: () => AuthStorageData;
-  set: (data: AuthStorageData) => void;
+  set: ({ access_token: string, expires: number }) => void;
   clear: () => void;
 }
