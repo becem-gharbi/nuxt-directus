@@ -13,7 +13,6 @@ This is a rebuild of the module based on the [new Directus SDK](https://github.c
 - ✔️ `fetch` over `axios` for portability
 - ✔️ Built-in realtime support
 
-_Currently the new Directus SDK is in Beta stage, thus not ready for production use_
 
 ## Todos
 
