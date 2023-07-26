@@ -30,13 +30,12 @@ export default defineNuxtPlugin(async () => {
 
     initialized.value = true;
 
-    const refreshToken = useCookie("directus_refresh_token");
+    const { fetchUser, refresh, storage } = useDirectusAuth();
 
-    if (refreshToken.value || process.client) {
-      const { fetchUser, refresh } = useDirectusAuth();
+    const refreshToken = storage.get().refresh_token;
 
+    if (refreshToken || process.client) {
       await refresh();
-
       await fetchUser();
     }
   } catch (error) {

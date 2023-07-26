@@ -9,11 +9,8 @@ import {
   clearNuxtData,
 } from "#imports";
 import type { Ref } from "#imports";
-import type {
-  AuthenticationStorage,
-  AuthenticationData,
-  DirectusUser,
-} from "@directus/sdk";
+import type { AuthenticationData, DirectusUser } from "@directus/sdk";
+import type { AuthStorage } from "../types";
 
 export default function useDirectusAuth() {
   const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
@@ -27,24 +24,26 @@ export default function useDirectusAuth() {
 
   const config = useRuntimeConfig().public.directus;
 
-  const storage: AuthenticationStorage = {
+  const storage: AuthStorage = {
     get() {
-      const data: AuthenticationData = {
+      return {
         access_token: useCookie("directus_access_token").value || "",
-        expires: parseInt(useCookie("directus_expires").value || ""),
-        expires_at: parseInt(useCookie("directus_expires_at").value || ""),
         refresh_token: useCookie("directus_refresh_token").value || "",
       };
-
-      return data;
     },
 
     set(data) {
       const maxAge = data?.expires && data.expires / 1000;
       const options = maxAge ? { maxAge } : {};
-
       useCookie("directus_access_token", options).value = data?.access_token;
-      useCookie("directus_expires").value = data?.expires?.toString();
+    },
+
+    clear() {
+      this.set({
+        access_token: null,
+        expires: null,
+        refresh_token: null,
+      });
     },
   };
 
@@ -66,7 +65,7 @@ export default function useDirectusAuth() {
     const redirectTo = returnToPath || config.auth.redirect.home;
     loggedIn.value = true;
 
-    await storage.set(data);
+    storage.set(data);
 
     await fetchUser();
     return navigateTo(redirectTo);
@@ -79,12 +78,7 @@ export default function useDirectusAuth() {
       credentials: "include",
     });
 
-    storage.set({
-      access_token: null,
-      expires: null,
-      expires_at: null,
-      refresh_token: null,
-    });
+    storage.clear();
 
     clearNuxtData();
     loggedIn.value = false;
@@ -111,8 +105,8 @@ export default function useDirectusAuth() {
       }
     );
 
-    await storage.set(data);
+    storage.set(data);
   }
 
-  return { login, logout, fetchUser, refresh, loggedIn, user };
+  return { login, logout, fetchUser, refresh, storage, loggedIn, user };
 }

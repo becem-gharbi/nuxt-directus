@@ -1,11 +1,13 @@
 import { rest } from "@directus/sdk";
-import { useCookie, useNuxtApp } from "#imports";
+import { useCookie, useNuxtApp, useDirectusAuth } from "#imports";
 import type { RestCommand } from "@directus/sdk";
 
 export default function useDirectusRest(
   options: RestCommand<object, DirectusSchema>
 ): Promise<object> {
-  const accessToken = useCookie("directus_access_token");
+  const { storage } = useDirectusAuth();
+
+  const accessToken = storage.get().access_token;
 
   const { $directus } = useNuxtApp();
 
@@ -13,10 +15,10 @@ export default function useDirectusRest(
     .with(
       rest({
         onRequest(request) {
-          if (accessToken.value) {
+          if (accessToken) {
             request.headers = {
               ...request.headers,
-              authorization: `Bearer ${accessToken.value}`,
+              authorization: `Bearer ${accessToken}`,
             };
           }
 
