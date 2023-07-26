@@ -1,5 +1,5 @@
 import { rest } from "@directus/sdk";
-import { useCookie, useDirectus } from "#imports";
+import { useCookie, useNuxtApp } from "#imports";
 import type { RestCommand } from "@directus/sdk";
 
 export default function useDirectusRest(
@@ -7,7 +7,9 @@ export default function useDirectusRest(
 ): Promise<object> {
   const accessToken = useCookie("directus_access_token");
 
-  return useDirectus()
+  const { $directus } = useNuxtApp();
+
+  return $directus
     .with(
       rest({
         onRequest(request) {

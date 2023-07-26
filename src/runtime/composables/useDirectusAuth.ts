@@ -3,11 +3,11 @@ import {
   useCookie,
   useState,
   useRuntimeConfig,
-  useDirectus,
   useDirectusRest,
   useRoute,
   navigateTo,
   clearNuxtData,
+  useNuxtApp,
 } from "#imports";
 import type { Ref } from "#imports";
 import type { LoginParams } from "../types/index";
@@ -52,7 +52,9 @@ export default function useDirectusAuth() {
     },
   };
 
-  const client = useDirectus().with(
+  const { $directus } = useNuxtApp();
+
+  const client = $directus.with(
     authentication("json", {
       autoRefresh: true,
       msRefreshBeforeExpires: 3000,
