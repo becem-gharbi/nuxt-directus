@@ -5,7 +5,7 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-This is a rebuild of the module based on the [new Directus SDK](https://github.com/directus/directus/tree/sdk-revamp/sdk) providing performance & DX improvements
+This is a rebuild of the module based on the [new Directus SDK](https://github.com/directus/directus/tree/main/sdk) providing performance & DX improvements
 
 - ✔️ Typescript first
 - ✔️ Lightweight & dependency free
