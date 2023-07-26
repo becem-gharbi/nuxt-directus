@@ -4,6 +4,7 @@ import {
   useRuntimeConfig,
   useState,
   useDirectusAuth,
+  useRoute,
 } from "#imports";
 import common from "./middleware/common";
 import auth from "./middleware/auth";
@@ -31,9 +32,15 @@ export default defineNuxtPlugin(async () => {
 
     const { fetchUser, storage } = useDirectusAuth();
 
-    const { refresh_token } = storage.get();
+    const { refresh_token, access_token } = storage.get();
 
-    if (refresh_token || process.client) {
+    const { path } = useRoute();
+
+    if (
+      refresh_token ||
+      access_token ||
+      path === config.auth.redirect.callback
+    ) {
       await fetchUser();
     }
   } catch (e) {
