@@ -7,9 +7,10 @@ interface Realtime {}
 interface Authentication {
   staticToken?: string;
   defaultRoleId?: string;
-  enableGlobalAuthMiddleware?: boolean;
-  userFields?: string[];
-  refreshTokenCookieName?: string;
+  enableGlobalAuthMiddleware: boolean;
+  userFields: string[];
+  refreshTokenCookieName: string;
+  accessTokenCookieName: string;
   redirect: {
     login: string;
     logout: string;
@@ -22,8 +23,8 @@ interface Authentication {
 export interface PublicConfig {
   baseUrl: string;
   nuxtBaseUrl: string;
-  rest?: Rest;
-  auth?: Authentication;
-  graphql?: Graphql;
-  realtime?: Realtime;
+  rest: Rest;
+  auth: Authentication;
+  graphql: Graphql;
+  realtime: Realtime;
 }

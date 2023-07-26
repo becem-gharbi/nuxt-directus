@@ -14,36 +14,47 @@ import { joinURL, withQuery } from "ufo";
 import { appendHeader, getCookie, setCookie } from "h3";
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
-import type { AuthStorage } from "../types";
+import type { AuthStorage, PublicConfig } from "../types";
 
 export default function useDirectusAuth() {
   const event = useRequestEvent();
+
+  const user: Ref<DirectusUser<never> | null> = useState(
+    "directus-user",
+    () => null
+  );
+
+  const config = useRuntimeConfig().public.directus as PublicConfig;
 
   const storage: AuthStorage = {
     get() {
       return {
         access_token: process.server
           ? event?.context?.access_token
-          : useCookie("directus_access_token").value,
+          : useCookie(config.auth.accessTokenCookieName).value,
         refresh_token: process.server
-          ? getCookie(event, "directus_refresh_token")
+          ? getCookie(event, config.auth.refreshTokenCookieName)
           : undefined,
       };
     },
 
     set(data) {
       const maxAge = data?.expires ? data.expires / 1000 : undefined;
-      const name = "directus_access_token";
 
       if (process.server) {
         event.context.access_token = data.access_token || "";
-        setCookie(event, name, event.context.access_token, {
-          sameSite: "lax",
-          secure: true,
-          maxAge,
-        });
+        setCookie(
+          event,
+          config.auth.accessTokenCookieName,
+          event.context.access_token,
+          {
+            sameSite: "lax",
+            secure: true,
+            maxAge,
+          }
+        );
       } else {
-        const cookie = useCookie(name, {
+        const cookie = useCookie(config.auth.accessTokenCookieName, {
           sameSite: "lax",
           secure: true,
           maxAge,
@@ -59,13 +70,6 @@ export default function useDirectusAuth() {
       });
     },
   };
-
-  const user: Ref<DirectusUser<never> | null> = useState(
-    "directus-user",
-    () => null
-  );
-
-  const config = useRuntimeConfig().public.directus;
 
   async function login(email: string, password: string) {
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
