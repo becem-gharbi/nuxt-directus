@@ -12,6 +12,6 @@ definePageMeta({ middleware: "guest" })
 const { login } = useDirectusAuth()
 
 async function handleLogin() {
-    await login({ email: "tester@test.com", password: "test123" })
+    await login("tester@test.com", "test123")
 }
 </script>

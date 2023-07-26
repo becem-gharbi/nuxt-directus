@@ -10,7 +10,6 @@ import {
   useNuxtApp,
 } from "#imports";
 import type { Ref } from "#imports";
-import type { LoginParams } from "../types/index";
 import type {
   AuthenticationStorage,
   AuthenticationData,
@@ -55,17 +54,17 @@ export default function useDirectusAuth() {
   const { $directus } = useNuxtApp();
 
   const client = $directus.with(
-    authentication("json", {
+    authentication("cookie", {
       autoRefresh: true,
       msRefreshBeforeExpires: 3000,
       storage,
     })
   );
 
-  async function login(params: LoginParams) {
+  async function login(email: string, password: string) {
     const route = useRoute();
 
-    return client.login(params.email, params.password).then(async () => {
+    return client.login(email, password).then(async () => {
       const returnToPath = route.query.redirect?.toString();
       const redirectTo = returnToPath || config.auth.redirect.home;
       loggedIn.value = true;
