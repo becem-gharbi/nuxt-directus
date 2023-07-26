@@ -20,18 +20,14 @@ export default function useDirectusAuth() {
   const event = useRequestEvent();
 
   const storage: AuthStorage = {
-    _temp: "",
-
     get() {
-      function _getCookie(name: string) {
-        if (process.server) {
-          return getCookie(event, name);
-        }
-        return useCookie(name).value;
-      }
       return {
-        access_token: _getCookie("directus_access_token") || this._temp,
-        refresh_token: _getCookie("directus_refresh_token") || "",
+        access_token: process.server
+          ? event?.context?.access_token
+          : useCookie("directus_access_token").value,
+        refresh_token: process.server
+          ? getCookie(event, "directus_refresh_token")
+          : undefined,
       };
     },
 
@@ -40,9 +36,8 @@ export default function useDirectusAuth() {
       const name = "directus_access_token";
 
       if (process.server) {
-        this._temp = data.access_token || "";
-
-        setCookie(event, name, this._temp, {
+        event.context.access_token = data.access_token || "";
+        setCookie(event, name, event.context.access_token, {
           sameSite: "lax",
           secure: true,
           maxAge,
