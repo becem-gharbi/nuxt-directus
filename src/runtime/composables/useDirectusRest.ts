@@ -9,10 +9,8 @@ export default async function useDirectusRest(
 
   const { access_token, refresh_token } = storage.get();
 
-  if (refresh_token || process.client) {
-    if (!access_token) {
-      await refresh();
-    }
+  if (!access_token && (refresh_token || process.client)) {
+    await refresh();
   }
 
   const { $directus } = useNuxtApp();

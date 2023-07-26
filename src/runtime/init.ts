@@ -29,11 +29,12 @@ export default defineNuxtPlugin(async () => {
 
     initialized.value = true;
 
-    const { fetchUser, storage } = useDirectusAuth();
+    const { fetchUser, refresh, storage } = useDirectusAuth();
 
     const { refresh_token } = storage.get();
 
     if (refresh_token || process.client) {
+      await refresh();
       await fetchUser();
     }
   } catch (error) {

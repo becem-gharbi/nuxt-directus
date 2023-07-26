@@ -7,12 +7,17 @@ import {
   useRoute,
   navigateTo,
   clearNuxtData,
+  useRequestEvent,
+  useRequestHeaders,
 } from "#imports";
+import { appendHeader, getCookie, setCookie } from "h3";
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
 import type { AuthStorage } from "../types";
 
 export default function useDirectusAuth() {
+  const event = useRequestEvent();
+
   const loggedIn: Ref<boolean> = useState("directus-logged-in", () =>
     useCookie("directus_access_token").value ? true : false
   );
@@ -26,16 +31,37 @@ export default function useDirectusAuth() {
 
   const storage: AuthStorage = {
     get() {
+      function _getCookie(name: string) {
+        if (process.server) {
+          return getCookie(event, name);
+        }
+        return useCookie(name).value;
+      }
       return {
-        access_token: useCookie("directus_access_token").value || "",
-        refresh_token: useCookie("directus_refresh_token").value || "",
+        access_token: _getCookie("directus_access_token") || "",
+        refresh_token: _getCookie("directus_refresh_token") || "",
       };
     },
 
     set(data) {
-      const maxAge = data?.expires && data.expires / 1000;
-      const options = maxAge ? { maxAge } : {};
-      useCookie("directus_access_token", options).value = data?.access_token;
+      const maxAge = data?.expires ? data.expires / 1000 : undefined;
+      const value = data.access_token || "";
+      const name = "directus_access_token";
+
+      if (process.server) {
+        setCookie(event, name, value, {
+          sameSite: "lax",
+          secure: true,
+          maxAge,
+        });
+      } else {
+        const cookie = useCookie(name, {
+          sameSite: "lax",
+          secure: true,
+          maxAge,
+        });
+        cookie.value = value;
+      }
     },
 
     clear() {
@@ -93,6 +119,8 @@ export default function useDirectusAuth() {
   }
 
   async function refresh() {
+    const cookie = useRequestHeaders(["cookie"]).cookie || "";
+
     const { data } = await $fetch<{ data: AuthenticationData }>(
       "/auth/refresh",
       {
@@ -101,6 +129,15 @@ export default function useDirectusAuth() {
         credentials: "include",
         body: {
           mode: "cookie",
+        },
+        headers: {
+          cookie,
+        },
+        onResponse: ({ response }) => {
+          if (response.ok && process.server) {
+            const cookie = response.headers.get("set-cookie") || "";
+            appendHeader(event, "set-cookie", cookie);
+          }
         },
       }
     );
