@@ -13,13 +13,12 @@ This is a rebuild of the module based on the [new Directus SDK](https://github.c
 - ✔️ `fetch` over `axios` for portability
 - ✔️ Built-in realtime support
 
-_Currently the new Directus SDK is in Beta stage, thus not ready for production use_
 
 ## Todos
 
 - [x] Add a plugin to create a Directus client
 - [x] Provide `$directus` helper to expose Directus client
-- [ ] Add authentication composable & page middlewares
+- [x] Add authentication composable & page middlewares
 - [ ] Handle universal refresh of access token with cookie storage
 - [ ] Consider auto import of `@directus/sdk` APIs
 - [ ] Consider the usage of `$fetch` over `fetch` for transport
