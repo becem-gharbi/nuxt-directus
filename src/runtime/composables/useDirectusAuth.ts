@@ -1,4 +1,4 @@
-import { authentication, readMe } from "@directus/sdk";
+import { readMe } from "@directus/sdk";
 import {
   useCookie,
   useState,
@@ -7,7 +7,6 @@ import {
   useRoute,
   navigateTo,
   clearNuxtData,
-  useNuxtApp,
 } from "#imports";
 import type { Ref } from "#imports";
 import type {
@@ -48,15 +47,6 @@ export default function useDirectusAuth() {
       useCookie("directus_expires").value = data?.expires?.toString();
     },
   };
-
-  const { $directus } = useNuxtApp();
-
-  const client = $directus.with(
-    authentication("cookie", {
-      autoRefresh: false,
-      storage,
-    })
-  );
 
   async function login(email: string, password: string) {
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
@@ -109,7 +99,19 @@ export default function useDirectusAuth() {
   }
 
   async function refresh() {
-    return client.refresh();
+    const { data } = await $fetch<{ data: AuthenticationData }>(
+      "/auth/refresh",
+      {
+        baseURL: config.baseUrl,
+        method: "POST",
+        credentials: "include",
+        body: {
+          mode: "cookie",
+        },
+      }
+    );
+
+    await storage.set(data);
   }
 
   return { login, logout, fetchUser, refresh, loggedIn, user };
