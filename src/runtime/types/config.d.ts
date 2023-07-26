@@ -11,6 +11,7 @@ interface Authentication {
   userFields: string[];
   refreshTokenCookieName: string;
   accessTokenCookieName: string;
+  msRefreshBeforeExpires: number;
   redirect: {
     login: string;
     logout: string;

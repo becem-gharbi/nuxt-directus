@@ -39,7 +39,9 @@ export default function useDirectusAuth() {
     },
 
     set(data) {
-      const maxAge = data?.expires ? data.expires / 1000 : undefined;
+      const maxAge = data?.expires
+        ? (data.expires - config.auth.msRefreshBeforeExpires) / 1000
+        : undefined;
 
       if (process.server) {
         event.context.access_token = data.access_token || "";
