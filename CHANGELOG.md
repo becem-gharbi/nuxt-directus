@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v1.0.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.7...v1.0.1)
+
+### 🩹 Fixes
+
+- Redirect to loggedOut or logout path on refresh failed ([8b38148](https://github.com/becem-gharbi/nuxt-directus/commit/8b38148))
+
+### 📖 Documentation
+
+- Update README.md ([510dee2](https://github.com/becem-gharbi/nuxt-directus/commit/510dee2))
+- Add note on version change ([21ccef2](https://github.com/becem-gharbi/nuxt-directus/commit/21ccef2))
+- Add loggedOut redirect config option ([d033a40](https://github.com/becem-gharbi/nuxt-directus/commit/d033a40))
+- Remove badges ([613baf7](https://github.com/becem-gharbi/nuxt-directus/commit/613baf7))
+
+### 🏡 Chore
+
+- **demo:** Upgrade dependencies ([0fac7b8](https://github.com/becem-gharbi/nuxt-directus/commit/0fac7b8))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v0.1.7
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.6...v0.1.7)
