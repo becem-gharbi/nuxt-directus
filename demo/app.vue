@@ -2,9 +2,11 @@
   <NaiveConfig :theme-config="themeConfig">
     <n-message-provider>
 
-      <NaiveColorModeSwitch />
+      <div class="flex gap-4 m-4 px-4 shadow-sm">
+        <NaiveColorModeSwitch />
+        <p>{{ dependencies["@bg-dev/nuxt-directus"] }}</p>
+      </div>
 
-      <p>{{ dependencies["@bg-dev/nuxt-directus"] }}</p>
 
       <NuxtPage />
 

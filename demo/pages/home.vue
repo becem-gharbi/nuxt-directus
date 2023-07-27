@@ -1,7 +1,6 @@
 <template>
     <NuxtLayout>
         <UserCard></UserCard>
-        <hr>
     </NuxtLayout>
 </template>
 
@@ -12,6 +11,4 @@ definePageMeta({
     middleware: "auth",
     layout: "auth"
 })
-
-const { data: books } = useAsyncData(() => useDirectusRest(readItems("book", { fields: ["author"] })))
 </script>
