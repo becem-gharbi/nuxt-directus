@@ -96,7 +96,17 @@ export default defineNuxtPlugin(async () => {
         },
       })
         .then(() => transportResponse)
-        .catch((error) => {
+        .catch(async (error) => {
+          if (path === "/auth/refresh" && method === "POST") {
+            clearNuxtState("nuxt_directus_auth_user");
+
+            const { logout, loggedOut } = publicConfig.auth.redirect;
+
+            await navigateTo(loggedOut || logout);
+
+            throw new Error("refresh failed, you've been logged out");
+          }
+
           throw new TransportError<T>(error, {
             raw: error.data,
             errors: error.data["errors"],

@@ -15,7 +15,7 @@ const { login, requestPasswordReset, loginWithProvider } = useDirectusAuth()
 
 
 async function handleLogin() {
-    const { data, error } = await login({ email: "becem.gharbi@live.com", password: "Becem96" })
+    const { data, error } = await login({ email: "tester@test.com", password: "test123" })
     console.log("data ", data.value?.access_token)
     console.log("error", error.value?.errors[0].message)
 }

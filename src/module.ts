@@ -23,6 +23,7 @@ export interface ModuleOptions {
     redirect: {
       login: string;
       logout: string;
+      loggedOut?: string;
       home: string;
       callback: string;
       resetPassword: string;
@@ -50,6 +51,7 @@ export default defineNuxtModule<ModuleOptions>({
       userFields: [],
       refreshTokenCookieName: "directus_refresh_token",
       redirect: {
+        loggedOut: "",
         home: "/home",
         login: "/auth/login",
         logout: "/auth/login",
@@ -60,9 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   setup(options, nuxt) {
     if (!options.baseUrl) {
-      logger.warn(
-        `[${name}] Please make sure to set Directus baseUrl`
-      );
+      logger.warn(`[${name}] Please make sure to set Directus baseUrl`);
     }
 
     if (!options.nuxtBaseUrl) {
