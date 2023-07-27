@@ -9,7 +9,7 @@ A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.co
 
 **IMPORTANT**
 
-_This version `2` is based on the new Directus SDK. The previous version based on the old Directus SDK is `v1`._
+_This version `2` is based on the new Directus SDK. The version based on the old Directus SDK is `v1`._
 
 - ✔️ Typescript first
 - ✔️ Lightweight & dependency free
