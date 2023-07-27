@@ -2,7 +2,6 @@
     <NuxtLayout>
         <UserCard></UserCard>
         <hr>
-        {{ books }}
     </NuxtLayout>
 </template>
 
