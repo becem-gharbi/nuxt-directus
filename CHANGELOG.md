@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.2.1-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.1-next...v0.2.1-beta)
+
+### 📖 Documentation
+
+- Update README ([c4ca636](https://github.com/becem-gharbi/nuxt-directus/commit/c4ca636))
+- Update README ([ac7d686](https://github.com/becem-gharbi/nuxt-directus/commit/ac7d686))
+- Update config options ([6a94705](https://github.com/becem-gharbi/nuxt-directus/commit/6a94705))
+
+### 🏡 Chore
+
+- Bump version to 2 ([d01be5e](https://github.com/becem-gharbi/nuxt-directus/commit/d01be5e))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.1.1-next
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.0.2-next...v0.1.1-next)
