@@ -19,14 +19,14 @@ _This version `2` is based on the new Directus SDK. The version based on the old
 
 ## Todos
 
-- [x] Add a plugin to create a Directus client
-- [x] Provide `$directus` helper to expose Directus client
-- [x] Add authentication composable & page middlewares
-- [x] Handle universal refresh of access token with cookie storage
-- [ ] Add `graphql` composable 
-- [ ] Add `realtime` composable
-- [ ] Consider auto import of `@directus/sdk` APIs
-- [ ] Consider the usage of `$fetch` over `fetch` for transport
+- [x] Add a plugin to create a Directus client.
+- [x] Provide `$directus` helper to expose Directus client.
+- [x] Add authentication composable & page middlewares.
+- [x] Handle universal refresh of access token with cookie storage.
+- [ ] Add `graphql` composable. 
+- [ ] Add `realtime` composable.
+- [ ] Consider auto import of `@directus/sdk` APIs.
+- [ ] Consider the usage of `$fetch` over `fetch` for transport.
 - [ ] Consider usage of realtime APIs with SSR.
 
 ## Installation
