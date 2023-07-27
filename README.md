@@ -5,9 +5,10 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/sdk) into your Nuxt 3 project. 
+A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/sdk) into your Nuxt 3 project.
 
-You can find the new Directus SDK [here](https://github.com/directus/directus/tree/main/sdk). It comes with performance and DX improvements. Meanwhile, a new rebuild of this module is being developed under `next` branch.
+[!IMPORTANT]  
+This version `1` is based on version `10` of Directus SDK, which is no longer supported as indicated by [docs](https://docs.directus.io/reference/old-sdk.html). It will still be maintained, but it's recommended to migrate to version `2` to benefit the features of latest Directus SDK.
 
 ## Features
 
@@ -25,10 +26,10 @@ Add `@bg-dev/nuxt-directus` dependency to your project
 
 ```bash
 # Using npm
-npm install --save-dev @bg-dev/nuxt-directus
+npm install --save-dev @bg-dev/nuxt-directus@1
 
 # Using yarn
-yarn add --dev @bg-dev/nuxt-directus
+yarn add --dev @bg-dev/nuxt-directus@1
 ```
 
 ## Setup
@@ -45,7 +46,7 @@ export default defineNuxtConfig({
     auth: {
       enabled: false,
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
-      userFields: [], // Select user fields 
+      userFields: [], // Select user fields
       refreshTokenCookieName: "directus_refresh_token",
       defaultRoleId: "", // Role id assigned for new registered users
       redirect: {
