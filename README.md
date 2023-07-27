@@ -55,6 +55,7 @@ export default defineNuxtConfig({
         home: "/home", // Path to redirect after successful login
         resetPassword: "/auth/reset-password", // Path to redirect for password reset
         callback: "/auth/callback", // Path to redirect after login with provider
+        loggedOut: "/", // Path to redirect when loggedIn & refresh token is expired
       },
     },
   },
