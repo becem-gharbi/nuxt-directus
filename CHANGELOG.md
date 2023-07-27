@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.0.1-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.2.1-beta...v2.0.1-beta)
+
+### 🏡 Chore
+
+- Bump version to 2 ([3be812a](https://github.com/becem-gharbi/nuxt-directus/commit/3be812a))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v0.2.1-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.1.1-next...v0.2.1-beta)
