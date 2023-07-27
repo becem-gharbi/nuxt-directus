@@ -2,8 +2,9 @@
 
 A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/sdk) into your Nuxt 3 project.
 
-[!IMPORTANT]  
-This version `1` is based on version `10` of Directus SDK, which is no longer supported as indicated by [docs](https://docs.directus.io/reference/old-sdk.html). It will still be maintained, but it's recommended to migrate to version `2` to benefit the features of latest Directus SDK.
+**IMPORTANT**
+
+_This version `1` is based on version `10` of Directus SDK, which is no longer supported as indicated by [docs](https://docs.directus.io/reference/old-sdk.html). It will still be maintained, but it's recommended to migrate to version `2` to benefit the features of latest Directus SDK._
 
 ## Features
 
@@ -50,7 +51,7 @@ export default defineNuxtConfig({
         home: "/home", // Path to redirect after successful login
         resetPassword: "/auth/reset-password", // Path to redirect for password reset
         callback: "/auth/callback", // Path to redirect after login with provider
-        loggedOut: "/", // Path to redirect when loggedIn & refresh token is expired
+        loggedOut: "", // Path to redirect when loggedIn & refresh token is expired
       },
     },
   },
@@ -101,16 +102,6 @@ definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 
 - When auth is enabled, Directus and Nuxt apps SHOULD share the same domain name because cookies's sameSite policy is set to `lax`, in development domain SHOULD be 127.0.0.1 ([issue](https://github.com/unjs/ofetch/issues/156))
 - Refer to [directus docs](https://docs.directus.io/self-hosted/sso.html) for general configuration
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
