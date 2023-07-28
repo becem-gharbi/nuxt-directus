@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <h1>Home</h1>
-        {{ user }}
-        <hr>
-        {{ result }}
-        <hr>
-        <button @click="logout()">Logout</button>
-        <button @click="refresh()">REFRESH</button>
-    </div>
+  <div>
+    <h1>Home</h1>
+    {{ user }}
+    <hr>
+    {{ result }}
+    <hr>
+    <button @click="logout()">Logout</button>
+    <button @click="refetch()">REFRESH</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -19,7 +19,7 @@ const { logout, user } = useDirectusAuth()
 
 const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
 
-const { result } = useQuery(gql`
+const { result, refetch } = useQuery(gql`
 query Book{
   book  {
     id
