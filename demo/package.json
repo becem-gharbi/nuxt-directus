@@ -5,7 +5,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "codegen": "graphql-codegen --watch"
   },
   "devDependencies": {
     "@bg-dev/nuxt-naiveui": "^1.2.2",
@@ -13,6 +14,6 @@
     "nuxt": "3.6.5"
   },
   "dependencies": {
-    "@bg-dev/nuxt-directus": "2.0.1-beta"
+    "@bg-dev/nuxt-directus": "file:../package"
   }
 }

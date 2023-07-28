@@ -5,7 +5,11 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-This is a rebuild of the module based on the [new Directus SDK](https://github.com/directus/directus/tree/main/sdk) providing performance & DX improvements
+A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/directus/tree/main/sdk) into your Nuxt 3 project.
+
+**IMPORTANT**
+
+_This version `2` is based on the new Directus SDK. The version based on the old Directus SDK is `v1` under `version-1` branch._
 
 - ✔️ Typescript first
 - ✔️ Lightweight & dependency free
@@ -15,12 +19,14 @@ This is a rebuild of the module based on the [new Directus SDK](https://github.c
 
 ## Todos
 
-- [x] Add a plugin to create a Directus client
-- [x] Provide `$directus` helper to expose Directus client
-- [x] Add authentication composable & page middlewares
-- [x] Handle universal refresh of access token with cookie storage
-- [ ] Consider auto import of `@directus/sdk` APIs
-- [ ] Consider the usage of `$fetch` over `fetch` for transport
+- [x] Add a plugin to create a Directus client.
+- [x] Provide `$directus` helper to expose Directus client.
+- [x] Add authentication composable & page middlewares.
+- [x] Handle universal refresh of access token with cookie storage.
+- [ ] Add `graphql` composable.
+- [ ] Add `realtime` composable.
+- [ ] Consider auto import of `@directus/sdk` APIs.
+- [ ] Consider the usage of `$fetch` over `fetch` for transport.
 - [ ] Consider usage of realtime APIs with SSR.
 
 ## Installation
@@ -29,10 +35,10 @@ Add `@bg-dev/nuxt-directus` dependency to your project
 
 ```bash
 # Using npm
-npm install --save-dev @bg-dev/nuxt-directus@next
+npm install --save-dev @bg-dev/nuxt-directus
 
 # Using yarn
-yarn add --dev @bg-dev/nuxt-directus@next
+yarn add --dev @bg-dev/nuxt-directus
 ```
 
 ## Setup
@@ -47,13 +53,10 @@ export default defineNuxtConfig({
     baseUrl: "http://127.0.0.1:8055", // Directus app base url
     nuxtBaseUrl: "http://127.0.0.1:3000", // Nuxt app base url
     auth: {
-      enabled: false,
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
-      userFields: [], // Select user fields
       refreshTokenCookieName: "directus_refresh_token",
       accessTokenCookieName: "directus_access_token",
       msRefreshBeforeExpires: 3000,
-      defaultRoleId: "", // Role id assigned for new registered users
       redirect: {
         login: "/auth/login", // Path to redirect when login is required
         logout: "/auth/login", // Path to redirect after logout
