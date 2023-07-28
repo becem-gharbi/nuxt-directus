@@ -5,10 +5,7 @@ interface Graphql {}
 interface Realtime {}
 
 interface Authentication {
-  staticToken?: string;
-  defaultRoleId?: string;
   enableGlobalAuthMiddleware: boolean;
-  userFields: string[];
   refreshTokenCookieName: string;
   accessTokenCookieName: string;
   msRefreshBeforeExpires: number;

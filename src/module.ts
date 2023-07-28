@@ -5,7 +5,9 @@ import {
   createResolver,
   addImportsDir,
   logger,
+  installModule,
 } from "@nuxt/kit";
+import { joinURL } from "ufo";
 import { name, version } from "../package.json";
 import { defu } from "defu";
 import type { PublicConfig } from "./runtime/types";
@@ -31,7 +33,6 @@ export default defineNuxtModule<ModuleOptions>({
     auth: {
       msRefreshBeforeExpires: 3000,
       enableGlobalAuthMiddleware: false,
-      userFields: [],
       refreshTokenCookieName: "directus_refresh_token",
       accessTokenCookieName: "directus_access_token",
       redirect: {
@@ -44,7 +45,7 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
 
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     if (!options.baseUrl) {
       logger.warn(`[${name}] Please make sure to set Directus baseUrl`);
     }
@@ -76,5 +77,19 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.runtimeConfig.public.directus,
       { ...options }
     );
+
+    //Configure @nuxtjs/apollo
+    const httpEndpoint = joinURL(
+      nuxt.options.runtimeConfig.public.directus.baseUrl,
+      "graphql"
+    );
+
+    await installModule("@nuxtjs/apollo", {
+      clients: {
+        default: {
+          httpEndpoint,
+        },
+      },
+    });
   },
 });
