@@ -28,9 +28,5 @@ query GetBook {
 }
 `)
 
-const subQuery = graphql(`
-
-`
-)
 const { result, refetch } = useQuery(query)
 </script>

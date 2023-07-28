@@ -7,7 +7,6 @@ import {
   logger,
   installModule,
 } from "@nuxt/kit";
-import { joinURL, parseURL } from "ufo";
 import { name, version } from "../package.json";
 import { defu } from "defu";
 import type { PublicConfig } from "./runtime/types";
@@ -28,7 +27,10 @@ export default defineNuxtModule<ModuleOptions>({
     baseUrl: "http://127.0.0.1:8055",
     nuxtBaseUrl: "http://127.0.0.1:3000",
     rest: {},
-    graphql: {},
+    graphql: {
+      httpEndpoint: "http://127.0.0.1:8055/graphql",
+      wsEndpoint: "ws://127.0.0.1:8055/graphql",
+    },
     realtime: {},
     auth: {
       msRefreshBeforeExpires: 3000,
@@ -80,20 +82,14 @@ export default defineNuxtModule<ModuleOptions>({
       { ...options }
     );
 
-    //Configure @nuxtjs/apollo
-    const { protocol, host } = parseURL(
-      nuxt.options.runtimeConfig.public.directus.baseUrl
-    );
-
-    const httpEndpoint = protocol + "//" + host + "/graphql";
-    const wsProtocol = protocol === "http:" ? "ws:" : "wss:";
-    const wsEndpoint = wsProtocol + "//" + host + "/graphql";
-
+    // Integrate @nuxtjs/apollo
     await installModule("@nuxtjs/apollo", {
       clients: {
         default: {
-          httpEndpoint,
-          wsEndpoint,
+          httpEndpoint:
+            nuxt.options.runtimeConfig.public.directus.graphql.httpEndpoint,
+          wsEndpoint:
+            nuxt.options.runtimeConfig.public.directus.graphql.wsEndpoint,
         },
       },
     });
