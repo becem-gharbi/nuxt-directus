@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { graphql } from "~/gql"
 import { readItems } from "@directus/sdk"
 
 definePageMeta({ middleware: "auth" })
@@ -19,14 +20,14 @@ const { logout, user } = useDirectusAuth()
 
 const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
 
-const { result, refetch } = useQuery(gql`
-query Book{
-  book  {
+const query = graphql(`
+query GetBook {
+  book {
     id
-     name
-     author
+    name
   }
 }
 `)
 
+const { result, refetch } = useQuery(query)
 </script>
