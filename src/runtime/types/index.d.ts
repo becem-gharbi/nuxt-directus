@@ -1,7 +1,7 @@
 export * from "./config";
 export * from "./modules";
 
-interface AuthStorageData {
+export interface AuthStorageData {
   access_token: string | null | undefined;
   refresh_token: string | null | undefined;
 }

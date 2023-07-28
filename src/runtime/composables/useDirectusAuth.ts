@@ -14,7 +14,7 @@ import { joinURL, withQuery } from "ufo";
 import { appendHeader, getCookie, setCookie } from "h3";
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
-import type { AuthStorage, PublicConfig } from "../types";
+import type { AuthStorage, AuthStorageData, PublicConfig } from "../types";
 
 export default function useDirectusAuth() {
   const event = useRequestEvent();
@@ -165,12 +165,27 @@ export default function useDirectusAuth() {
     }
   }
 
+  /**
+   * 
+   * @returns fresh access token (refreshed if expired)
+   */
+  async function getToken(): Promise<AuthStorageData["access_token"]> {
+    const { access_token, refresh_token } = storage.get();
+
+    if (!access_token && (refresh_token || process.client)) {
+      await refresh();
+    }
+
+    return storage.get().access_token;
+  }
+
   return {
     login,
     logout,
     fetchUser,
     refresh,
     loginWithProvider,
+    getToken,
     storage,
     user,
   };

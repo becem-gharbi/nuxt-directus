@@ -7,23 +7,18 @@ export default async function useDirectusRest(
 ): Promise<object> {
   const { $directus } = useNuxtApp();
 
-  const { storage, refresh } = useDirectusAuth();
+  const { getToken } = useDirectusAuth();
 
-  const { access_token, refresh_token } = storage.get();
-
-  if (!access_token && (refresh_token || process.client)) {
-    await refresh();
-  }
+  const accessToken = await getToken();
 
   return $directus
     .with(
       rest({
         onRequest(request) {
-          const { access_token } = storage.get();
-          if (access_token) {
+          if (accessToken) {
             request.headers = {
               ...request.headers,
-              authorization: `Bearer ${access_token}`,
+              authorization: `Bearer ${accessToken}`,
             };
           }
 
