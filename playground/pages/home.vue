@@ -24,10 +24,13 @@ const query = graphql(`
 query GetBook {
   book {
     id
-    name
   }
 }
 `)
 
+const subQuery = graphql(`
+
+`
+)
 const { result, refetch } = useQuery(query)
 </script>

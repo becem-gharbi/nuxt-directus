@@ -7,7 +7,7 @@ import {
   logger,
   installModule,
 } from "@nuxt/kit";
-import { joinURL } from "ufo";
+import { joinURL, parseURL } from "ufo";
 import { name, version } from "../package.json";
 import { defu } from "defu";
 import type { PublicConfig } from "./runtime/types";
@@ -81,15 +81,19 @@ export default defineNuxtModule<ModuleOptions>({
     );
 
     //Configure @nuxtjs/apollo
-    const httpEndpoint = joinURL(
-      nuxt.options.runtimeConfig.public.directus.baseUrl,
-      "graphql"
+    const { protocol, host } = parseURL(
+      nuxt.options.runtimeConfig.public.directus.baseUrl
     );
+
+    const httpEndpoint = protocol + "//" + host + "/graphql";
+    const wsProtocol = protocol === "http:" ? "ws:" : "wss:";
+    const wsEndpoint = wsProtocol + "//" + host + "/graphql";
 
     await installModule("@nuxtjs/apollo", {
       clients: {
         default: {
           httpEndpoint,
+          wsEndpoint,
         },
       },
     });

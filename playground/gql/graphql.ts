@@ -1562,7 +1562,7 @@ export type Update_Book_Input = {
 export type GetBookQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBookQuery = { __typename?: 'Query', book: Array<{ __typename?: 'book', id: string, name?: string | null }> };
+export type GetBookQuery = { __typename?: 'Query', book: Array<{ __typename?: 'book', id: string }> };
 
 
-export const GetBookDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBook"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"book"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetBookQuery, GetBookQueryVariables>;
+export const GetBookDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBook"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"book"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetBookQuery, GetBookQueryVariables>;
