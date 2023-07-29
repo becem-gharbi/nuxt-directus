@@ -97,7 +97,7 @@ The module uses [nuxt-apollo](https://apollo.nuxtjs.org/) for Graphql data fetch
 To use graphql subscription, please make sure to set:
 
 - `WEBSOCKETS_ENABLED` env to `true`
-- `WEBSOCKETS_GRAPHQL_ENABLED` env to true
+- `WEBSOCKETS_GRAPHQL_ENABLED` env to `true`
 
 ### GQL auto-completion
 

@@ -2,7 +2,7 @@ interface Rest {}
 
 interface Graphql {
   httpEndpoint: string;
-  wsEndpoint: string;
+  wsEndpoint?: string;
 }
 
 interface Realtime {}

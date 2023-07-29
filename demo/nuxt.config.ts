@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: true,
 
@@ -20,11 +19,15 @@ export default defineNuxtConfig({
         allow: ["../package"],
       },
     },
+    define: {
+      __DEV__: (process.env.NODE_ENV === "development").toString(),
+    },
   },
 
   directus: {
-    baseUrl: process.env.NUXT_DIRECTUS_BASE_URL || "http://127.0.0.1:8055", // Directus app base url
-    nuxtBaseUrl: process.env.NUXT_BASE_URL || "http://127.0.0.1:3000", // Nuxt app base url
+    baseUrl: process.env.DIRECTUS_BASE_URL || "http://127.0.0.1:8055", // Directus app base url
+    nuxtBaseUrl: process.env.BASE_URL || "http://127.0.0.1:3000", // Nuxt app base url
+
     auth: {
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       redirect: {
@@ -38,8 +41,10 @@ export default defineNuxtConfig({
 
     graphql: {
       httpEndpoint:
+        process.env.DIRECTUS_HTTP_GRAHQL_ENDPOINT ||
         "http://127.0.0.1:8055/graphql?access_token=pT9Jm6MG5ajHjH1VQFtXLJYI1-8hsTO5",
       wsEndpoint:
+        process.env.DIRECTUS_WS_GRAHQL_ENDPOINT ||
         "ws://127.0.0.1:8055/graphql?access_token=pT9Jm6MG5ajHjH1VQFtXLJYI1-8hsTO5",
     },
   },

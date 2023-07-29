@@ -28,5 +28,17 @@ query GetBook {
 }
 `)
 
+const subQuery = gql`
+subscription SubBook {
+  book_mutated {
+    data {
+      name
+    }
+  }
+}
+`
+
+const { result: subResult } = useSubscription(subQuery)
+
 const { result, refetch } = useQuery(query)
 </script>

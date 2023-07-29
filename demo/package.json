@@ -9,14 +9,12 @@
     "codegen": "graphql-codegen --watch"
   },
   "devDependencies": {
+    "@bg-dev/nuxt-directus": "^2.1.0-beta",
     "@bg-dev/nuxt-naiveui": "^1.2.2",
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/client-preset": "^4.1.0",
+    "@nuxtjs/apollo": "^5.0.0-alpha.6",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "@parcel/watcher": "^2.2.0",
-    "nuxt": "3.6.5"
-  },
-  "dependencies": {
-    "@bg-dev/nuxt-directus": "^2.1.0-beta"
+    "graphql": "^16.6.0",
+    "nuxt": "3.6.5",
+    "tslib": "^2.5.1"
   }
 }

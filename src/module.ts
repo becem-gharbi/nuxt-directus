@@ -82,16 +82,11 @@ export default defineNuxtModule<ModuleOptions>({
       { ...options }
     );
 
-    // Integrate @nuxtjs/apollo
-    await installModule("@nuxtjs/apollo", {
-      clients: {
-        default: {
-          httpEndpoint:
-            nuxt.options.runtimeConfig.public.directus.graphql.httpEndpoint,
-          wsEndpoint:
-            nuxt.options.runtimeConfig.public.directus.graphql.wsEndpoint,
-        },
-      },
+    // Integrate nuxt/apollo
+    await installModule("nuxt-apollo", {
+      httpEndpoint:
+        nuxt.options.runtimeConfig.public.directus.graphql.httpEndpoint,
+      wsEndpoint: nuxt.options.runtimeConfig.public.directus.graphql.wsEndpoint,
     });
   },
 });

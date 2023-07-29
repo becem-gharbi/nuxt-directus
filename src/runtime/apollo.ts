@@ -1,11 +1,23 @@
 import { defineNuxtPlugin, useDirectusAuth } from "#imports";
 
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook("apollo:auth", async ({ token }) => {
-    const { getToken } = useDirectusAuth();
+export default defineNuxtPlugin({
+  enforce: "pre",
+  hooks: {
+    "apollo:http-auth": async (args) => {
+      const { getToken } = useDirectusAuth();
 
-    const accessToken = await getToken();
+      const accessToken = await getToken();
 
-    token.value = accessToken || null;
-  });
+      args.token = accessToken || null;
+    },
+    "apollo:ws-auth": async (args) => {
+      const { getToken } = useDirectusAuth();
+
+      const accessToken = await getToken();
+
+      args.params = {
+        access_token: accessToken || null,
+      };
+    },
+  },
 });
