@@ -78,7 +78,7 @@ That's it! You can now use `@bg-dev/nuxt-directus` in your Nuxt app ✨
 
 ## REST
 
-The module has `useDirectusRest` composable for data fetching with REST API. It is a wrapper around Directus SDK with auto refresh of access token.
+The module has `useDirectusRest` composable for data fetching with REST API. It is a wrapper around Directus SDK `request` API with auto refresh of access token.
 For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via `global.d.ts` file.
 
 ```js
