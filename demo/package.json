@@ -14,6 +14,6 @@
     "nuxt": "3.6.5"
   },
   "dependencies": {
-    "@bg-dev/nuxt-directus": "file:../package"
+    "@bg-dev/nuxt-directus": "^2.0.1-beta"
   }
 }

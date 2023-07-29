@@ -26,7 +26,7 @@ _This version `2` is based on the new Directus SDK. The version based on the old
 - [ ] Add `graphql` composable.
 - [ ] Add `realtime` composable.
 - [ ] Consider auto import of `@directus/sdk` APIs.
-- [ ] Consider the usage of `$fetch` over `fetch` for transport.
+- [x] Consider the usage of `$fetch` over `fetch` for transport.
 - [ ] Consider usage of realtime APIs with SSR.
 
 ## Installation
@@ -65,14 +65,20 @@ export default defineNuxtConfig({
         callback: "/auth/callback", // Path to redirect after login with provider
       },
     },
+
+    graphql: {
+      httpEndpoint: "http://127.0.0.1:8055/graphql", // You can pass static `access_token` as query param
+      wsEndpoint: "ws://127.0.0.1:8055/graphql",
+    },
   },
 });
 ```
 
 That's it! You can now use `@bg-dev/nuxt-directus` in your Nuxt app ✨
 
-## Typescript
+## REST
 
+The module has `useDirectusRest` composable for data fetching with REST API. It is a wrapper around Directus SDK with auto refresh of access token.
 For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via `global.d.ts` file.
 
 ```js
@@ -81,6 +87,87 @@ import { CustomDirectusTypes } from "./types";
 declare global {
   interface DirectusSchema extends CustomDirectusTypes {}
 }
+```
+
+## Graphql
+
+**This feature is experimental**
+
+The module uses [nuxt-apollo](https://apollo.nuxtjs.org/) for Graphql data fetching with authorization. Please refer to docs for API usage.
+To use graphql subscription, please make sure to set:
+
+- `WEBSOCKETS_ENABLED` env to `true`
+- `WEBSOCKETS_GRAPHQL_ENABLED` env to true
+
+### GQL auto-completion
+
+In order to benefit autocomplete suggestion when writing graphql queries, you can install [GraphQL: Language Feature Support](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql) vscode extension.
+Then create `graphql.config.js` and paste the config object below. In order to introspect graphql schema:
+
+- A static access token for the authenticated role needs to be passed as query parameter.
+- `WEBSOCKETS_GRAPHQL_AUTH` env needs to be set to `strict`.
+- `GRAPHQL_INTROSPECTION` env set to `true`.
+
+```js
+// ~/graphql.config.js
+const endpoint = "http://127.0.0.1:8055?access_token=xxx";
+
+module.exports = {
+  projects: {
+    app: {
+      schema: [endpoint],
+      documents: [
+        "./pages/**/*.vue",
+        "./components/**/*.vue",
+        "./composables/**/*.ts",
+        "./app.vue",
+      ],
+    },
+  },
+};
+```
+
+### Codegen
+
+In order to benefit automatically typed Queries, Mutations and, Subscriptions, you can install [Graphql Code Generator](https://the-guild.dev/graphql/codegen/docs/guides/react-vue).
+
+```bash
+npm i -D @graphql-codegen/cli @graphql-codegen/client-preset @parcel/watcher
+```
+
+Then create `codegen.ts` and paste the config object below.
+
+```js
+// ~/codegen.ts
+
+const endpoint = "http://127.0.0.1:8055?access_token=xxx";
+
+const config = {
+  schema: endpoint,
+  documents: [
+    "./pages/**/*.vue",
+    "./components/**/*.vue",
+    "./composables/**/*.ts",
+    "./app.vue",
+  ],
+  ignoreNoDocuments: true,
+  generates: {
+    "./gql/": {
+      preset: "client",
+      config: {
+        useTypeImports: true,
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+Finally start GraphQL Code Generator in watch mode, this will type your GraphQL queries as you write them.
+
+```bash
+npx graphql-codegen --watch
 ```
 
 ## Usage
