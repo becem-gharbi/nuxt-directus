@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v2.1.0-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.1-beta...v2.1.0-beta)
+
+### 🚀 Enhancements
+
+- **graphql:** Add apollo authentication hook ([3b6aebc](https://github.com/becem-gharbi/nuxt-directus/commit/3b6aebc))
+
+### 🩹 Fixes
+
+- **graphql:** Add missing @vue/apollo-composable module ([dd38d03](https://github.com/becem-gharbi/nuxt-directus/commit/dd38d03))
+
+### 💅 Refactors
+
+- **auth:** Add getToken to get fresh access token ([6bc141d](https://github.com/becem-gharbi/nuxt-directus/commit/6bc141d))
+- Add graphql endpoints config options ([dff06e2](https://github.com/becem-gharbi/nuxt-directus/commit/dff06e2))
+
+### 📖 Documentation
+
+- Update README ([7dfae31](https://github.com/becem-gharbi/nuxt-directus/commit/7dfae31))
+- Add graphql instructions ([7983417](https://github.com/becem-gharbi/nuxt-directus/commit/7983417))
+
+### 🏡 Chore
+
+- **demo:** Upgrade dependencies ([77b5f09](https://github.com/becem-gharbi/nuxt-directus/commit/77b5f09))
+- **demo:** UI refactor ([ed61bb7](https://github.com/becem-gharbi/nuxt-directus/commit/ed61bb7))
+- **graphql:** Add @nuxtjs/apollo module ([d65d1eb](https://github.com/becem-gharbi/nuxt-directus/commit/d65d1eb))
+- **graphql:** Add codegen & graphql vscode extension config files ([0844074](https://github.com/becem-gharbi/nuxt-directus/commit/0844074))
+- **graphql:** Test codegen and query auto suggestion ([4b06c03](https://github.com/becem-gharbi/nuxt-directus/commit/4b06c03))
+- **demo:** Test graphql subscription ([0df47e6](https://github.com/becem-gharbi/nuxt-directus/commit/0df47e6))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.0.1-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v0.2.1-beta...v2.0.1-beta)
