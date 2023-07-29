@@ -9,12 +9,9 @@
     "codegen": "graphql-codegen --watch"
   },
   "devDependencies": {
-    "@bg-dev/nuxt-directus": "^2.1.0-beta",
+    "@bg-dev/nuxt-directus": "^2.1.1-beta",
     "@bg-dev/nuxt-naiveui": "^1.2.2",
-    "@nuxtjs/apollo": "^5.0.0-alpha.6",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "graphql": "^16.6.0",
-    "nuxt": "3.6.5",
-    "tslib": "^2.5.1"
+    "nuxt": "3.6.5"
   }
 }

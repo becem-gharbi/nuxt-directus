@@ -41,11 +41,11 @@ export default defineNuxtConfig({
 
     graphql: {
       httpEndpoint:
-        process.env.DIRECTUS_HTTP_GRAHQL_ENDPOINT ||
-        "http://127.0.0.1:8055/graphql?access_token=pT9Jm6MG5ajHjH1VQFtXLJYI1-8hsTO5",
+        process.env.DIRECTUS_GRAHQL_HTTP_ENDPOINT ||
+        "http://127.0.0.1:8055/graphql",
       wsEndpoint:
-        process.env.DIRECTUS_WS_GRAHQL_ENDPOINT ||
-        "ws://127.0.0.1:8055/graphql?access_token=pT9Jm6MG5ajHjH1VQFtXLJYI1-8hsTO5",
+        process.env.DIRECTUS_GRAHQL_WS_ENDPOINT ||
+        "ws://127.0.0.1:8055/graphql",
     },
   },
 });
