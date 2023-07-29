@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.1.2-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.1-beta...v2.1.2-beta)
+
+### 📖 Documentation
+
+- Update README ([80dab34](https://github.com/becem-gharbi/nuxt-directus/commit/80dab34))
+
+### 🏡 Chore
+
+- **demo:** Upgrade dependencies ([0ca9779](https://github.com/becem-gharbi/nuxt-directus/commit/0ca9779))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.1.1-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.0-beta...v2.1.1-beta)
