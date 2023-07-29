@@ -38,13 +38,10 @@
     "defu": "^6.1.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/client-preset": "^4.1.0",
     "@nuxt/module-builder": "^0.4.0",
     "@nuxt/schema": "^3.6.5",
     "@nuxtjs/apollo": "^5.0.0-alpha.6",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
-    "@parcel/watcher": "^2.2.0",
     "changelogen": "^0.5.4",
     "eslint": "^8.45.0",
     "nuxt": "^3.6.5"
