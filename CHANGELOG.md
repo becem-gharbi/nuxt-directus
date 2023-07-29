@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.1.1-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.0-beta...v2.1.1-beta)
+
+### 🩹 Fixes
+
+- Replace @nuxtjs/apollo with nuxt-apollo ([df1d5eb](https://github.com/becem-gharbi/nuxt-directus/commit/df1d5eb))
+
+### 📖 Documentation
+
+- Update README ([5478f8f](https://github.com/becem-gharbi/nuxt-directus/commit/5478f8f))
+
+### 🏡 Chore
+
+- **demo:** Update dependencies ([e78a1e4](https://github.com/becem-gharbi/nuxt-directus/commit/e78a1e4))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.1.0-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.1-beta...v2.1.0-beta)
