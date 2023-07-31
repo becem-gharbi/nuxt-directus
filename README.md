@@ -41,6 +41,11 @@ export default defineNuxtConfig({
       baseUrl: "http://127.0.0.1:8055", // Directus app base url
       nuxtBaseUrl: "http://127.0.0.1:3000", // Nuxt app base url
     },
+    graphql: {
+      enabled: true,
+      httpEndpoint: "http://127.0.0.1:8055/graphql",
+      wsEndpoint: "", // Omit to disable Websockets
+    },
     auth: {
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       refreshTokenCookieName: "directus_refresh_token",
@@ -53,12 +58,6 @@ export default defineNuxtConfig({
         resetPassword: "/auth/reset-password", // Path to redirect for password reset
         callback: "/auth/callback", // Path to redirect after login with provider
       },
-    },
-
-    graphql: {
-      enabled:true
-      httpEndpoint: "http://127.0.0.1:8055/graphql",
-      wsEndpoint: "", // Omit to disable Websockets
     },
   },
 });
