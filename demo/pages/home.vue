@@ -11,7 +11,6 @@ definePageMeta({
     middleware: "auth",
     layout: "auth"
 })
-
 // const query = graphql(`
 // subscription BookSub {
 //     book_mutated {
