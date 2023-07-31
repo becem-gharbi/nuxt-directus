@@ -6,7 +6,7 @@
     <!-- {{ result }} -->
     <hr>
     <button @click="logout()">Logout</button>
-    <!-- <button @click="refetch()">REFRESH</button> -->
+    <button @click="refresh()">REFRESH</button>
   </div>
 </template>
 

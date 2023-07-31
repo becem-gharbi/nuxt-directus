@@ -1,5 +1,4 @@
-import { rest } from "@directus/sdk";
-import { useNuxtApp, useDirectusAuth } from "#imports";
+import { useNuxtApp } from "#imports";
 import type { RestCommand } from "@directus/sdk";
 
 export default async function useDirectusRest(
@@ -7,24 +6,5 @@ export default async function useDirectusRest(
 ): Promise<object> {
   const { $directus } = useNuxtApp();
 
-  const { getToken } = useDirectusAuth();
-
-  const accessToken = await getToken();
-
-  return $directus
-    .with(
-      rest({
-        onRequest(request) {
-          if (accessToken) {
-            request.headers = {
-              ...request.headers,
-              authorization: `Bearer ${accessToken}`,
-            };
-          }
-
-          return request;
-        },
-      })
-    )
-    .request(options);
+  return $directus.rest.request(options);
 }

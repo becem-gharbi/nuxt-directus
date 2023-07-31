@@ -1,14 +1,18 @@
-import type { DirectusClient } from "@directus/sdk";
+import type { RestClient } from "@directus/sdk";
 
 declare module "#app" {
   interface NuxtApp {
-    $directus: DirectusClient<DirectusSchema>;
+    $directus: {
+      rest: RestClient<DirectusSchema>;
+    };
   }
 }
 
 declare module "vue" {
   interface ComponentCustomProperties {
-    $directus: DirectusClient<DirectusSchema>;
+    $directus: {
+      rest: RestClient<DirectusSchema>;
+    };
   }
 }
 
