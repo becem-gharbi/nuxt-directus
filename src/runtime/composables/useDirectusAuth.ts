@@ -28,40 +28,41 @@ export default function useDirectusAuth() {
 
   const storage: AuthStorage = {
     get() {
+      function _get(key: string) {
+        if (process.server) {
+          return event.context[key] || getCookie(event, key);
+        }
+        return useCookie(key).value;
+      }
       return {
-        access_token: process.server
-          ? event?.context?.access_token
-          : useCookie(config.auth.accessTokenCookieName).value,
-        refresh_token: process.server
-          ? getCookie(event, config.auth.refreshTokenCookieName)
-          : undefined,
+        access_token: _get(config.auth.accessTokenCookieName),
+        refresh_token: _get(config.auth.refreshTokenCookieName),
+        max_age: _get(config.auth.maxAgeCookieName),
       };
     },
 
     set(data) {
+      function _set(key: string, value: string | undefined | null) {
+        if (process.server) {
+          event.context[key] = value;
+          setCookie(event, key, value || "", {
+            sameSite: "lax",
+            secure: true,
+          });
+        } else {
+          useCookie(key, {
+            sameSite: "lax",
+            secure: true,
+          }).value = value;
+        }
+      }
+
       const maxAge = data?.expires
         ? (data.expires - config.auth.msRefreshBeforeExpires) / 1000
         : undefined;
 
-      if (process.server) {
-        event.context.access_token = data.access_token || "";
-        setCookie(
-          event,
-          config.auth.accessTokenCookieName,
-          event.context.access_token,
-          {
-            sameSite: "lax",
-            secure: true,
-            maxAge,
-          }
-        );
-      } else {
-        useCookie(config.auth.accessTokenCookieName, {
-          sameSite: "lax",
-          secure: true,
-          maxAge,
-        }).value = data.access_token;
-      }
+      _set(config.auth.accessTokenCookieName, data.access_token);
+      _set(config.auth.maxAgeCookieName, maxAge?.toString());
     },
 
     clear() {

@@ -12,9 +12,10 @@ interface Graphql {
 interface Authentication {
   enabled: true;
   enableGlobalAuthMiddleware: boolean;
-  refreshTokenCookieName: string;
-  accessTokenCookieName: string;
-  msRefreshBeforeExpires: number;
+  refreshTokenCookieName?: string;
+  accessTokenCookieName?: string;
+  maxAgeCookieName?: string;
+  msRefreshBeforeExpires?: number;
   redirect: {
     login: string;
     logout: string;

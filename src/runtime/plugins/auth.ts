@@ -32,7 +32,7 @@ export default defineNuxtPlugin(async () => {
 
     const { fetchUser, storage } = useDirectusAuth();
 
-    const { refresh_token, access_token } = storage.get();
+    const { refresh_token, access_token, max_age } = storage.get();
 
     const { path } = useRoute();
 
