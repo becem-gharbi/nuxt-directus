@@ -9,7 +9,7 @@
     "codegen": "graphql-codegen --watch"
   },
   "devDependencies": {
-    "@bg-dev/nuxt-directus": "^2.1.2-beta",
+    "@bg-dev/nuxt-directus": "^2.2.0-beta",
     "@bg-dev/nuxt-naiveui": "^1.2.2",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "nuxt": "3.6.5"
