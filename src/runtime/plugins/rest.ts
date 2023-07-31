@@ -4,7 +4,7 @@ import { createDirectus } from "@directus/sdk";
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig().public.directus;
 
-  const directus = createDirectus<DirectusSchema>(config.baseUrl);
+  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl);
 
   return {
     provide: {

@@ -74,7 +74,7 @@ export default function useDirectusAuth() {
 
   async function login(email: string, password: string) {
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
-      baseURL: config.baseUrl,
+      baseURL: config.rest.baseUrl,
       method: "POST",
       credentials: "include",
       body: {
@@ -100,7 +100,7 @@ export default function useDirectusAuth() {
 
   async function logout() {
     await $fetch("/auth/logout", {
-      baseURL: config.baseUrl,
+      baseURL: config.rest.baseUrl,
       method: "POST",
       credentials: "include",
     });
@@ -122,7 +122,7 @@ export default function useDirectusAuth() {
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
 
     await $fetch<{ data: AuthenticationData }>("/auth/refresh", {
-      baseURL: config.baseUrl,
+      baseURL: config.rest.baseUrl,
       method: "POST",
       credentials: "include",
       body: {
@@ -148,7 +148,7 @@ export default function useDirectusAuth() {
     const returnToPath = route.query.redirect?.toString();
 
     let redirectUrl = joinURL(
-      config.nuxtBaseUrl,
+      config.rest.nuxtBaseUrl,
       config.auth.redirect.callback
     );
 
@@ -157,16 +157,19 @@ export default function useDirectusAuth() {
     }
 
     if (process.client) {
-      const url = withQuery(joinURL(config.baseUrl, "/auth/login", provider), {
-        redirect: redirectUrl,
-      });
+      const url = withQuery(
+        joinURL(config.rest.baseUrl, "/auth/login", provider),
+        {
+          redirect: redirectUrl,
+        }
+      );
 
       window.location.replace(url);
     }
   }
 
   /**
-   * 
+   *
    * @returns fresh access token (refreshed if expired)
    */
   async function getToken(): Promise<AuthStorageData["access_token"]> {

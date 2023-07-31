@@ -24,9 +24,10 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   defaults: {
-    baseUrl: "http://127.0.0.1:8055",
-    nuxtBaseUrl: "http://127.0.0.1:3000",
-    rest: {},
+    rest: {
+      baseUrl: "http://127.0.0.1:8055",
+      nuxtBaseUrl: "http://127.0.0.1:3000",
+    },
     graphql: {
       enabled: true,
       httpEndpoint: "http://127.0.0.1:8055/graphql",
@@ -49,11 +50,11 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   async setup(options, nuxt) {
-    if (!options.baseUrl) {
+    if (!options.rest.baseUrl) {
       logger.warn(`[${name}] Please make sure to set Directus baseUrl`);
     }
 
-    if (!options.nuxtBaseUrl) {
+    if (!options.rest.nuxtBaseUrl) {
       logger.warn(`[${name}] Please make sure to set Nuxt baseUrl`);
     }
 

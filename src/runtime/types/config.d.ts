@@ -1,4 +1,7 @@
-interface Rest {}
+interface Rest {
+  baseUrl: string;
+  nuxtBaseUrl: string;
+}
 
 interface Graphql {
   enabled: boolean;
@@ -24,8 +27,6 @@ interface Authentication {
 }
 
 export interface PublicConfig {
-  baseUrl: string;
-  nuxtBaseUrl: string;
   rest: Rest;
   auth: Authentication;
   graphql: Graphql;
