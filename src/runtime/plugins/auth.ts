@@ -30,17 +30,18 @@ export default defineNuxtPlugin(async () => {
 
     initialized.value = true;
 
-    const { fetchUser, storage } = useDirectusAuth();
+    const { fetchUser, storage, refresh } = useDirectusAuth();
 
-    const { refresh_token, access_token, max_age } = storage.get();
+    const { refresh_token, access_token } = storage.get();
 
     const { path } = useRoute();
 
-    if (
-      refresh_token ||
-      access_token ||
-      path === config.auth.redirect.callback
-    ) {
+    if (path === config.auth.redirect.callback) {
+      await refresh();
+      await fetchUser();
+    }
+
+    if (refresh_token || access_token) {
       await fetchUser();
     }
   } catch (e) {

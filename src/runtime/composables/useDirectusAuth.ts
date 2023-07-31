@@ -12,6 +12,8 @@ import {
 } from "#imports";
 import { joinURL, withQuery } from "ufo";
 import { appendHeader, getCookie, setCookie } from "h3";
+import jwtDecode from "jwt-decode";
+
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
 import type { AuthStorage, AuthStorageData, PublicConfig } from "../types";
@@ -37,7 +39,6 @@ export default function useDirectusAuth() {
       return {
         access_token: _get(config.auth.accessTokenCookieName),
         refresh_token: _get(config.auth.refreshTokenCookieName),
-        max_age: _get(config.auth.maxAgeCookieName),
       };
     },
 
@@ -57,18 +58,12 @@ export default function useDirectusAuth() {
         }
       }
 
-      const maxAge = data?.expires
-        ? (data.expires - config.auth.msRefreshBeforeExpires) / 1000
-        : undefined;
-
       _set(config.auth.accessTokenCookieName, data.access_token);
-      _set(config.auth.maxAgeCookieName, maxAge?.toString());
     },
 
     clear() {
       this.set({
         access_token: null,
-        expires: null,
       });
     },
   };
@@ -90,7 +85,7 @@ export default function useDirectusAuth() {
     const returnToPath = route.query.redirect?.toString();
     const redirectTo = returnToPath || config.auth.redirect.home;
 
-    storage.set(data);
+    storage.set({ access_token: data.access_token });
 
     // A workaround to insure access token cookie is set
     setTimeout(async () => {
@@ -139,7 +134,7 @@ export default function useDirectusAuth() {
         }
       },
     })
-      .then(({ data }) => storage.set(data))
+      .then(({ data }) => storage.set({ access_token: data.access_token }))
       .catch(async () => {
         storage.clear();
         return navigateTo(config.auth.redirect.logout);
@@ -169,14 +164,10 @@ export default function useDirectusAuth() {
     }
   }
 
-  /**
-   *
-   * @returns fresh access token (refreshed if expired)
-   */
   async function getToken(): Promise<AuthStorageData["access_token"]> {
-    const { access_token, refresh_token } = storage.get();
+    const { access_token } = storage.get();
 
-    if (!access_token && (refresh_token || process.client)) {
+    if (access_token && isTokenExpired(access_token)) {
       await refresh();
     }
 
@@ -199,6 +190,12 @@ export default function useDirectusAuth() {
     return joinURL(config.rest.nuxtBaseUrl, path);
   }
 
+  function isTokenExpired(token: string) {
+    const decoded = jwtDecode(token) as { exp: number };
+    const expires = decoded.exp * 1000 - config.auth.msRefreshBeforeExpires;
+    return expires < Date.now();
+  }
+
   return {
     login,
     logout,
@@ -207,6 +204,7 @@ export default function useDirectusAuth() {
     getToken,
     requestPasswordReset,
     resetPassword,
+    refresh,
     storage,
     user,
   };
