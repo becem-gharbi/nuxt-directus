@@ -4,7 +4,7 @@ interface Rest {
 }
 
 interface Graphql {
-  enabled: boolean;
+  enabled: true;
   httpEndpoint: string;
   wsEndpoint?: string;
 }
@@ -12,7 +12,7 @@ interface Graphql {
 interface Realtime {}
 
 interface Authentication {
-  enabled: boolean;
+  enabled: true;
   enableGlobalAuthMiddleware: boolean;
   refreshTokenCookieName: string;
   accessTokenCookieName: string;
@@ -28,7 +28,7 @@ interface Authentication {
 
 export interface PublicConfig {
   rest: Rest;
-  auth: Authentication;
-  graphql: Graphql;
+  auth: Authentication | { enabled: false };
+  graphql: Graphql | { enabled: false };
   realtime: Realtime;
 }
