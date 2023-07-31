@@ -47,6 +47,7 @@ export default defineNuxtConfig({
       wsEndpoint: "", // Omit to disable Websockets
     },
     auth: {
+      enabled: true,
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       refreshTokenCookieName: "directus_refresh_token",
       accessTokenCookieName: "directus_access_token",
