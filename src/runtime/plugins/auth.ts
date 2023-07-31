@@ -6,9 +6,9 @@ import {
   useDirectusAuth,
   useRoute,
 } from "#imports";
-import common from "./middleware/common";
-import auth from "./middleware/auth";
-import guest from "./middleware/guest";
+import common from "../middleware/common";
+import auth from "../middleware/auth";
+import guest from "../middleware/guest";
 
 export default defineNuxtPlugin(async () => {
   try {

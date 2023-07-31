@@ -64,12 +64,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir);
 
     //Add plugins
-    const directusPlugin = resolve(runtimeDir, "directus");
-    const initPlugin = resolve(runtimeDir, "init");
-    const apolloPlugin = resolve(runtimeDir, "apollo");
-    addPlugin(directusPlugin, { append: true });
-    addPlugin(apolloPlugin, { append: true });
-    addPlugin(initPlugin, { append: true });
+    const restPlugin = resolve(runtimeDir, "./plugins/rest");
+    const graphqlPlugin = resolve(runtimeDir, "./plugins/graphql");
+    const authPlugin = resolve(runtimeDir, "./plugins/auth");
+    addPlugin(restPlugin, { append: true });
+    addPlugin(graphqlPlugin, { append: true });
+    addPlugin(authPlugin, { append: true });
 
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
