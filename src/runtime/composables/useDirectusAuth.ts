@@ -139,7 +139,10 @@ export default function useDirectusAuth() {
       },
     })
       .then(({ data }) => storage.set(data))
-      .catch(() => storage.clear());
+      .catch(async () => {
+        storage.clear();
+        return navigateTo(config.auth.redirect.logout);
+      });
   }
 
   async function loginWithProvider(provider: string) {
