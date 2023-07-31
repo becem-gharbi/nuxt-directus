@@ -9,8 +9,6 @@ interface Graphql {
   wsEndpoint?: string;
 }
 
-interface Realtime {}
-
 interface Authentication {
   enabled: true;
   enableGlobalAuthMiddleware: boolean;
@@ -30,5 +28,4 @@ export interface PublicConfig {
   rest: Rest;
   auth: Authentication | { enabled: false };
   graphql: Graphql | { enabled: false };
-  realtime: Realtime;
 }

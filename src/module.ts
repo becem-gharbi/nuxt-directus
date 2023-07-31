@@ -6,6 +6,7 @@ import {
   addImportsDir,
   logger,
   installModule,
+  addImports,
 } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import { defu } from "defu";
@@ -32,7 +33,6 @@ export default defineNuxtModule<ModuleOptions>({
       enabled: true,
       httpEndpoint: "http://127.0.0.1:8055/graphql",
     },
-    realtime: {},
     auth: {
       enabled: true,
       msRefreshBeforeExpires: 3000,
@@ -93,5 +93,64 @@ export default defineNuxtModule<ModuleOptions>({
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
     addImportsDir(composables);
+
+    //Auto-import Directus SDK rest commands
+    const commands = [
+      "createComment",
+      "updateComment",
+      "deleteComment",
+      "createField",
+      "createItem",
+      "createItems",
+      "deleteField",
+      "deleteFile",
+      "deleteFiles",
+      "readActivities",
+      "readActivity",
+      "deleteItem",
+      "deleteItems",
+      "deleteUser",
+      "deleteUsers",
+      "importFile",
+      "readCollection",
+      "readCollections",
+      "createCollection",
+      "updateCollection",
+      "deleteCollection",
+      "readField",
+      "readFieldsByCollection",
+      "readFields",
+      "readFile",
+      "readFiles",
+      "readItem",
+      "readItems",
+      "readSingleton",
+      "readMe",
+      "createUser",
+      "createUsers",
+      "readUser",
+      "readUsers",
+      "updateField",
+      "updateFile",
+      "updateFiles",
+      "updateFolder",
+      "updateFolders",
+      "updateItem",
+      "updateItems",
+      "updateSingleton",
+      "updateMe",
+      "updateUser",
+      "updateUsers",
+      "uploadFiles",
+      "withToken",
+    ];
+
+    commands.forEach((name) => {
+      addImports({
+        name: name,
+        as: name,
+        from: "@directus/sdk",
+      });
+    });
   },
 });
