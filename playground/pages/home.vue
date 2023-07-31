@@ -3,10 +3,10 @@
     <h1>Home</h1>
     {{ user }}
     <hr>
-    {{ result }}
+    <!-- {{ result }} -->
     <hr>
     <button @click="logout()">Logout</button>
-    <button @click="refetch()">REFRESH</button>
+    <!-- <button @click="refetch()">REFRESH</button> -->
   </div>
 </template>
 
@@ -20,25 +20,25 @@ const { logout, user } = useDirectusAuth()
 
 const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
 
-const query = graphql(`
-query GetBook {
-  book {
-    id
-  }
-}
-`)
+// const query = graphql(`
+// query GetBook {
+//   book {
+//     id
+//   }
+// }
+// `)
 
-const subQuery = gql`
-subscription SubBook {
-  book_mutated {
-    data {
-      name
-    }
-  }
-}
-`
+// const subQuery = gql`
+// subscription SubBook {
+//   book_mutated {
+//     data {
+//       name
+//     }
+//   }
+// }
+// `
 
-const { result: subResult } = useSubscription(subQuery)
+// const { result: subResult } = useSubscription(subQuery)
 
-const { result, refetch } = useQuery(query)
+// const { result, refetch } = useQuery(query)
 </script>

@@ -28,11 +28,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxtBaseUrl: "http://127.0.0.1:3000",
     rest: {},
     graphql: {
+      enabled: true,
       httpEndpoint: "http://127.0.0.1:8055/graphql",
-      wsEndpoint: "ws://127.0.0.1:8055/graphql",
     },
     realtime: {},
     auth: {
+      enabled: true,
       msRefreshBeforeExpires: 3000,
       enableGlobalAuthMiddleware: false,
       refreshTokenCookieName: "directus_refresh_token",
@@ -63,30 +64,33 @@ export default defineNuxtModule<ModuleOptions>({
     //Transpile the runtime directory
     nuxt.options.build.transpile.push(runtimeDir);
 
+    //Initialize the module options
+    nuxt.options.runtimeConfig.public.directus = defu(
+      nuxt.options.runtimeConfig.public.directus,
+      options
+    );
+
     //Add plugins
     const restPlugin = resolve(runtimeDir, "./plugins/rest");
-    const graphqlPlugin = resolve(runtimeDir, "./plugins/graphql");
-    const authPlugin = resolve(runtimeDir, "./plugins/auth");
     addPlugin(restPlugin, { append: true });
-    addPlugin(graphqlPlugin, { append: true });
-    addPlugin(authPlugin, { append: true });
+
+    if (options.graphql.enabled) {
+      const graphqlPlugin = resolve(runtimeDir, "./plugins/graphql");
+      addPlugin(graphqlPlugin, { append: true });
+
+      await installModule("nuxt-apollo", {
+        httpEndpoint: options.graphql.httpEndpoint,
+        wsEndpoint: options.graphql.wsEndpoint,
+      });
+    }
+
+    if (options.auth.enabled) {
+      const authPlugin = resolve(runtimeDir, "./plugins/auth");
+      addPlugin(authPlugin, { append: true });
+    }
 
     //Add composables directory
     const composables = resolve(runtimeDir, "composables");
     addImportsDir(composables);
-
-    //Initialize the module options
-    nuxt.options.runtimeConfig.public.directus = defu(
-      //@ts-ignore
-      nuxt.options.runtimeConfig.public.directus,
-      { ...options }
-    );
-
-    // Integrate nuxt/apollo
-    await installModule("nuxt-apollo", {
-      httpEndpoint:
-        nuxt.options.runtimeConfig.public.directus.graphql.httpEndpoint,
-      wsEndpoint: nuxt.options.runtimeConfig.public.directus.graphql.wsEndpoint,
-    });
   },
 });
