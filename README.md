@@ -5,29 +5,16 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-A Nuxt 3 module for integrating the official Directus [JS SDK](https://github.com/directus/directus/tree/main/sdk) into your Nuxt 3 project.
+Directus SDK for Nuxt 3
 
 **IMPORTANT**
 
-_This version `2` is based on the new Directus SDK. The version based on the old Directus SDK is `v1` under `version-1` branch._
+_This version `2` is a complete rewrite of the module. You can find the old version aka `v1` under `version-1` branch._
 
-- ✔️ Typescript first
-- ✔️ Lightweight & dependency free
-- ✔️ Modular architecture with tree shaking
-- ✔️ `fetch` over `axios` for portability
-- ✔️ Built-in realtime support
-
-## Todos
-
-- [x] Add a plugin to create a Directus client.
-- [x] Provide `$directus` helper to expose Directus client.
-- [x] Add authentication composable & page middlewares.
-- [x] Handle universal refresh of access token with cookie storage.
-- [x] Add `graphql` composable.
-- [ ] Add `realtime` composable.
-- [ ] Consider auto import of `@directus/sdk` APIs.
-- [x] Consider the usage of `$fetch` over `fetch` for transport.
-- [ ] Consider usage of realtime APIs with SSR.
+- ✔️ SSR support
+- ✔️ Rest client via `useDirectusRest` composable based on the new [Directus SDK](https://github.com/directus/directus/tree/main/sdk)
+- ✔️ Graphql client based on [Nuxt Apollo](https://github.com/becem-gharbi/nuxt-apollo) module
+- ✔️ Auth handler via `useDirectusAuth` with auto refresh of access token and auto redirection.
 
 ## Installation
 
@@ -50,8 +37,10 @@ export default defineNuxtConfig({
   modules: ["@bg-dev/nuxt-directus"],
 
   directus: {
-    baseUrl: "http://127.0.0.1:8055", // Directus app base url
-    nuxtBaseUrl: "http://127.0.0.1:3000", // Nuxt app base url
+    rest: {
+      baseUrl: "http://127.0.0.1:8055", // Directus app base url
+      nuxtBaseUrl: "http://127.0.0.1:3000", // Nuxt app base url
+    },
     auth: {
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       refreshTokenCookieName: "directus_refresh_token",
@@ -67,8 +56,9 @@ export default defineNuxtConfig({
     },
 
     graphql: {
+      enabled:true
       httpEndpoint: "http://127.0.0.1:8055/graphql",
-      wsEndpoint: "ws://127.0.0.1:8055/graphql",
+      wsEndpoint: "", // Omit to disable Websockets
     },
   },
 });
@@ -91,13 +81,23 @@ declare global {
 
 ## Graphql
 
-The module uses [nuxt-apollo](https://github.com/becem-gharbi/nuxt-apollo) for Graphql data fetching with authorization. Please refer to docs for API usage.
-To use graphql subscription, please make sure to set:
+The module uses [nuxt-apollo](https://github.com/becem-gharbi/nuxt-apollo) for Graphql data fetching with auto refresh of access token. Please refer to docs for API usage and DX optimizations.
+To use graphql subscription make sure to set
 
 - `WEBSOCKETS_ENABLED` env to `true`
 - `WEBSOCKETS_GRAPHQL_ENABLED` env to `true`
 
-## Usage
+## Auth
+
+The module has `useDirectusAuth` composable for handling authentication with cookie based storage. It expose these methods
+
+- `login` login with email/password and redirect to login page
+- `logout` logout, clear storage and redirect to logout page
+- `fetchUser` call to refetch and refresh `user` state
+- `loginWithProvider` login with SSO provider and redirect to login page on success and callback page otherwise
+- `getToken` get a fresh access token means it will be refreshed on expiration
+- `requestPasswordReset`
+- `resetPassword`
 
 For protecting page routes, 2 possible approachs can be used:
 

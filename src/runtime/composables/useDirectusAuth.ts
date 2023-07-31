@@ -202,7 +202,6 @@ export default function useDirectusAuth() {
     login,
     logout,
     fetchUser,
-    refresh,
     loginWithProvider,
     getToken,
     requestPasswordReset,
