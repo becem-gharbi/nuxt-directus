@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v2.2.0-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.2-beta...v2.2.0-beta)
+
+### 🚀 Enhancements
+
+- **rest:** Auto-import commonly used commands ([de5149d](https://github.com/becem-gharbi/nuxt-directus/commit/de5149d))
+- **auth:** Add requestPasswordReset & resetPassword methods ([280a4e2](https://github.com/becem-gharbi/nuxt-directus/commit/280a4e2))
+
+### 🔥 Performance
+
+- Conditional usage of extensions with enabled config option ([b059945](https://github.com/becem-gharbi/nuxt-directus/commit/b059945))
+
+### 🩹 Fixes
+
+- **auth:** Redirect to logout page on refresh fail ([f02d79a](https://github.com/becem-gharbi/nuxt-directus/commit/f02d79a))
+
+### 💅 Refactors
+
+- Update plugins names and paths ([3b39434](https://github.com/becem-gharbi/nuxt-directus/commit/3b39434))
+- Move baseUrl & nuxtBaseUrl under rest config option ([4325a1f](https://github.com/becem-gharbi/nuxt-directus/commit/4325a1f))
+- **rest:** Create rest client on plugin ([a7db7ee](https://github.com/becem-gharbi/nuxt-directus/commit/a7db7ee))
+
+### 🌊 Types
+
+- Set  graphql & auth types based on enabled value ([ddebc14](https://github.com/becem-gharbi/nuxt-directus/commit/ddebc14))
+
+### 🏡 Chore
+
+- **demo:** Upgrade dependencies ([2bfec36](https://github.com/becem-gharbi/nuxt-directus/commit/2bfec36))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.1.2-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.1-beta...v2.1.2-beta)
