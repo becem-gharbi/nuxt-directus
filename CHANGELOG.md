@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v2.2.1-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.0-beta...v2.2.1-beta)
+
+### 💅 Refactors
+
+- Set access token cookie to session and store max-age on another cookie ([4431e71](https://github.com/becem-gharbi/nuxt-directus/commit/4431e71))
+- Check access token expiration from payload ([159def7](https://github.com/becem-gharbi/nuxt-directus/commit/159def7))
+
+### 📖 Documentation
+
+- Update README ([4b01e84](https://github.com/becem-gharbi/nuxt-directus/commit/4b01e84))
+- Update README ([38955a9](https://github.com/becem-gharbi/nuxt-directus/commit/38955a9))
+- Update README ([c081db7](https://github.com/becem-gharbi/nuxt-directus/commit/c081db7))
+- Update README ([f6f2970](https://github.com/becem-gharbi/nuxt-directus/commit/f6f2970))
+
+### 🏡 Chore
+
+- **demo:** Upgrade dependencies ([1ed2666](https://github.com/becem-gharbi/nuxt-directus/commit/1ed2666))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.2.0-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.2-beta...v2.2.0-beta)
