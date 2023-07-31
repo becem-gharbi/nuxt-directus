@@ -39,6 +39,7 @@ export default defineNuxtPlugin(async () => {
     if (path === config.auth.redirect.callback) {
       await refresh();
       await fetchUser();
+      return;
     }
 
     if (refresh_token || access_token) {
