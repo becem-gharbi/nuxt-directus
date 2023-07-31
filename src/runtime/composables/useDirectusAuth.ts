@@ -1,4 +1,4 @@
-import { readMe } from "@directus/sdk";
+import { readMe, passwordRequest, passwordReset } from "@directus/sdk";
 import {
   useCookie,
   useState,
@@ -150,10 +150,7 @@ export default function useDirectusAuth() {
 
     const returnToPath = route.query.redirect?.toString();
 
-    let redirectUrl = joinURL(
-      config.rest.nuxtBaseUrl,
-      config.auth.redirect.callback
-    );
+    let redirectUrl = getRedirectUrl(config.auth.redirect.callback);
 
     if (returnToPath) {
       redirectUrl = withQuery(redirectUrl, { redirect: returnToPath });
@@ -185,6 +182,22 @@ export default function useDirectusAuth() {
     return storage.get().access_token;
   }
 
+  function requestPasswordReset(email: string) {
+    const resetUrl = getRedirectUrl(config.auth.redirect.resetPassword);
+    return useDirectusRest(passwordRequest(email, resetUrl));
+  }
+
+  function resetPassword(password: string) {
+    const route = useRoute();
+    const token = route.query.token as string;
+
+    return useDirectusRest(passwordReset(token, password));
+  }
+
+  function getRedirectUrl(path: string) {
+    return joinURL(config.rest.nuxtBaseUrl, path);
+  }
+
   return {
     login,
     logout,
@@ -192,6 +205,8 @@ export default function useDirectusAuth() {
     refresh,
     loginWithProvider,
     getToken,
+    requestPasswordReset,
+    resetPassword,
     storage,
     user,
   };
