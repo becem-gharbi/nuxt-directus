@@ -15,6 +15,7 @@ _This version `2` is a complete rewrite of the module. You can find the old vers
 - ✔️ Rest client via `useDirectusRest` composable based on the new [Directus SDK](https://github.com/directus/directus/tree/main/sdk)
 - ✔️ Graphql client based on [Nuxt Apollo](https://github.com/becem-gharbi/nuxt-apollo) module
 - ✔️ Auth handler via `useDirectusAuth` with auto refresh of access token and auto redirection.
+- ✔️ Ready to use [starter](https://directus-starter.bg-tech.tn)
 
 ## Installation
 
