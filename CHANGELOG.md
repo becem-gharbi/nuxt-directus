@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.2.2-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.1-beta...v2.2.2-beta)
+
+### 🩹 Fixes
+
+- **auth:** Fix duplicate fetchUser calls on SSO login ([793e1b2](https://github.com/becem-gharbi/nuxt-directus/commit/793e1b2))
+
+### 📖 Documentation
+
+- Update README ([937833e](https://github.com/becem-gharbi/nuxt-directus/commit/937833e))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.2.1-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.0-beta...v2.2.1-beta)
