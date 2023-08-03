@@ -22,8 +22,8 @@ _This version `2` is a complete rewrite of the module. You can find the old vers
 Add `@bg-dev/nuxt-directus` dependency to your project
 
 ```bash
-# Using npm
-npm install --save-dev @bg-dev/nuxt-directus
+# Using pnpm
+pnpm install --save-dev @bg-dev/nuxt-directus
 
 # Using yarn
 yarn add --dev @bg-dev/nuxt-directus
