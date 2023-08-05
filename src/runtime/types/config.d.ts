@@ -11,6 +11,7 @@ interface Graphql {
 
 interface Authentication {
   enabled: true;
+  userFields?: string[];
   enableGlobalAuthMiddleware: boolean;
   refreshTokenCookieName?: string;
   accessTokenCookieName?: string;
