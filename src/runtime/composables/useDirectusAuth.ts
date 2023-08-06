@@ -68,7 +68,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     },
   };
 
-  async function login(email: string, password: string) {
+  async function login(email: string, password: string, otp?: string) {
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
       baseURL: config.rest.baseUrl,
       method: "POST",
@@ -77,6 +77,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         mode: "cookie",
         email,
         password,
+        otp,
       },
     });
 
