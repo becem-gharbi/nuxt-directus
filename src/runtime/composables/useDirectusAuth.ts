@@ -111,8 +111,10 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
   }
 
   async function fetchUser() {
+    const fields = config.auth.userFields || ["*"];
+
     //@ts-ignore
-    user.value = await useDirectusRest(readMe({ fields: config.auth.userFields }));
+    user.value = await useDirectusRest(readMe({ fields }));
   }
 
   async function refresh() {
