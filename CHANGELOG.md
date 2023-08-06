@@ -1,6 +1,37 @@
 # Changelog
 
 
+## v2.2.3-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.2-beta...v2.2.3-beta)
+
+### 🩹 Fixes
+
+- **auth:** Add opt input option to login ([1e9bb16](https://github.com/becem-gharbi/nuxt-directus/commit/1e9bb16))
+
+### 💅 Refactors
+
+- **auth:** Set userFields default value on fetchUser ([937dc4b](https://github.com/becem-gharbi/nuxt-directus/commit/937dc4b))
+
+### 📖 Documentation
+
+- Update starter URL ([976227b](https://github.com/becem-gharbi/nuxt-directus/commit/976227b))
+- Replace npm with pnpm ([e1b7359](https://github.com/becem-gharbi/nuxt-directus/commit/e1b7359))
+- Add userFields to config options ([e644f4c](https://github.com/becem-gharbi/nuxt-directus/commit/e644f4c))
+
+### 🌊 Types
+
+- Extend user type with DirectusSchema ([6913adb](https://github.com/becem-gharbi/nuxt-directus/commit/6913adb))
+
+### 🏡 Chore
+
+- Remove demo ([c910b45](https://github.com/becem-gharbi/nuxt-directus/commit/c910b45))
+
+### ❤️  Contributors
+
+- Becem Gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+- Becem ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v2.2.2-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.1-beta...v2.2.2-beta)
