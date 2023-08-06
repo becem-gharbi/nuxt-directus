@@ -1,20 +1,17 @@
-export type PrismaMigrations = {
-  applied_steps_count: number;
-  checksum: string;
-  finished_at?: string | null;
-  id: string;
-  logs?: string | null;
-  migration_name: string;
-  rolled_back_at?: string | null;
-  started_at: string;
+export type Counter = {
+  date_updated?: string | null;
+  id: number;
+  value?: number | null;
 };
 
-export type Book = {
-  author?: string | null;
+export type Country = {
   date_created?: string | null;
   date_updated?: string | null;
   id: number;
   name?: string | null;
+  status: string;
+  user_created?: string | null;
+  user_updated?: string | DirectusUsers | null;
 };
 
 export type DirectusActivity = {
@@ -284,7 +281,7 @@ export type DirectusShares = {
   date_end?: string | null;
   date_start?: string | null;
   id: string;
-  item?: string | null;
+  item: string;
   max_uses?: number | null;
   name?: string | null;
   password?: string | null;
@@ -303,6 +300,7 @@ export type DirectusTranslations = {
 export type DirectusUsers = {
   auth_data?: unknown | null;
   avatar?: string | DirectusFiles | null;
+  cin?: string | null;
   description?: string | null;
   email?: string | null;
   email_notifications?: boolean | null;
@@ -334,12 +332,12 @@ export type DirectusWebhooks = {
   method: string;
   name: string;
   status: string;
-  url: string;
+  url?: string | null;
 };
 
 export type CustomDirectusTypes = {
-  _prisma_migrations: PrismaMigrations;
-  book: Book;
+  counter: Counter;
+  country: Country;
   directus_activity: DirectusActivity;
   directus_collections: DirectusCollections;
   directus_dashboards: DirectusDashboards;

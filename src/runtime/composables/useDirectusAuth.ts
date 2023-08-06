@@ -18,10 +18,10 @@ import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
 import type { AuthStorage, AuthStorageData, PublicConfig } from "../types";
 
-export default function useDirectusAuth() {
+export default function useDirectusAuth<DirectusSchema extends object>() {
   const event = useRequestEvent();
 
-  const user: Ref<DirectusUser<never> | null> = useState(
+  const user: Ref<DirectusUser<DirectusSchema> | null> = useState(
     "directus-user",
     () => null
   );
