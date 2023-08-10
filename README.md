@@ -54,6 +54,7 @@ export default defineNuxtConfig({
       refreshTokenCookieName: "directus_refresh_token",
       accessTokenCookieName: "directus_access_token",
       msRefreshBeforeExpires: 3000,
+      accessTokenCookieMaxAge: 3600 * 24 * 7, // Set to undefined to store access token in session cookie
       redirect: {
         login: "/auth/login", // Path to redirect when login is required
         logout: "/auth/login", // Path to redirect after logout
