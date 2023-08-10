@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v2.2.4-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.3-beta...v2.2.4-beta)
+
+### 🩹 Fixes
+
+- Store access token in long-lived cookie ([7e992de](https://github.com/becem-gharbi/nuxt-directus/commit/7e992de))
+
+### 📖 Documentation
+
+- Add notes section ([1bf7278](https://github.com/becem-gharbi/nuxt-directus/commit/1bf7278))
+- Add accessTokenCookieMaxAge config option ([1dfc4eb](https://github.com/becem-gharbi/nuxt-directus/commit/1dfc4eb))
+
+### 🏡 Chore
+
+- Add accessTokenCookieMaxAge config option ([1deba60](https://github.com/becem-gharbi/nuxt-directus/commit/1deba60))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v2.2.3-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.2-beta...v2.2.3-beta)

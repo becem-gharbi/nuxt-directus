@@ -49,13 +49,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
           setCookie(event, key, value || "", {
             sameSite: "strict",
             secure: true,
-            maxAge: config.auth.accessTokenCookieMaxAge || undefined,
+            maxAge: config.auth.accessTokenCookieMaxAge,
           });
         } else {
           useCookie(key, {
             sameSite: "strict",
             secure: true,
-            maxAge: config.auth.accessTokenCookieMaxAge || undefined,
+            maxAge: config.auth.accessTokenCookieMaxAge,
           }).value = value;
         }
       }
