@@ -6,7 +6,7 @@
     <!-- {{ result }} -->
     <hr>
     <button @click="logout()">Logout</button>
-    <button @click="refresh()">REFRESH</button>
+    <!-- <button @click="refresh()">REFRESH</button> -->
   </div>
 </template>
 
@@ -18,7 +18,7 @@ definePageMeta({ middleware: "auth" })
 
 const { logout, user } = useDirectusAuth()
 
-const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
+// const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
 
 // const query = graphql(`
 // query GetBook {

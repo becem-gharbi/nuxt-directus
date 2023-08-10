@@ -47,13 +47,15 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         if (process.server) {
           event.context[key] = value;
           setCookie(event, key, value || "", {
-            sameSite: "lax",
+            sameSite: "strict",
             secure: true,
+            maxAge: 3600 * 24 * 30,
           });
         } else {
           useCookie(key, {
-            sameSite: "lax",
+            sameSite: "strict",
             secure: true,
+            maxAge: 3600 * 24 * 30,
           }).value = value;
         }
       }
