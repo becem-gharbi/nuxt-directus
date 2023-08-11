@@ -4,7 +4,7 @@ import myModule from "..";
 export default defineNuxtConfig({
   //@ts-ignore
   modules: [myModule],
-  ssr: false,
+  ssr: true,
   directus: {
     auth: {
       enabled: true,

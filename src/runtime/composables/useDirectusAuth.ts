@@ -16,7 +16,12 @@ import jwtDecode from "jwt-decode";
 
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
-import type { AuthStorage, AuthStorageData, PublicConfig } from "../types";
+import type {
+  AuthStorage,
+  AuthStorageData,
+  PublicConfig,
+  LoggedIn,
+} from "../types";
 
 export default function useDirectusAuth<DirectusSchema extends object>() {
   const event = useRequestEvent();
@@ -36,9 +41,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         }
         return useCookie(key).value;
       }
+
+      const loggedIn = process.client && localStorage.getItem("logged_in");
+
       return {
         access_token: _get(config.auth.accessTokenCookieName),
         refresh_token: _get(config.auth.refreshTokenCookieName),
+        logged_in: (loggedIn || "no") as LoggedIn,
       };
     },
 
@@ -61,16 +70,20 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       }
 
       _set(config.auth.accessTokenCookieName, data.access_token);
+      process.client && localStorage.setItem("logged_in", data.logged_in);
     },
 
     clear() {
       this.set({
         access_token: null,
+        logged_in: "no",
       });
     },
   };
 
   async function login(email: string, password: string, otp?: string) {
+    const route = useRoute();
+
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
       baseURL: config.rest.baseUrl,
       method: "POST",
@@ -83,12 +96,10 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       },
     });
 
-    const route = useRoute();
-
     const returnToPath = route.query.redirect?.toString();
     const redirectTo = returnToPath || config.auth.redirect.home;
 
-    storage.set({ access_token: data.access_token });
+    storage.set({ access_token: data.access_token, logged_in: "yes" });
 
     // A workaround to insure access token cookie is set
     setTimeout(async () => {
@@ -109,7 +120,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     clearNuxtData();
     user.value = null;
 
-    return navigateTo(config.auth.redirect.logout);
+    await navigateTo(config.auth.redirect.logout);
   }
 
   async function fetchUser() {
@@ -121,6 +132,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   async function refresh() {
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
+    const loading = useState("directus_refreshing", () => false);
+
+    if (loading.value) {
+      return;
+    }
+
+    loading.value = true;
 
     await $fetch<{ data: AuthenticationData }>("/auth/refresh", {
       baseURL: config.rest.baseUrl,
@@ -139,10 +157,15 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         }
       },
     })
-      .then(({ data }) => storage.set({ access_token: data.access_token }))
+      .then(({ data }) =>
+        storage.set({ access_token: data.access_token, logged_in: "yes" })
+      )
       .catch(async () => {
         storage.clear();
-        return navigateTo(config.auth.redirect.logout);
+        await navigateTo(config.auth.redirect.logout);
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 
