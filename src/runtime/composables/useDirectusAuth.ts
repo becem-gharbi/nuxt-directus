@@ -144,35 +144,36 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
 
-    await $fetch<{ data: AuthenticationData }>("/auth/refresh", {
-      baseURL: config.rest.baseUrl,
-      method: "POST",
-      credentials: "include",
-      body: {
-        mode: "cookie",
-      },
-      headers: {
-        cookie,
-      },
-      onResponse: ({ response }) => {
-        if (response.ok && process.server) {
-          const setCookie = response.headers.get("set-cookie") || "";
-          const cookies = splitCookiesString(setCookie);
-          for (const cookie of cookies) {
-            appendResponseHeader(event, "set-cookie", cookie);
-          }
+    await $fetch
+      .raw<{ data: AuthenticationData }>("/auth/refresh", {
+        baseURL: config.rest.baseUrl,
+        method: "POST",
+        credentials: "include",
+        body: {
+          mode: "cookie",
+        },
+        headers: {
+          cookie,
+        },
+      })
+      .then((res) => {
+        const setCookie = res.headers.get("set-cookie") || "";
+        const cookies = splitCookiesString(setCookie);
+        for (const cookie of cookies) {
+          appendResponseHeader(event, "set-cookie", cookie);
         }
-      },
-    })
-      .then(({ data }) =>
-        storage.set({ access_token: data.access_token, logged_in: "yes" })
-      )
+        storage.set({
+          access_token: res._data?.data.access_token,
+          logged_in: "yes",
+        });
+
+        loading.value = false;
+        return res;
+      })
       .catch(async () => {
         storage.clear();
-        await navigateTo(config.auth.redirect.logout);
-      })
-      .finally(() => {
         loading.value = false;
+        await navigateTo(config.auth.redirect.logout);
       });
   }
 
