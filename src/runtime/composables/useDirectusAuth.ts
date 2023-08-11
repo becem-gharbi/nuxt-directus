@@ -41,10 +41,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         }
         return useCookie(key).value;
       }
+
+      const loggedIn = process.client && localStorage.getItem("logged_in");
+
       return {
         access_token: _get(config.auth.accessTokenCookieName),
         refresh_token: _get(config.auth.refreshTokenCookieName),
-        logged_in: (localStorage?.getItem("logged_in") || "no") as LoggedIn,
+        logged_in: (loggedIn || "no") as LoggedIn,
       };
     },
 
@@ -65,7 +68,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       }
 
       _set(config.auth.accessTokenCookieName, data.access_token);
-      localStorage?.setItem("logged_in", data.logged_in);
+      process.client && localStorage.setItem("logged_in", data.logged_in);
     },
 
     clear() {
@@ -77,6 +80,8 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
   };
 
   async function login(email: string, password: string, otp?: string) {
+    const route = useRoute();
+
     const { data } = await $fetch<{ data: AuthenticationData }>("/auth/login", {
       baseURL: config.rest.baseUrl,
       method: "POST",
@@ -88,8 +93,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         otp,
       },
     });
-
-    const route = useRoute();
 
     const returnToPath = route.query.redirect?.toString();
     const redirectTo = returnToPath || config.auth.redirect.home;
@@ -115,7 +118,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     clearNuxtData();
     user.value = null;
 
-    return navigateTo(config.auth.redirect.logout);
+    await navigateTo(config.auth.redirect.logout);
   }
 
   async function fetchUser() {
@@ -150,7 +153,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       )
       .catch(async () => {
         storage.clear();
-        return navigateTo(config.auth.redirect.logout);
+        await navigateTo(config.auth.redirect.logout);
       });
   }
 

@@ -43,7 +43,11 @@ export default defineNuxtPlugin(async () => {
 
       if (isCallback || isLoggedIn || refresh_token) {
         await refresh();
-        await fetchUser();
+
+        const { access_token } = storage.get();
+        if (access_token) {
+          await fetchUser();
+        }
       }
     }
   } catch (e) {

@@ -3,7 +3,7 @@
     <h1>Home</h1>
     {{ user }}
     <hr>
-    <!-- {{ result }} -->
+    {{ data }}
     <hr>
     <button @click="logout()">Logout</button>
     <button @click="refresh()">REFRESH</button>
@@ -18,7 +18,7 @@ definePageMeta({ middleware: "auth" })
 
 const { logout, user } = useDirectusAuth()
 
-const { data: books, refresh } = useAsyncData("books", () => useDirectusRest(readItems("book")))
+const { data, refresh } = await useAsyncData("country", () => useDirectusRest(readItems("country")))
 
 // const query = graphql(`
 // query GetBook {
