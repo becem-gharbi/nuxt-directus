@@ -11,7 +11,12 @@ import {
   useRequestHeaders,
 } from "#imports";
 import { joinURL, withQuery } from "ufo";
-import { appendHeader, getCookie, setCookie } from "h3";
+import {
+  getCookie,
+  setCookie,
+  appendResponseHeader,
+  splitCookiesString,
+} from "h3";
 import jwtDecode from "jwt-decode";
 
 import type { Ref } from "#imports";
@@ -129,7 +134,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
   }
 
   async function refresh() {
-    const cookie = useRequestHeaders(["cookie"]).cookie || "";
     const loading = useState("directus-refreshing", () => false);
 
     if (loading.value) {
@@ -137,6 +141,8 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     }
 
     loading.value = true;
+
+    const cookie = useRequestHeaders(["cookie"]).cookie || "";
 
     await $fetch<{ data: AuthenticationData }>("/auth/refresh", {
       baseURL: config.rest.baseUrl,
@@ -150,8 +156,11 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       },
       onResponse: ({ response }) => {
         if (response.ok && process.server) {
-          const cookie = response.headers.get("set-cookie") || "";
-          appendHeader(event, "set-cookie", cookie);
+          const setCookie = response.headers.get("set-cookie") || "";
+          const cookies = splitCookiesString(setCookie);
+          for (const cookie of cookies) {
+            appendResponseHeader(event, "set-cookie", cookie);
+          }
         }
       },
     })
