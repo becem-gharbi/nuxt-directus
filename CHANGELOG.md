@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.2.5-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.4-beta...v2.2.5-beta)
+
+### 🩹 Fixes
+
+- Keep user loggedIn after browser session ends ([471e66b](https://github.com/becem-gharbi/nuxt-directus/commit/471e66b))
+- Prevent localStorage calls on SSR ([97b88da](https://github.com/becem-gharbi/nuxt-directus/commit/97b88da))
+- Prevent concurrent refresh calls ([f73ada0](https://github.com/becem-gharbi/nuxt-directus/commit/f73ada0))
+- **logout:** Clear storage & redirect regardless of fetch result ([a6d3a8b](https://github.com/becem-gharbi/nuxt-directus/commit/a6d3a8b))
+
+### 💅 Refactors
+
+- Name useState keys in kebab-case ([04fd6a4](https://github.com/becem-gharbi/nuxt-directus/commit/04fd6a4))
+- Remove accessTokenCookieMaxAge config option ([44e63f4](https://github.com/becem-gharbi/nuxt-directus/commit/44e63f4))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.2.4-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.3-beta...v2.2.4-beta)
