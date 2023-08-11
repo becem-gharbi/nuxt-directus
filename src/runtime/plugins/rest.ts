@@ -1,7 +1,9 @@
-import { defineNuxtPlugin, useRuntimeConfig } from "#imports";
-import { createDirectus } from "@directus/sdk";
-import { rest } from "@directus/sdk";
-import { useDirectusStorage } from "#imports";
+import {
+  defineNuxtPlugin,
+  useRuntimeConfig,
+  useDirectusStorage,
+} from "#imports";
+import { createDirectus, rest } from "@directus/sdk";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig().public.directus;
