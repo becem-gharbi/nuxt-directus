@@ -91,13 +91,12 @@ To use graphql subscription make sure to set
 
 ## Auth
 
-The module has `useDirectusAuth` composable for handling authentication with cookie based storage. It expose these methods
+The module has `useDirectusAuth` composable for handling authentication with cookie based storage. It exposes these methods
 
 - `login` login with email/password and redirect to login page
 - `logout` logout, clear storage and redirect to logout page
 - `fetchUser` call to refetch and refresh `user` state
 - `loginWithProvider` login with SSO provider and redirect to login page on success and callback page otherwise
-- `getToken` get a fresh access token means it will be refreshed on expiration
 - `requestPasswordReset`
 - `resetPassword`
 
