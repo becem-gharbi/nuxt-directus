@@ -132,7 +132,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   async function refresh() {
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
-    const loading = useState("directus_refreshing", () => false);
+    const loading = useState("directus-refreshing", () => false);
 
     if (loading.value) {
       return;

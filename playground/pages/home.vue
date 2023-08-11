@@ -6,7 +6,7 @@
     {{ data }}
     <hr>
     <button @click="logout()">Logout</button>
-    <!-- <button @click="refresh()">REFRESH</button> -->
+    <button @click="refresh()">REFRESH</button>
   </div>
 </template>
 
