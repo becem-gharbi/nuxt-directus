@@ -5,6 +5,7 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
+  useDirectusStorage,
 } from "#imports";
 import common from "../middleware/common";
 import auth from "../middleware/auth";
@@ -22,7 +23,7 @@ export default defineNuxtPlugin(async () => {
 
     addRouteMiddleware("guest", guest);
 
-    const initialized = useState("directus-initialized", () => false);
+    const initialized = useState("directus-auth-initialized", () => false);
 
     if (initialized.value) {
       return;
@@ -30,22 +31,21 @@ export default defineNuxtPlugin(async () => {
 
     initialized.value = true;
 
-    const { fetchUser, storage, refresh } = useDirectusAuth();
-    const { refresh_token, access_token, logged_in } = storage.get();
+    const { path } = useRoute();
+    const { fetchUser } = useDirectusAuth();
+    const { refreshToken, accessToken, loggedIn, refresh } =
+      useDirectusStorage();
 
-    if (access_token) {
-      storage.set({ access_token, logged_in: "yes" });
+    if (accessToken.get()) {
+      loggedIn.set(true);
       await fetchUser();
     } else {
-      const { path } = useRoute();
       const isCallback = path === config.auth.redirect.callback;
-      const isLoggedIn = logged_in === "yes";
+      const isLoggedIn = loggedIn.get() === "true";
 
-      if (isCallback || isLoggedIn || refresh_token) {
+      if (isCallback || isLoggedIn || refreshToken.get()) {
         await refresh();
-
-        const { access_token } = storage.get();
-        if (access_token) {
+        if (accessToken.get()) {
           await fetchUser();
         }
       }

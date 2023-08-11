@@ -2,7 +2,7 @@ import {
   defineNuxtRouteMiddleware,
   useRuntimeConfig,
   navigateTo,
-  useDirectusAuth,
+  useDirectusStorage,
 } from "#imports";
 
 export default defineNuxtRouteMiddleware((to) => {
@@ -15,10 +15,9 @@ export default defineNuxtRouteMiddleware((to) => {
     return;
   }
 
-  const { storage } = useDirectusAuth();
-  const { access_token } = storage.get();
+  const { accessToken } = useDirectusStorage();
 
-  if (access_token) {
+  if (accessToken.get()) {
     return navigateTo(config.auth.redirect.home);
   }
 });

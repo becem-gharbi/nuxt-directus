@@ -13,7 +13,7 @@ interface Authentication {
   enabled: true;
   userFields?: string[];
   enableGlobalAuthMiddleware: boolean;
-   refreshTokenCookieName?: string;
+  refreshTokenCookieName?: string;
   accessTokenCookieName?: string;
   msRefreshBeforeExpires?: number;
   redirect: {

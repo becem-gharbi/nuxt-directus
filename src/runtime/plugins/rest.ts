@@ -1,7 +1,7 @@
 import { defineNuxtPlugin, useRuntimeConfig } from "#imports";
 import { createDirectus } from "@directus/sdk";
 import { rest } from "@directus/sdk";
-import { useDirectusAuth } from "#imports";
+import { useDirectusStorage } from "#imports";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig().public.directus;
@@ -12,7 +12,7 @@ export default defineNuxtPlugin(() => {
     rest({
       onRequest: async (request) => {
         if (config.auth.enabled) {
-          const { getToken } = useDirectusAuth();
+          const { getToken } = useDirectusStorage();
 
           const accessToken = await getToken();
 
