@@ -130,6 +130,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   async function refresh() {
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
+    const loading = useState("directus_refreshing", () => false);
+
+    if (loading.value) {
+      return;
+    }
+
+    loading.value = true;
 
     await $fetch<{ data: AuthenticationData }>("/auth/refresh", {
       baseURL: config.rest.baseUrl,
@@ -154,6 +161,9 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       .catch(async () => {
         storage.clear();
         await navigateTo(config.auth.redirect.logout);
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 
