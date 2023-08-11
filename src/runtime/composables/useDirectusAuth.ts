@@ -111,14 +111,14 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       baseURL: config.rest.baseUrl,
       method: "POST",
       credentials: "include",
+    }).finally(async () => {
+      storage.clear();
+
+      clearNuxtData();
+      user.value = null;
+
+      await navigateTo(config.auth.redirect.logout);
     });
-
-    storage.clear();
-
-    clearNuxtData();
-    user.value = null;
-
-    await navigateTo(config.auth.redirect.logout);
   }
 
   async function fetchUser() {
