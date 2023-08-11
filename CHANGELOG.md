@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v2.2.6-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.5-beta...v2.2.6-beta)
+
+### 💅 Refactors
+
+- Pass cookies from server-side on SSR response as suggested by docs ([0fbf849](https://github.com/becem-gharbi/nuxt-directus/commit/0fbf849))
+- **refresh:** Some refactoring ([c5b4cbc](https://github.com/becem-gharbi/nuxt-directus/commit/c5b4cbc))
+- Create useDirectusStorage to handle auth session ([a6461c6](https://github.com/becem-gharbi/nuxt-directus/commit/a6461c6))
+
+### 📖 Documentation
+
+- Update readme ([732a8b1](https://github.com/becem-gharbi/nuxt-directus/commit/732a8b1))
+
+### 🏡 Chore
+
+- Add refresh flowchart ([68b8253](https://github.com/becem-gharbi/nuxt-directus/commit/68b8253))
+- Update design ([f2407a0](https://github.com/becem-gharbi/nuxt-directus/commit/f2407a0))
+- Update design ([6ef7e01](https://github.com/becem-gharbi/nuxt-directus/commit/6ef7e01))
+- Update design ([e081977](https://github.com/becem-gharbi/nuxt-directus/commit/e081977))
+- Set tag to latest ([ab2bec9](https://github.com/becem-gharbi/nuxt-directus/commit/ab2bec9))
+- Upgrade dependencies ([962071f](https://github.com/becem-gharbi/nuxt-directus/commit/962071f))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.2.5-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.4-beta...v2.2.5-beta)
