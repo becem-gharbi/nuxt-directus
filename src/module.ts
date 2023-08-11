@@ -36,7 +36,6 @@ export default defineNuxtModule<ModuleOptions>({
     auth: {
       enabled: true,
       msRefreshBeforeExpires: 3000,
-      accessTokenCookieMaxAge: 3600 * 24 * 7,
       enableGlobalAuthMiddleware: false,
       refreshTokenCookieName: "directus_refresh_token",
       accessTokenCookieName: "directus_access_token",

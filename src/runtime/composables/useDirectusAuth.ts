@@ -56,15 +56,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         if (process.server) {
           event.context[key] = value;
           setCookie(event, key, value || "", {
-            sameSite: "strict",
+            sameSite: "lax",
             secure: true,
-            maxAge: config.auth.accessTokenCookieMaxAge,
           });
         } else {
           useCookie(key, {
-            sameSite: "strict",
+            sameSite: "lax",
             secure: true,
-            maxAge: config.auth.accessTokenCookieMaxAge,
           }).value = value;
         }
       }
