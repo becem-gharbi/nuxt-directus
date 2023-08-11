@@ -16,7 +16,12 @@ import jwtDecode from "jwt-decode";
 
 import type { Ref } from "#imports";
 import type { AuthenticationData, DirectusUser } from "@directus/sdk";
-import type { AuthStorage, AuthStorageData, PublicConfig } from "../types";
+import type {
+  AuthStorage,
+  AuthStorageData,
+  PublicConfig,
+  LoggedIn,
+} from "../types";
 
 export default function useDirectusAuth<DirectusSchema extends object>() {
   const event = useRequestEvent();
@@ -39,6 +44,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       return {
         access_token: _get(config.auth.accessTokenCookieName),
         refresh_token: _get(config.auth.refreshTokenCookieName),
+        logged_in: (localStorage?.getItem("logged_in") || "no") as LoggedIn,
       };
     },
 
@@ -59,11 +65,13 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
       }
 
       _set(config.auth.accessTokenCookieName, data.access_token);
+      localStorage?.setItem("logged_in", data.logged_in);
     },
 
     clear() {
       this.set({
         access_token: null,
+        logged_in: "no",
       });
     },
   };
@@ -86,7 +94,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     const returnToPath = route.query.redirect?.toString();
     const redirectTo = returnToPath || config.auth.redirect.home;
 
-    storage.set({ access_token: data.access_token });
+    storage.set({ access_token: data.access_token, logged_in: "yes" });
 
     // A workaround to insure access token cookie is set
     setTimeout(async () => {
@@ -137,7 +145,9 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
         }
       },
     })
-      .then(({ data }) => storage.set({ access_token: data.access_token }))
+      .then(({ data }) =>
+        storage.set({ access_token: data.access_token, logged_in: "yes" })
+      )
       .catch(async () => {
         storage.clear();
         return navigateTo(config.auth.redirect.logout);
