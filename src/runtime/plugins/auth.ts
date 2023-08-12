@@ -5,7 +5,7 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
-  useDirectusStorage,
+  useDirectusSession,
   useNuxtApp,
 } from "#imports";
 import common from "../middleware/common";
@@ -31,7 +31,7 @@ export default defineNuxtPlugin(async () => {
 
       const { fetchUser } = useDirectusAuth();
       const { refreshToken, accessToken, loggedIn, refresh } =
-        useDirectusStorage();
+        useDirectusSession();
 
       if (accessToken.get()) {
         await fetchUser();

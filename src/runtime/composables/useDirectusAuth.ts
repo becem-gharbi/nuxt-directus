@@ -7,7 +7,7 @@ import {
   useRoute,
   navigateTo,
   clearNuxtData,
-  useDirectusStorage,
+  useDirectusSession,
   useNuxtApp,
 } from "#imports";
 
@@ -23,7 +23,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   const config = useRuntimeConfig().public.directus;
 
-  const { accessToken, loggedIn } = useDirectusStorage();
+  const { accessToken, loggedIn } = useDirectusSession();
 
   async function login(email: string, password: string, otp?: string) {
     const route = useRoute();
