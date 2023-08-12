@@ -104,9 +104,9 @@ export default function () {
         return res;
       })
       .catch(async () => {
+        isRefreshOn.value = false;
         accessToken.clear();
         loggedIn.set(false);
-        isRefreshOn.value = false;
         await navigateTo(logoutRedirectPath);
       });
   }

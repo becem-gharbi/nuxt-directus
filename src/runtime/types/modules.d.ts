@@ -6,6 +6,9 @@ declare module "#app" {
       rest: RestClient<DirectusSchema>;
     };
   }
+  interface RuntimeNuxtHooks {
+    "directus:loggedIn": (state: boolean) => void;
+  }
 }
 
 declare module "vue" {

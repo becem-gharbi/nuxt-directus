@@ -8,6 +8,7 @@ import {
   navigateTo,
   clearNuxtData,
   useDirectusStorage,
+  useNuxtApp,
 } from "#imports";
 
 import type { Ref } from "#imports";
@@ -26,6 +27,7 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
 
   async function login(email: string, password: string, otp?: string) {
     const route = useRoute();
+    const { callHook } = useNuxtApp();
 
     const { data } = await $fetch<AuthenticationData>("/auth/login", {
       baseURL: config.rest.baseUrl,
@@ -48,11 +50,16 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     // A workaround to insure access token cookie is set
     setTimeout(async () => {
       await fetchUser();
+      await callHook("directus:loggedIn", true);
       await navigateTo(redirectTo);
     }, 100);
   }
 
   async function logout() {
+    const { callHook } = useNuxtApp();
+
+    await callHook("directus:loggedIn", false);
+
     await $fetch("/auth/logout", {
       baseURL: config.rest.baseUrl,
       method: "POST",
