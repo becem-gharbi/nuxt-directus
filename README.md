@@ -91,14 +91,27 @@ To use graphql subscription make sure to set
 
 ## Auth
 
-The module has `useDirectusAuth` composable for handling authentication with cookie based storage. It exposes these methods
+> Directus and Nuxt apps SHOULD share the same domain name because cookies's sameSite policy is set to `lax`, in development domain SHOULD be 127.0.0.1 ([issue](https://github.com/unjs/ofetch/issues/156))
+
+The module has `useDirectusAuth` composable for handling authentication with cookie based storage.
 
 - `login` login with email/password and redirect to login page
-- `logout` logout, clear storage and redirect to logout page
+- `logout` logout, clear states and redirect to logout page
 - `fetchUser` call to refetch and refresh `user` state
 - `loginWithProvider` login with SSO provider and redirect to login page on success and callback page otherwise
 - `requestPasswordReset`
 - `resetPassword`
+
+To implement a custom logic on user login/logout events, you can use `directus:loggedIn` hook
+
+```js
+export default defineNuxtPlugin({
+  enforce: "pre", // Should be registered before built-in `auth` plugin
+  hooks: {
+    "directus:loggedIn": (state) => {},
+  },
+});
+```
 
 For protecting page routes, 2 possible approachs can be used:
 
@@ -121,20 +134,6 @@ definePageMeta({ middleware: "auth" }); // Redirects to login path when not logg
 ```js
 definePageMeta({ middleware: "guest" }); // Redirects to home path when loggedIn
 ```
-
-## Notes
-
-- When auth is enabled, Directus and Nuxt apps SHOULD share the same domain name because cookies's sameSite policy is set to `lax`, in development domain SHOULD be 127.0.0.1 ([issue](https://github.com/unjs/ofetch/issues/156))
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
