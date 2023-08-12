@@ -6,6 +6,7 @@ import {
   useCookie,
   useRequestHeaders,
   navigateTo,
+  clearNuxtState,
 } from "#imports";
 import {
   deleteCookie,
@@ -28,6 +29,7 @@ export default function () {
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires;
   const logoutRedirectPath = config.auth.redirect.logout;
   const loggedInName = "directus_logged_in";
+  const authStates = ["directus-user"];
 
   const accessToken = {
     get: () =>
@@ -107,6 +109,7 @@ export default function () {
         isRefreshOn.value = false;
         accessToken.clear();
         loggedIn.set(false);
+        clearNuxtState(authStates);
         await navigateTo(logoutRedirectPath);
       });
   }
