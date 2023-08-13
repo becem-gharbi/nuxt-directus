@@ -6,7 +6,6 @@ import {
   useCookie,
   useRequestHeaders,
   navigateTo,
-  clearNuxtState,
 } from "#imports";
 import {
   deleteCookie,
@@ -109,7 +108,7 @@ export default function () {
         isRefreshOn.value = false;
         accessToken.clear();
         loggedIn.set(false);
-        clearNuxtState(authStates);
+        authStates.forEach((state) => (useState(state).value = null));
         await navigateTo(logoutRedirectPath);
       });
   }
