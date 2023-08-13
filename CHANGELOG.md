@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.3.1-beta
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.0-beta...v2.3.1-beta)
+
+### 💅 Refactors
+
+- **refresh:** Reset auth states with useState ([b453743](https://github.com/becem-gharbi/nuxt-directus/commit/b453743))
+- Always set loggedIn to localStorage on page load ([e83a001](https://github.com/becem-gharbi/nuxt-directus/commit/e83a001))
+
+### 📖 Documentation
+
+- Update REadme ([9d21338](https://github.com/becem-gharbi/nuxt-directus/commit/9d21338))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.3.0-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.5-beta...v2.3.0-beta)

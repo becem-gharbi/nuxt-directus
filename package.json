@@ -1,6 +1,6 @@
 {
   "name": "@bg-dev/nuxt-directus",
-  "version": "2.3.0-beta",
+  "version": "2.3.1-beta",
   "license": "MIT",
   "type": "module",
   "author": "Becem Gharbi",
