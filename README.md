@@ -71,7 +71,7 @@ That's it! You can now use `@bg-dev/nuxt-directus` in your Nuxt app ✨
 ## REST
 
 The module has `useDirectusRest` composable for data fetching with REST API. It is a wrapper around Directus SDK `request` API with auto refresh of access token and auto-imported commands.
-For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via `global.d.ts` file.
+For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via `DirectusSchema` type.
 
 ```js
 import { CustomDirectusTypes } from "./types";
@@ -91,7 +91,7 @@ To use graphql subscription make sure to set
 
 ## Auth
 
-> Directus and Nuxt apps SHOULD share the same domain name because cookies's sameSite policy is set to `lax`, in development domain SHOULD be 127.0.0.1 ([issue](https://github.com/unjs/ofetch/issues/156))
+Directus and Nuxt apps **SHOULD** share the same domain name because cookies's sameSite policy is set to `lax`, in development domain **SHOULD** be 127.0.0.1 ([issue](https://github.com/becem-gharbi/nuxt-directus/issues/38))
 
 The module has `useDirectusAuth` composable for handling authentication with cookie based storage.
 
