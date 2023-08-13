@@ -26,16 +26,16 @@ export default defineNuxtPlugin(async () => {
 
     const initialized = useState("directus-auth-initialized", () => false);
 
+    const { loggedIn } = useDirectusSession();
+
     if (initialized.value === false) {
       const { path } = useRoute();
 
       const { fetchUser } = useDirectusAuth();
-      const { refreshToken, accessToken, loggedIn, refresh } =
-        useDirectusSession();
+      const { refreshToken, accessToken, refresh } = useDirectusSession();
 
       if (accessToken.get()) {
         await fetchUser();
-        loggedIn.set(true);
       } else {
         const isCallback = path === config.auth.redirect.callback;
         const isLoggedIn = loggedIn.get() === "true";
@@ -54,8 +54,11 @@ export default defineNuxtPlugin(async () => {
     const { user } = useDirectusAuth();
 
     if (user.value) {
+      loggedIn.set(true);
       const { callHook } = useNuxtApp();
       await callHook("directus:loggedIn", true);
+    } else {
+      loggedIn.set(false);
     }
   } catch (e) {
     console.log(e);
