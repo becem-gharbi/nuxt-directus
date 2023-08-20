@@ -1,6 +1,6 @@
 {
   "name": "@bg-dev/nuxt-directus",
-  "version": "2.3.1-beta",
+  "version": "2.0.0",
   "license": "MIT",
   "type": "module",
   "author": "Becem Gharbi",
@@ -29,7 +29,7 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run prepack && changelogen --release --versionSuffix beta && npm publish && git push --follow-tags"
+    "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags"
   },
   "dependencies": {
     "@directus/sdk": "^11.0.2",
