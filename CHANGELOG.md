@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v2.0.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.1-beta...v2.0.1)
+
+### 🩹 Fixes
+
+- Reset user state on fetchUser fail ([3b1e6d3](https://github.com/becem-gharbi/nuxt-directus/commit/3b1e6d3))
+- Fix nuxt instance not available on SSR ([5b9d617](https://github.com/becem-gharbi/nuxt-directus/commit/5b9d617))
+
+### 🏡 Chore
+
+- Use console.error to log errors ([4fa4fff](https://github.com/becem-gharbi/nuxt-directus/commit/4fa4fff))
+- Remove beta tag ([4bd9365](https://github.com/becem-gharbi/nuxt-directus/commit/4bd9365))
+
+### ❤️  Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.3.1-beta
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.0-beta...v2.3.1-beta)
