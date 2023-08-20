@@ -28,7 +28,6 @@ export default function () {
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires;
   const logoutRedirectPath = config.auth.redirect.logout;
   const loggedInName = "directus_logged_in";
-  const authStates = ["directus-user"];
 
   const accessToken = {
     get: () =>
@@ -70,6 +69,7 @@ export default function () {
 
   async function refresh() {
     const isRefreshOn = useState("directus-refresh-loading", () => false);
+    const user = useState("directus-user");
 
     if (isRefreshOn.value) {
       return;
@@ -108,8 +108,10 @@ export default function () {
         isRefreshOn.value = false;
         accessToken.clear();
         loggedIn.set(false);
-        authStates.forEach((state) => (useState(state).value = null));
-        await navigateTo(logoutRedirectPath);
+        user.value = null;
+        if (process.client) {
+          await navigateTo(logoutRedirectPath);
+        }
       });
   }
 
