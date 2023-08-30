@@ -21,12 +21,9 @@ export default function () {
   const event = useRequestEvent();
   const config = useRuntimeConfig().public.directus;
 
-  const baseURL = config.rest.baseUrl;
-  const refreshPath = "/auth/refresh";
   const accessTokenCookieName = config.auth.accessTokenCookieName;
   const refreshTokenCookieName = config.auth.refreshTokenCookieName;
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires;
-  const logoutRedirectPath = config.auth.redirect.logout;
   const loggedInName = "directus_logged_in";
 
   const accessToken = {
@@ -80,8 +77,8 @@ export default function () {
     const cookie = useRequestHeaders(["cookie"]).cookie || "";
 
     await $fetch
-      .raw<AuthenticationData>(refreshPath, {
-        baseURL,
+      .raw<AuthenticationData>("/auth/refresh", {
+        baseURL: config.rest.baseUrl,
         method: "POST",
         credentials: "include",
         body: {
@@ -110,7 +107,7 @@ export default function () {
         loggedIn.set(false);
         user.value = null;
         if (process.client) {
-          await navigateTo(logoutRedirectPath);
+          await navigateTo(config.auth.redirect.logout);
         }
       });
   }
