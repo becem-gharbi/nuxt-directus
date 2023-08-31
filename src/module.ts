@@ -10,11 +10,36 @@ import {
 } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import { defu } from "defu";
-import type { PublicConfig } from "./runtime/types";
 
-export interface ModuleOptions extends PublicConfig {}
 
-export default defineNuxtModule<ModuleOptions>({
+const defaults = {
+  rest: {
+    baseUrl: "http://127.0.0.1:8055",
+    nuxtBaseUrl: "http://127.0.0.1:3000",
+  },
+  graphql: {
+    enabled: true,
+    httpEndpoint: "http://127.0.0.1:8055/graphql",
+    wsEndpoint: "wss://127.0.0.1:8055/websocket",
+  },
+  auth: {
+    enabled: true,
+    msRefreshBeforeExpires: 3000,
+    enableGlobalAuthMiddleware: false,
+    refreshTokenCookieName: "directus_refresh_token",
+    accessTokenCookieName: "directus_access_token",
+    redirect: {
+      home: "/home",
+      login: "/auth/login",
+      logout: "/auth/login",
+      resetPassword: "/auth/reset-password",
+      callback: "/auth/callback",
+    },
+  },
+};
+
+
+export default defineNuxtModule<typeof defaults>({
   meta: {
     name,
     version,
@@ -23,32 +48,7 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt: "^3.0.0",
     },
   },
-
-  defaults: {
-    rest: {
-      baseUrl: "http://127.0.0.1:8055",
-      nuxtBaseUrl: "http://127.0.0.1:3000",
-    },
-    graphql: {
-      enabled: true,
-      httpEndpoint: "http://127.0.0.1:8055/graphql",
-    },
-    auth: {
-      enabled: true,
-      msRefreshBeforeExpires: 3000,
-      enableGlobalAuthMiddleware: false,
-      refreshTokenCookieName: "directus_refresh_token",
-      accessTokenCookieName: "directus_access_token",
-      redirect: {
-        home: "/home",
-        login: "/auth/login",
-        logout: "/auth/login",
-        resetPassword: "/auth/reset-password",
-        callback: "/auth/callback",
-      },
-    },
-  },
-
+  defaults,
   async setup(options, nuxt) {
     if (!options.rest.baseUrl) {
       logger.warn(`[${name}] Please make sure to set Directus baseUrl`);

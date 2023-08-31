@@ -5,6 +5,13 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": [
       "off"
-    ]
+    ],
+    "quotes": ["off"],
+    "semi": ["off"],
+    "comma-dangle": ["off"],
+    "import/order": ["off"],
+    "space-before-function-paren": ["never"],
+    "eol-last": ["off"],
+    "vue/html-indent": ["error", 2, { /* options */}]
   }
 }
