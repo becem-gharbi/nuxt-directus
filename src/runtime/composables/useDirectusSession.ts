@@ -28,12 +28,9 @@ export default function () {
 
   const accessToken = {
     get: () =>
-      process.server
-        ? event.context[accessTokenCookieName]
-        : useCookie(accessTokenCookieName).value,
+      useCookie(accessTokenCookieName).value,
     set: (value: string) => {
       if (process.server) {
-        event.context[accessTokenCookieName] = value;
         setCookie(event, accessTokenCookieName, value, {
           sameSite: "lax",
           secure: true,
