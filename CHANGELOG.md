@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v2.0.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.1...v2.0.2)
+
+### 🩹 Fixes
+
+- Fix access token getter on server-side ([80f3f8f](https://github.com/becem-gharbi/nuxt-directus/commit/80f3f8f))
+
+### 💅 Refactors
+
+- Refactor useDirectusSession ([2b11d7e](https://github.com/becem-gharbi/nuxt-directus/commit/2b11d7e))
+
+### 🏡 Chore
+
+- Upgrade nuxt to v3.7 ([5c37313](https://github.com/becem-gharbi/nuxt-directus/commit/5c37313))
+- Switch to pnpm ([6786a94](https://github.com/becem-gharbi/nuxt-directus/commit/6786a94))
+- Add host flag to dev command ([c163aed](https://github.com/becem-gharbi/nuxt-directus/commit/c163aed))
+
+### ❤️ Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.0.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.1-beta...v2.0.1)
