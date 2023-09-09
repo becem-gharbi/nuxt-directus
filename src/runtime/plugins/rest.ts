@@ -1,41 +1,41 @@
+import { createDirectus, rest } from '@directus/sdk'
 import {
   defineNuxtPlugin,
   useRuntimeConfig,
-  useDirectusSession,
-} from "#imports";
-import { createDirectus, rest } from "@directus/sdk";
+  useDirectusSession
+} from '#imports'
 
 export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig().public.directus;
+  const config = useRuntimeConfig().public.directus
 
-  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl);
+  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl)
 
   const restClient = directus.with(
     rest({
       onRequest: async (request) => {
         if (config.auth.enabled) {
-          const { getToken } = useDirectusSession();
+          const { getToken } = useDirectusSession()
 
-          const accessToken = await getToken();
+          const accessToken = await getToken()
 
           if (accessToken) {
             request.headers = {
               ...request.headers,
-              authorization: `Bearer ${accessToken}`,
-            };
+              authorization: `Bearer ${accessToken}`
+            }
           }
         }
 
-        return request;
-      },
+        return request
+      }
     })
-  );
+  )
 
   return {
     provide: {
       directus: {
-        rest: restClient,
-      },
-    },
-  };
-});
+        rest: restClient
+      }
+    }
+  }
+})

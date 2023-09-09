@@ -29,7 +29,8 @@
     "dev": "nuxi dev playground --host 127.0.0.1",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags"
+    "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "@directus/sdk": "^11.0.3",

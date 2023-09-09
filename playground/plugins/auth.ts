@@ -1,6 +1,6 @@
 export default defineNuxtPlugin({
-  enforce: "pre",
+  enforce: 'pre',
   hooks: {
-    "directus:loggedIn": (state) => console.log(`LoggedIn ${state}`),
-  },
-});
+    'directus:loggedIn': state => console.log(`LoggedIn ${state}`)
+  }
+})

@@ -1,5 +1,7 @@
-import { readMe, passwordRequest, passwordReset } from "@directus/sdk";
-import { joinURL, withQuery } from "ufo";
+import { readMe, passwordRequest, passwordReset } from '@directus/sdk'
+import { joinURL, withQuery } from 'ufo'
+import type { DirectusUser } from '@directus/sdk'
+import type { AuthenticationData } from '../types'
 import {
   useState,
   useRuntimeConfig,
@@ -8,116 +10,114 @@ import {
   navigateTo,
   clearNuxtData,
   useDirectusSession,
-  useNuxtApp,
-} from "#imports";
+  useNuxtApp
+} from '#imports'
 
-import type { Ref } from "#imports";
-import type { DirectusUser } from "@directus/sdk";
-import type { AuthenticationData } from "../types";
+import type { Ref } from '#imports'
 
-export default function useDirectusAuth<DirectusSchema extends object>() {
+export default function useDirectusAuth<DirectusSchema extends object> () {
   const user: Ref<DirectusUser<DirectusSchema> | null> = useState(
-    "directus-user",
+    'directus-user',
     () => null
-  );
+  )
 
-  const config = useRuntimeConfig().public.directus;
+  const config = useRuntimeConfig().public.directus
 
-  const { accessToken, loggedIn } = useDirectusSession();
+  const { accessToken, loggedIn } = useDirectusSession()
 
-  async function login(email: string, password: string, otp?: string) {
-    const route = useRoute();
-    const { callHook } = useNuxtApp();
+  async function login (email: string, password: string, otp?: string) {
+    const route = useRoute()
+    const { callHook } = useNuxtApp()
 
-    const { data } = await $fetch<AuthenticationData>("/auth/login", {
+    const { data } = await $fetch<AuthenticationData>('/auth/login', {
       baseURL: config.rest.baseUrl,
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       body: {
-        mode: "cookie",
+        mode: 'cookie',
         email,
         password,
-        otp,
-      },
-    });
+        otp
+      }
+    })
 
-    const returnToPath = route.query.redirect?.toString();
-    const redirectTo = returnToPath || config.auth.redirect.home;
+    const returnToPath = route.query.redirect?.toString()
+    const redirectTo = returnToPath || config.auth.redirect.home
 
-    accessToken.set(data.access_token);
-    loggedIn.set(true);
+    accessToken.set(data.access_token)
+    loggedIn.set(true)
 
     // A workaround to insure access token cookie is set
     setTimeout(async () => {
-      await fetchUser();
-      await callHook("directus:loggedIn", true);
-      await navigateTo(redirectTo);
-    }, 100);
+      await fetchUser()
+      await callHook('directus:loggedIn', true)
+      await navigateTo(redirectTo)
+    }, 100)
   }
 
-  async function logout() {
-    const { callHook } = useNuxtApp();
+  async function logout () {
+    const { callHook } = useNuxtApp()
 
-    await callHook("directus:loggedIn", false);
+    await callHook('directus:loggedIn', false)
 
-    await $fetch("/auth/logout", {
+    await $fetch('/auth/logout', {
       baseURL: config.rest.baseUrl,
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include'
     }).finally(async () => {
-      accessToken.clear();
-      loggedIn.set(false);
-      user.value = null;
-      clearNuxtData();
-      await navigateTo(config.auth.redirect.logout);
-    });
+      accessToken.clear()
+      loggedIn.set(false)
+      user.value = null
+      clearNuxtData()
+      await navigateTo(config.auth.redirect.logout)
+    })
   }
 
-  async function fetchUser() {
-    const fields = config.auth.userFields || ["*"];
+  async function fetchUser () {
+    const fields = config.auth.userFields || ['*']
     try {
-      //@ts-ignore
-      user.value = await useDirectusRest(readMe({ fields }));
+      // @ts-ignore
+      user.value = await useDirectusRest(readMe({ fields }))
     } catch (error) {
-      user.value = null;
+      user.value = null
     }
   }
 
-  async function loginWithProvider(provider: string) {
-    const route = useRoute();
-    const returnToPath = route.query.redirect?.toString();
-    let redirectUrl = getRedirectUrl(config.auth.redirect.callback);
+  function loginWithProvider (provider: string) {
+    const route = useRoute()
+    const returnToPath = route.query.redirect?.toString()
+    let redirectUrl = getRedirectUrl(config.auth.redirect.callback)
 
     if (returnToPath) {
-      redirectUrl = withQuery(redirectUrl, { redirect: returnToPath });
+      redirectUrl = withQuery(redirectUrl, { redirect: returnToPath })
     }
 
     if (process.client) {
       const url = withQuery(
-        joinURL(config.rest.baseUrl, "/auth/login", provider),
+        joinURL(config.rest.baseUrl, '/auth/login', provider),
         {
-          redirect: redirectUrl,
+          redirect: redirectUrl
         }
-      );
+      )
 
-      window.location.replace(url);
+      window.location.replace(url)
     }
   }
 
-  function requestPasswordReset(email: string) {
-    const resetUrl = getRedirectUrl(config.auth.redirect.resetPassword);
-    return useDirectusRest(passwordRequest(email, resetUrl));
+  function requestPasswordReset (email: string) {
+    const resetUrl = getRedirectUrl(config.auth.redirect.resetPassword)
+    return useDirectusRest(passwordRequest(email, resetUrl))
   }
 
-  function resetPassword(password: string) {
-    const route = useRoute();
-    const token = route.query.token as string;
+  function resetPassword (password: string) {
+    const route = useRoute()
+    const token = route.query.token as string
 
-    return useDirectusRest(passwordReset(token, password));
+    return useDirectusRest(passwordReset(token, password))
   }
 
-  function getRedirectUrl(path: string) {
-    return joinURL(config.rest.nuxtBaseUrl, path);
+  function getRedirectUrl (path: string) {
+    return joinURL(config.rest.nuxtBaseUrl, path)
   }
 
   return {
@@ -127,6 +127,6 @@ export default function useDirectusAuth<DirectusSchema extends object>() {
     loginWithProvider,
     requestPasswordReset,
     resetPassword,
-    user,
-  };
+    user
+  }
 }

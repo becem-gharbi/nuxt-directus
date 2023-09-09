@@ -1,10 +1,10 @@
-import { useNuxtApp } from "#imports";
-import type { RestCommand } from "@directus/sdk";
+import type { RestCommand } from '@directus/sdk'
+import { useNuxtApp } from '#imports'
 
-export default async function useDirectusRest(
+export default async function useDirectusRest (
   options: RestCommand<object, DirectusSchema>
 ): Promise<object> {
-  const { $directus } = useNuxtApp();
+  const { $directus } = useNuxtApp()
 
-  return $directus.rest.request(options);
+  return await $directus.rest.request(options)
 }

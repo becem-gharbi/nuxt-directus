@@ -1,3 +1,6 @@
+import common from '../middleware/common'
+import auth from '../middleware/auth'
+import guest from '../middleware/guest'
 import {
   defineNuxtPlugin,
   addRouteMiddleware,
@@ -6,61 +9,58 @@ import {
   useDirectusAuth,
   useRoute,
   useDirectusSession,
-  useNuxtApp,
-} from "#imports";
-import common from "../middleware/common";
-import auth from "../middleware/auth";
-import guest from "../middleware/guest";
+  useNuxtApp
+} from '#imports'
 
 export default defineNuxtPlugin(async () => {
   try {
-    const config = useRuntimeConfig().public.directus;
+    const config = useRuntimeConfig().public.directus
 
-    addRouteMiddleware("common", common, { global: true });
+    addRouteMiddleware('common', common, { global: true })
 
-    addRouteMiddleware("auth", auth, {
-      global: config.auth.enableGlobalAuthMiddleware,
-    });
+    addRouteMiddleware('auth', auth, {
+      global: config.auth.enableGlobalAuthMiddleware
+    })
 
-    addRouteMiddleware("guest", guest);
+    addRouteMiddleware('guest', guest)
 
-    const initialized = useState("directus-auth-initialized", () => false);
+    const initialized = useState('directus-auth-initialized', () => false)
 
-    const { loggedIn } = useDirectusSession();
+    const { loggedIn } = useDirectusSession()
 
     if (initialized.value === false) {
-      const { path } = useRoute();
+      const { path } = useRoute()
 
-      const { fetchUser } = useDirectusAuth();
-      const { refreshToken, accessToken, refresh } = useDirectusSession();
+      const { fetchUser } = useDirectusAuth()
+      const { refreshToken, accessToken, refresh } = useDirectusSession()
 
       if (accessToken.get()) {
-        await fetchUser();
+        await fetchUser()
       } else {
-        const isCallback = path === config.auth.redirect.callback;
-        const isLoggedIn = loggedIn.get() === "true";
+        const isCallback = path === config.auth.redirect.callback
+        const isLoggedIn = loggedIn.get() === 'true'
 
         if (isCallback || isLoggedIn || refreshToken.get()) {
-          await refresh();
+          await refresh()
           if (accessToken.get()) {
-            await fetchUser();
+            await fetchUser()
           }
         }
       }
     }
 
-    initialized.value = true;
+    initialized.value = true
 
-    const { user } = useDirectusAuth();
+    const { user } = useDirectusAuth()
 
     if (user.value) {
-      loggedIn.set(true);
-      const { callHook } = useNuxtApp();
-      await callHook("directus:loggedIn", true);
+      loggedIn.set(true)
+      const { callHook } = useNuxtApp()
+      await callHook('directus:loggedIn', true)
     } else {
-      loggedIn.set(false);
+      loggedIn.set(false)
     }
   } catch (e) {
-    console.error(e);
+    // console.error(e)
   }
-});
+})
