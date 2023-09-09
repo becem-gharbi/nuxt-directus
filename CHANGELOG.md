@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v2.0.3
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.2...v2.0.3)
+
+### 💅 Refactors
+
+- **useDirectusSession:** Prefix internal apis with underscore ([27dfb77](https://github.com/becem-gharbi/nuxt-directus/commit/27dfb77))
+
+### 📖 Documentation
+
+- **readme:** Update REST section ([104093e](https://github.com/becem-gharbi/nuxt-directus/commit/104093e))
+
+### 🌊 Types
+
+- **useDirectusAuth:** Mark user state as Readonly ([a7953a7](https://github.com/becem-gharbi/nuxt-directus/commit/a7953a7))
+- **useDirectusSession:** Set getToken return type ([827c62e](https://github.com/becem-gharbi/nuxt-directus/commit/827c62e))
+- **useDirectusFetch:** Return dynamic type instead of object ([972c9e8](https://github.com/becem-gharbi/nuxt-directus/commit/972c9e8))
+
+### 🏡 Chore
+
+- Fix ESLint issues ([91e063a](https://github.com/becem-gharbi/nuxt-directus/commit/91e063a))
+- Run linter on release ([6d0eb88](https://github.com/becem-gharbi/nuxt-directus/commit/6d0eb88))
+
+### ❤️ Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.0.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.1...v2.0.2)
