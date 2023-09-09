@@ -22,6 +22,8 @@ definePageMeta({ middleware: 'auth' })
 
 const { logout, user } = useDirectusAuth()
 
+const { $directus } = useNuxtApp()
+
 const { data, refresh } = await useAsyncData('country', () => useDirectusRest(readItems('country')))
 
 // const query = graphql(`
