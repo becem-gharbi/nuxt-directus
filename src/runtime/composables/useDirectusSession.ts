@@ -113,7 +113,7 @@ export default function () {
       })
   }
 
-  async function getToken () {
+  async function getToken (): Promise<string | null | undefined> {
     const accessToken = _accessToken.get()
 
     if (accessToken && isTokenExpired(accessToken)) {
