@@ -71,13 +71,37 @@ That's it! You can now use `@bg-dev/nuxt-directus` in your Nuxt app ✨
 ## REST
 
 The module has `useDirectusRest` composable for data fetching with REST API. It is a wrapper around Directus SDK `request` API with auto refresh of access token and auto-imported commands.
-For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via `DirectusSchema` type.
+For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via the global `DirectusSchema` type.
 
-```js
+```ts
 import { CustomDirectusTypes } from "./types";
 
+type DirectusTypes =
+  | "directus_activity"
+  | "directus_collections"
+  | "directus_dashboards"
+  | "directus_fields"
+  | "directus_files"
+  | "directus_flows"
+  | "directus_folders"
+  | "directus_migrations"
+  | "directus_notifications"
+  | "directus_operations"
+  | "directus_panels"
+  | "directus_permissions"
+  | "directus_presets"
+  | "directus_relations"
+  | "directus_revisions"
+  | "directus_roles"
+  | "directus_sessions"
+  | "directus_settings"
+  | "directus_shares"
+  | "directus_translations"
+  | "directus_users"
+  | "directus_webhooks";
+
 declare global {
-  interface DirectusSchema extends CustomDirectusTypes {}
+  interface DirectusSchema extends Omit<CustomDirectusTypes, DirectusTypes> {}
 }
 ```
 
