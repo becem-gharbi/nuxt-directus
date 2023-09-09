@@ -23,7 +23,7 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
 
   const config = useRuntimeConfig().public.directus
 
-  const { accessToken, loggedIn } = useDirectusSession()
+  const { _accessToken, _loggedIn } = useDirectusSession()
 
   async function login (email: string, password: string, otp?: string) {
     const route = useRoute()
@@ -44,8 +44,8 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
     const returnToPath = route.query.redirect?.toString()
     const redirectTo = returnToPath || config.auth.redirect.home
 
-    accessToken.set(data.access_token)
-    loggedIn.set(true)
+    _accessToken.set(data.access_token)
+    _loggedIn.set(true)
 
     // A workaround to insure access token cookie is set
     setTimeout(async () => {
@@ -65,8 +65,8 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
       method: 'POST',
       credentials: 'include'
     }).finally(async () => {
-      accessToken.clear()
-      loggedIn.set(false)
+      _accessToken.clear()
+      _loggedIn.set(false)
       user.value = null
       clearNuxtData()
       await navigateTo(config.auth.redirect.logout)

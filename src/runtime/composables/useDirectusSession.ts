@@ -26,7 +26,7 @@ export default function () {
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
   const loggedInName = 'directus_logged_in'
 
-  const accessToken = {
+  const _accessToken = {
     get: () =>
       process.server
         ? event.context[accessTokenCookieName] ||
@@ -55,11 +55,11 @@ export default function () {
     }
   }
 
-  const refreshToken = {
+  const _refreshToken = {
     get: () => process.server && getCookie(event, refreshTokenCookieName)
   }
 
-  const loggedIn = {
+  const _loggedIn = {
     get: () => process.client && localStorage.getItem(loggedInName),
     set: (value: boolean) =>
       process.client && localStorage.setItem(loggedInName, value.toString())
@@ -96,16 +96,16 @@ export default function () {
           appendResponseHeader(event, 'set-cookie', cookie)
         }
         if (res._data) {
-          accessToken.set(res._data?.data.access_token)
-          loggedIn.set(true)
+          _accessToken.set(res._data?.data.access_token)
+          _loggedIn.set(true)
         }
         isRefreshOn.value = false
         return res
       })
       .catch(async () => {
         isRefreshOn.value = false
-        accessToken.clear()
-        loggedIn.set(false)
+        _accessToken.clear()
+        _loggedIn.set(false)
         user.value = null
         if (process.client) {
           await navigateTo(config.auth.redirect.logout)
@@ -114,13 +114,13 @@ export default function () {
   }
 
   async function getToken () {
-    const _accessToken = accessToken.get()
+    const accessToken = _accessToken.get()
 
-    if (_accessToken && isTokenExpired(_accessToken)) {
+    if (accessToken && isTokenExpired(accessToken)) {
       await refresh()
     }
 
-    return accessToken.get()
+    return _accessToken.get()
   }
 
   function isTokenExpired (token: string) {
@@ -129,5 +129,5 @@ export default function () {
     return expires < Date.now()
   }
 
-  return { refresh, getToken, accessToken, refreshToken, loggedIn }
+  return { refresh, getToken, _accessToken, _refreshToken, _loggedIn }
 }
