@@ -115,7 +115,7 @@ To use graphql subscription make sure to set
 
 ## Auth
 
-Directus and Nuxt apps should share the same domain name because cookies's sameSite policy is set to `lax`. Also make sure to add `NODE_OPTIONS=--dns-result-order=ipv4first` env in development in order to resolve `localhost` for Node +v17.
+Directus and Nuxt apps should share the same domain name because cookies's sameSite policy is set to `lax`. Also make sure to add `NODE_OPTIONS=--dns-result-order=ipv4first` env in development in order to resolve localhost domain for Node +v17.
 
 The module has `useDirectusAuth` composable for handling authentication with cookie based storage.
 
