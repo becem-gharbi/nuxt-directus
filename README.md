@@ -39,12 +39,12 @@ export default defineNuxtConfig({
 
   directus: {
     rest: {
-      baseUrl: "http://127.0.0.1:8055", // Directus app base url
-      nuxtBaseUrl: "http://127.0.0.1:3000", // Nuxt app base url
+      baseUrl: "http://localhost:8055", // Directus app base url
+      nuxtBaseUrl: "http://localhost:3000", // Nuxt app base url
     },
     graphql: {
       enabled: true,
-      httpEndpoint: "http://127.0.0.1:8055/graphql",
+      httpEndpoint: "http://localhost:8055/graphql",
       wsEndpoint: "", // Omit to disable Websockets
     },
     auth: {
@@ -115,7 +115,7 @@ To use graphql subscription make sure to set
 
 ## Auth
 
-Directus and Nuxt apps **SHOULD** share the same domain name because cookies's sameSite policy is set to `lax`, in development domain **SHOULD** be 127.0.0.1 ([issue](https://github.com/becem-gharbi/nuxt-directus/issues/38))
+Directus and Nuxt apps should share the same domain name because cookies's sameSite policy is set to `lax`. Also make sure to add `NODE_OPTIONS=--dns-result-order=ipv4first` env in development in order to resolve `localhost` for Node +v17.
 
 The module has `useDirectusAuth` composable for handling authentication with cookie based storage.
 
