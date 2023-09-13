@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.0.4
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.3...v2.0.4)
+
+### 💅 Refactors
+
+- Replace 127.0.0.1 default with localhost ([882eec4](https://github.com/becem-gharbi/nuxt-directus/commit/882eec4))
+
+### 📖 Documentation
+
+- Add localhost note in Auth section ([623cb5c](https://github.com/becem-gharbi/nuxt-directus/commit/623cb5c))
+- Update localhost note in Auth section ([abd57a8](https://github.com/becem-gharbi/nuxt-directus/commit/abd57a8))
+
+### ❤️ Contributors
+
+- Becem Gharbi <becem.gharbi@live.com>
+
 ## v2.0.3
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.2...v2.0.3)
