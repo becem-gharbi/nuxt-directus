@@ -142,7 +142,8 @@ export default defineNuxtModule<ModuleOptions>({
       'updateUser',
       'updateUsers',
       'uploadFiles',
-      'withToken'
+      'withToken',
+      'aggregate' 
     ]
 
     commands.forEach((name) => {
