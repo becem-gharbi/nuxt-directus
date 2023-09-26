@@ -7,10 +7,6 @@
 
 Directus SDK for Nuxt 3
 
-**IMPORTANT**
-
-_This version `2` is a complete rewrite of the module. You can find the old version aka `v1` under `version-1` branch._
-
 - ✔️ SSR support
 - ✔️ Rest client via `useDirectusRest` composable based on the new [Directus SDK](https://github.com/directus/directus/tree/main/sdk)
 - ✔️ Graphql client based on [Nuxt Apollo](https://github.com/becem-gharbi/nuxt-apollo) module
