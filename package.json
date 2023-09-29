@@ -33,19 +33,19 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "@directus/sdk": "^11.0.3",
-    "@nuxt/kit": "^3.7.0",
+    "@directus/sdk": "^12.0.1",
+    "@nuxt/kit": "^3.7.4",
     "defu": "^6.1.2",
     "jwt-decode": "^3.1.2",
     "nuxt-apollo": "^0.1.2"
   },
   "devDependencies": {
-    "@nuxt/module-builder": "^0.4.0",
-    "@nuxt/schema": "^3.7.0",
-    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@nuxt/module-builder": "^0.5.2",
+    "@nuxt/schema": "^3.7.4",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "changelogen": "^0.5.5",
-    "eslint": "^8.48.0",
-    "nuxt": "^3.7.0"
+    "eslint": "^8.50.0",
+    "nuxt": "^3.7.4"
   },
   "repository": "https://github.com/becem-gharbi/nuxt-directus.git"
 }
