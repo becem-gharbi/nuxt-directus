@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v2.0.5
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.4...v2.0.5)
+
+### 💅 Refactors
+
+- Add `aggregate` command for auto-import ([#53](https://github.com/becem-gharbi/nuxt-directus/pull/53))
+
+### 📖 Documentation
+
+- Remove version-1 warning ([687ea86](https://github.com/becem-gharbi/nuxt-directus/commit/687ea86))
+
+### 🏡 Chore
+
+- Add funding btn ([440acac](https://github.com/becem-gharbi/nuxt-directus/commit/440acac))
+- Upgrade SDK to v12 ([7c88530](https://github.com/becem-gharbi/nuxt-directus/commit/7c88530))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem Gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v2.0.4
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.3...v2.0.4)
