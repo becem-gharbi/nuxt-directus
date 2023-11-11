@@ -1,6 +1,25 @@
 # Changelog
 
 
+## v2.1.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.5...v2.1.0)
+
+### 🚀 Enhancements
+
+- ⬆️  update directus-sdk to v 13 ([0b6407b](https://github.com/becem-gharbi/nuxt-directus/commit/0b6407b))
+
+### 🏡 Chore
+
+- **deps-dev:** Bump @babel/traverse in /playground ([a203165](https://github.com/becem-gharbi/nuxt-directus/commit/a203165))
+- **deps-dev:** Bump postcss from 8.4.28 to 8.4.31 in /playground ([f66be99](https://github.com/becem-gharbi/nuxt-directus/commit/f66be99))
+- **deps-dev:** Bump undici from 5.25.2 to 5.27.0 ([aabb2a5](https://github.com/becem-gharbi/nuxt-directus/commit/aabb2a5))
+- **deps-dev:** Bump undici from 5.23.0 to 5.27.0 in /playground ([551ab82](https://github.com/becem-gharbi/nuxt-directus/commit/551ab82))
+
+### ❤️ Contributors
+
+- Dominic <domi.m.98@googlemail.com>
+
 ## v2.0.5
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.4...v2.0.5)
