@@ -26,9 +26,6 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
   const { _accessToken, _loggedIn } = useDirectusSession()
 
   async function login (email: string, password: string, otp?: string) {
-    const route = useRoute()
-    const { callHook } = useNuxtApp()
-
     const { data } = await $fetch<AuthenticationData>('/auth/login', {
       baseURL: config.rest.baseUrl,
       method: 'POST',
@@ -41,36 +38,15 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
       }
     })
 
-    const returnToPath = route.query.redirect?.toString()
-    const redirectTo = returnToPath || config.auth.redirect.home
-
-    _accessToken.set(data.access_token)
-    _loggedIn.set(true)
-
-    // A workaround to insure access token cookie is set
-    setTimeout(async () => {
-      await fetchUser()
-      await callHook('directus:loggedIn', true)
-      await navigateTo(redirectTo)
-    }, 100)
+    await _onLogin(data.access_token)
   }
 
   async function logout () {
-    const { callHook } = useNuxtApp()
-
-    await callHook('directus:loggedIn', false)
-
     await $fetch('/auth/logout', {
       baseURL: config.rest.baseUrl,
       method: 'POST',
       credentials: 'include'
-    }).finally(async () => {
-      _accessToken.clear()
-      _loggedIn.set(false)
-      user.value = null
-      clearNuxtData()
-      await navigateTo(config.auth.redirect.logout)
-    })
+    }).finally(_onLogout)
   }
 
   async function fetchUser () {
@@ -118,6 +94,37 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
 
   function getRedirectUrl (path: string) {
     return joinURL(config.rest.nuxtBaseUrl, path)
+  }
+
+  function _onLogin (accessToken: string) {
+    const route = useRoute()
+    const { callHook } = useNuxtApp()
+
+    const returnToPath = route.query.redirect?.toString()
+    const redirectTo = returnToPath ?? config.auth.redirect.home
+
+    _accessToken.set(accessToken)
+    _loggedIn.set(true)
+
+    // A workaround to insure access token cookie is set
+    return new Promise((resolve) => {
+      setTimeout(async () => {
+        await fetchUser()
+        await callHook('directus:loggedIn', true)
+        await navigateTo(redirectTo)
+        resolve(true)
+      }, 100)
+    })
+  }
+
+  async function _onLogout () {
+    const { callHook } = useNuxtApp()
+    await callHook('directus:loggedIn', false)
+    user.value = null
+    _accessToken.clear()
+    _loggedIn.set(false)
+    clearNuxtData()
+    await navigateTo(config.auth.redirect.logout)
   }
 
   return {
