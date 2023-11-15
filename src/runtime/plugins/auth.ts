@@ -58,6 +58,17 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     } else {
       _loggedIn.set(false)
     }
+
+    nuxtApp.hook('app:mounted', () => {
+      const { _onLogout, user } = useDirectusAuth()
+      const accessTokenCookie = useCookie(config.auth.accessTokenCookieName)
+
+      watch(accessTokenCookie, (newValue, oldValue) => {
+        if (user.value && !newValue && oldValue) {
+          _onLogout()
+        }
+      })
+    })
   } catch (e) {
     // console.error(e)
   }

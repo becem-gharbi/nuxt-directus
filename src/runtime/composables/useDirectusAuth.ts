@@ -134,6 +134,7 @@ export default function useDirectusAuth<DirectusSchema extends object> () {
     loginWithProvider,
     requestPasswordReset,
     resetPassword,
+    _onLogout,
     user
   }
 }
