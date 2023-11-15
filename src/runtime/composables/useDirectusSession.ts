@@ -2,7 +2,6 @@ import { jwtDecode } from 'jwt-decode'
 import {
   deleteCookie,
   getCookie,
-  setCookie,
   splitCookiesString,
   appendResponseHeader
 } from 'h3'
@@ -26,31 +25,26 @@ export default function () {
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
   const loggedInName = 'directus_logged_in'
 
+  const accessTokenCookie = useCookie(accessTokenCookieName, {
+    sameSite: 'lax',
+    secure: true
+  })
+
   const _accessToken = {
-    get: () =>
-      process.server
-        ? event.context[accessTokenCookieName] ||
-          getCookie(event, accessTokenCookieName)
-        : useCookie(accessTokenCookieName).value,
+    get: () => process.server
+      ? event.context[accessTokenCookieName] || accessTokenCookie.value
+      : accessTokenCookie.value,
     set: (value: string) => {
       if (process.server) {
         event.context[accessTokenCookieName] = value
-        setCookie(event, accessTokenCookieName, value, {
-          sameSite: 'lax',
-          secure: true
-        })
-      } else {
-        useCookie(accessTokenCookieName, {
-          sameSite: 'lax',
-          secure: true
-        }).value = value
       }
+      accessTokenCookie.value = value
     },
     clear: () => {
       if (process.server) {
         deleteCookie(event, accessTokenCookieName)
       } else {
-        useCookie(accessTokenCookieName).value = null
+        accessTokenCookie.value = null
       }
     }
   }
