@@ -8,7 +8,9 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
-  useDirectusSession
+  useDirectusSession,
+  useCookie,
+  watch
 } from '#imports'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
