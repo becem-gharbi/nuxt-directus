@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.1...v2.1.2)
+
+### 🩹 Fixes
+
+- Add missing imports ([#66](https://github.com/becem-gharbi/nuxt-directus/pull/66))
+
+### ❤️ Contributors
+
+- Becem-gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v2.1.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.0...v2.1.1)
