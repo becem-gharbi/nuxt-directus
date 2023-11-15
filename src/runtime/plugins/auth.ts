@@ -8,11 +8,10 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
-  useDirectusSession,
-  useNuxtApp
+  useDirectusSession
 } from '#imports'
 
-export default defineNuxtPlugin(async () => {
+export default defineNuxtPlugin(async (nuxtApp) => {
   try {
     const config = useRuntimeConfig().public.directus
 
@@ -55,8 +54,7 @@ export default defineNuxtPlugin(async () => {
 
     if (user.value) {
       _loggedIn.set(true)
-      const { callHook } = useNuxtApp()
-      await callHook('directus:loggedIn', true)
+      await nuxtApp.callHook('directus:loggedIn', true)
     } else {
       _loggedIn.set(false)
     }
