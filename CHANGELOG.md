@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v2.1.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.0...v2.1.1)
+
+### 🩹 Fixes
+
+- Auto logout when loggedIn and access token cookie removed ([d3dd90a](https://github.com/becem-gharbi/nuxt-directus/commit/d3dd90a))
+
+### 💅 Refactors
+
+- **useDirectusAuth:** Create _onLogin and _onLogout handlers for post fetch call ([09d053e](https://github.com/becem-gharbi/nuxt-directus/commit/09d053e))
+- **useDirectusSession:** Refactor _accessToken ([ba1da9e](https://github.com/becem-gharbi/nuxt-directus/commit/ba1da9e))
+- **auth plugin:** Replace useNuxtApp with the provided nuxtApp argument ([1edd02a](https://github.com/becem-gharbi/nuxt-directus/commit/1edd02a))
+
+### 🏡 Chore
+
+- Follow jwt-decode v4 import ([2890bcc](https://github.com/becem-gharbi/nuxt-directus/commit/2890bcc))
+
+### ❤️ Contributors
+
+- Becem-gharbi ([@becem-gharbi](http://github.com/becem-gharbi))
+
 ## v2.1.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.0.5...v2.1.0)
