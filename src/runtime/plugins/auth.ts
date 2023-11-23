@@ -8,10 +8,11 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
-  useDirectusSession
+  useDirectusSession,
+  useNuxtApp
 } from '#imports'
 
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async () => {
   try {
     const config = useRuntimeConfig().public.directus
 
@@ -51,6 +52,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     initialized.value = true
 
     const { user } = useDirectusAuth()
+    const nuxtApp = useNuxtApp()
 
     if (user.value) {
       _loggedIn.set(true)
@@ -59,16 +61,16 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       _loggedIn.set(false)
     }
 
-    const channel = useNuxtApp().$directus.channel
+    nuxtApp.hook('app:mounted', () => {
+      const channel = nuxtApp.$directus.channel
 
-    if (channel) {
-      channel.onmessage = (event) => {
-        if (event.data === 'logout' && user.value) {
-          useDirectusAuth()._onLogout()
+      if (channel) {
+        channel.onmessage = (event) => {
+          if (event.data === 'logout' && user.value) {
+            useDirectusAuth()._onLogout()
+          }
         }
       }
-    }
-  } catch (e) {
-    // console.error(e)
-  }
+    })
+  } catch (e) {}
 })
