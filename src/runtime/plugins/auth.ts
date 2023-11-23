@@ -8,9 +8,7 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
-  useDirectusSession,
-  useCookie,
-  watch
+  useDirectusSession
 } from '#imports'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -61,16 +59,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       _loggedIn.set(false)
     }
 
-    nuxtApp.hook('app:mounted', () => {
-      const { _onLogout, user } = useDirectusAuth()
-      const accessTokenCookie = useCookie(config.auth.accessTokenCookieName)
+    const channel = useNuxtApp().$directus.channel
 
-      watch(accessTokenCookie, (newValue, oldValue) => {
-        if (user.value && !newValue && oldValue) {
-          _onLogout()
+    if (channel) {
+      channel.onmessage = (event) => {
+        if (event.data === 'logout' && user.value) {
+          useDirectusAuth()._onLogout()
         }
-      })
-    })
+      }
+    }
   } catch (e) {
     // console.error(e)
   }
