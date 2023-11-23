@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.1.4
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.3...v2.1.4)
+
+### 🔥 Performance
+
+- Avoid relying on useCookie for multi-tabs auto logout ([3f8ae1b](https://github.com/becem-gharbi/nuxt-directus/commit/3f8ae1b))
+
+### 💅 Refactors
+
+- Create a broadcastChannel ([45af7cc](https://github.com/becem-gharbi/nuxt-directus/commit/45af7cc))
+- Listen to channel on vue app mounted ([3f2e27d](https://github.com/becem-gharbi/nuxt-directus/commit/3f2e27d))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.3
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.2...v2.1.3)
