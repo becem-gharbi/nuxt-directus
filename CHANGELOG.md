@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.1.3
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.2...v2.1.3)
+
+### 🩹 Fixes
+
+- Remove access token cookie on logout ([c0f90b4](https://github.com/becem-gharbi/nuxt-directus/commit/c0f90b4))
+
+### 🏡 Chore
+
+- Format with nuxt eslint config ([6728d73](https://github.com/becem-gharbi/nuxt-directus/commit/6728d73))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.1...v2.1.2)
