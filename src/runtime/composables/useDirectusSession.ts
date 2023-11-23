@@ -1,29 +1,29 @@
-import { jwtDecode } from "jwt-decode";
-import Cookies from "js-cookie";
+import { jwtDecode } from 'jwt-decode'
+import Cookies from 'js-cookie'
 import {
   deleteCookie,
   getCookie,
   splitCookiesString,
-  appendResponseHeader,
-} from "h3";
+  appendResponseHeader
+} from 'h3'
 
-import type { AuthenticationData } from "../types";
+import type { AuthenticationData } from '../types'
 import {
   useRequestEvent,
   useRuntimeConfig,
   useState,
   useRequestHeaders,
-  navigateTo,
-} from "#imports";
+  navigateTo
+} from '#imports'
 
 export default function () {
-  const event = useRequestEvent();
-  const config = useRuntimeConfig().public.directus;
+  const event = useRequestEvent()
+  const config = useRuntimeConfig().public.directus
 
-  const accessTokenCookieName = config.auth.accessTokenCookieName;
-  const refreshTokenCookieName = config.auth.refreshTokenCookieName;
-  const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires;
-  const loggedInName = "directus_logged_in";
+  const accessTokenCookieName = config.auth.accessTokenCookieName
+  const refreshTokenCookieName = config.auth.refreshTokenCookieName
+  const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
+  const loggedInName = 'directus_logged_in'
 
   const _accessToken = {
     get: () =>
@@ -33,100 +33,100 @@ export default function () {
         : Cookies.get(accessTokenCookieName),
     set: (value: string) => {
       if (process.server) {
-        event.context[accessTokenCookieName] = value;
+        event.context[accessTokenCookieName] = value
         setCookie(event, accessTokenCookieName, value, {
-          sameSite: "lax",
-          secure: true,
-        });
+          sameSite: 'lax',
+          secure: true
+        })
       } else {
         Cookies.set(accessTokenCookieName, value, {
-          sameSite: "lax",
-          secure: true,
-        });
+          sameSite: 'lax',
+          secure: true
+        })
       }
     },
     clear: () => {
       if (process.server) {
-        deleteCookie(event, accessTokenCookieName);
+        deleteCookie(event, accessTokenCookieName)
       } else {
         Cookies.remove(accessTokenCookieName)
       }
-    },
-  };
+    }
+  }
 
   const _refreshToken = {
-    get: () => process.server && getCookie(event, refreshTokenCookieName),
-  };
+    get: () => process.server && getCookie(event, refreshTokenCookieName)
+  }
 
   const _loggedIn = {
     get: () => process.client && localStorage.getItem(loggedInName),
     set: (value: boolean) =>
-      process.client && localStorage.setItem(loggedInName, value.toString()),
-  };
+      process.client && localStorage.setItem(loggedInName, value.toString())
+  }
 
-  async function refresh() {
-    const isRefreshOn = useState("directus-refresh-loading", () => false);
-    const user = useState("directus-user");
+  async function refresh () {
+    const isRefreshOn = useState('directus-refresh-loading', () => false)
+    const user = useState('directus-user')
 
     if (isRefreshOn.value) {
-      return;
+      return
     }
 
-    isRefreshOn.value = true;
+    isRefreshOn.value = true
 
-    const cookie = useRequestHeaders(["cookie"]).cookie || "";
+    const cookie = useRequestHeaders(['cookie']).cookie || ''
 
     await $fetch
-      .raw<AuthenticationData>("/auth/refresh", {
+      .raw<AuthenticationData>('/auth/refresh', {
         baseURL: config.rest.baseUrl,
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
         body: {
-          mode: "cookie",
+          mode: 'cookie'
         },
         headers: {
-          cookie,
-        },
+          cookie
+        }
       })
       .then((res) => {
-        const setCookie = res.headers.get("set-cookie") || "";
-        const cookies = splitCookiesString(setCookie);
+        const setCookie = res.headers.get('set-cookie') || ''
+        const cookies = splitCookiesString(setCookie)
         for (const cookie of cookies) {
-          appendResponseHeader(event, "set-cookie", cookie);
+          appendResponseHeader(event, 'set-cookie', cookie)
         }
         if (res._data) {
-          _accessToken.set(res._data?.data.access_token);
-          _loggedIn.set(true);
+          _accessToken.set(res._data?.data.access_token)
+          _loggedIn.set(true)
         }
-        isRefreshOn.value = false;
-        return res;
+        isRefreshOn.value = false
+        return res
       })
       .catch(async () => {
-        isRefreshOn.value = false;
-        _accessToken.clear();
-        _loggedIn.set(false);
-        user.value = null;
+        isRefreshOn.value = false
+        _accessToken.clear()
+        _loggedIn.set(false)
+        user.value = null
         if (process.client) {
-          await navigateTo(config.auth.redirect.logout);
+          await navigateTo(config.auth.redirect.logout)
         }
-      });
+      })
   }
 
-  async function getToken(): Promise<string | null | undefined> {
-    const accessToken = _accessToken.get();
+  async function getToken (): Promise<string | null | undefined> {
+    const accessToken = _accessToken.get()
 
     if (accessToken && isTokenExpired(accessToken)) {
-      await refresh();
+      await refresh()
     }
 
-    return _accessToken.get();
+    return _accessToken.get()
   }
 
-  function isTokenExpired(token: string) {
-    const decoded = jwtDecode(token) as { exp: number };
-    const expires = decoded.exp * 1000 - msRefreshBeforeExpires;
-    return expires < Date.now();
+  function isTokenExpired (token: string) {
+    const decoded = jwtDecode(token) as { exp: number }
+    const expires = decoded.exp * 1000 - msRefreshBeforeExpires
+    return expires < Date.now()
   }
 
-  return { refresh, getToken, _accessToken, _refreshToken, _loggedIn };
+  return { refresh, getToken, _accessToken, _refreshToken, _loggedIn }
 }
