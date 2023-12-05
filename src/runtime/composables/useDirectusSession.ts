@@ -23,7 +23,7 @@ export function useDirectusSession () {
   const accessTokenCookieName = config.auth.accessTokenCookieName
   const refreshTokenCookieName = config.auth.refreshTokenCookieName
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
-  const loggedInName = 'directus_logged_in'
+  const loggedInName = config.auth.loggedInFlagName
 
   const _accessToken = {
     get: () =>
