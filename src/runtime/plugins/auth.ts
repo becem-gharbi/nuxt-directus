@@ -62,15 +62,15 @@ export default defineNuxtPlugin(async () => {
     }
 
     nuxtApp.hook('app:mounted', () => {
-      const channel = nuxtApp.$directus.channel
+      addEventListener('storage', (event) => {
+        const loggedInName = config.auth.loggedInFlagName
 
-      if (channel) {
-        channel.onmessage = (event) => {
-          if (event.data === 'logout' && user.value) {
+        if (event.key === loggedInName) {
+          if (event.oldValue === 'true' && event.newValue === 'false') {
             useDirectusAuth()._onLogout()
           }
         }
-      }
+      })
     })
   } catch (e) {}
 })

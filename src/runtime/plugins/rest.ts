@@ -6,8 +6,6 @@ import {
 } from '#imports'
 
 export default defineNuxtPlugin(() => {
-  const channel = typeof BroadcastChannel === 'undefined' ? null : new BroadcastChannel('nuxt-directus')
-
   const config = useRuntimeConfig().public.directus
 
   const directus = createDirectus<DirectusSchema>(config.rest.baseUrl)
@@ -36,8 +34,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       directus: {
-        rest: restClient,
-        channel
+        rest: restClient
       }
     }
   }

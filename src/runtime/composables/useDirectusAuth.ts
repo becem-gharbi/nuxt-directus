@@ -109,13 +109,12 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   }
 
   async function _onLogout () {
-    const { callHook, $directus } = useNuxtApp()
+    const { callHook } = useNuxtApp()
     await callHook('directus:loggedIn', false)
     user.value = null
     _accessToken.clear()
     _loggedIn.set(false)
     clearNuxtData()
-    $directus.channel?.postMessage('logout')
     await navigateTo(config.auth.redirect.logout)
   }
 

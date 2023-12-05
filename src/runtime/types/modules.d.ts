@@ -4,7 +4,6 @@ declare module "#app" {
   interface NuxtApp {
     $directus: {
       rest: RestClient<DirectusSchema>;
-      channel: BroadcastChannel | null;
     };
   }
   interface RuntimeNuxtHooks {
