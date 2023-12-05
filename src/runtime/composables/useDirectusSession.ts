@@ -16,7 +16,7 @@ import {
   navigateTo
 } from '#imports'
 
-export default function () {
+export function useDirectusSession () {
   const event = useRequestEvent()
   const config = useRuntimeConfig().public.directus
 

@@ -15,7 +15,7 @@ import {
 
 import type { Ref } from '#imports'
 
-export default function useDirectusAuth<DirectusSchema extends object> () {
+export function useDirectusAuth<DirectusSchema extends object> () {
   const user: Ref<Readonly<DirectusUser<DirectusSchema> | null>> = useState(
     'directus-user',
     () => null
