@@ -47,7 +47,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@types/js-cookie": "^3.0.6",
     "changelogen": "^0.5.5",
-    "eslint": "^8.54.0",
+    "eslint": "^8.55.0",
     "nuxt": "^3.8.2"
   },
   "repository": "https://github.com/becem-gharbi/nuxt-directus.git",
