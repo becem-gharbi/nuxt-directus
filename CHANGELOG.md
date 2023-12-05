@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.1.5
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.4...v2.1.5)
+
+### 🔥 Performance
+
+- Fix bfcache failed warning ([b565f58](https://github.com/becem-gharbi/nuxt-directus/commit/b565f58))
+
+### 💅 Refactors
+
+- **composables:** Use named exports ([ae44470](https://github.com/becem-gharbi/nuxt-directus/commit/ae44470))
+- Add loggedInFlagName config option ([5ca0181](https://github.com/becem-gharbi/nuxt-directus/commit/5ca0181))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.4
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.3...v2.1.4)
