@@ -4,7 +4,8 @@ import {
   deleteCookie,
   getCookie,
   splitCookiesString,
-  appendResponseHeader
+  appendResponseHeader,
+  setCookie
 } from 'h3'
 
 import type { AuthenticationData } from '../types'
