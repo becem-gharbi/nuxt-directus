@@ -126,6 +126,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     requestPasswordReset,
     resetPassword,
     _onLogout,
+    _onLogin,
     user
   }
 }
