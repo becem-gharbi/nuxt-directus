@@ -1,6 +1,25 @@
 # Changelog
 
 
+## v2.1.6
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.5...v2.1.6)
+
+### 🩹 Fixes
+
+- Sync login on multiple tabs ([d69cf01](https://github.com/becem-gharbi/nuxt-directus/commit/d69cf01))
+- Delete refresh token cookie on server-side refresh fail ([12f87bf](https://github.com/becem-gharbi/nuxt-directus/commit/12f87bf))
+- **refresh:** Fix undefined setCookie ([a7e14a5](https://github.com/becem-gharbi/nuxt-directus/commit/a7e14a5))
+
+### 💅 Refactors
+
+- Verify user state on `_login` `_logout` handlers ([939fee6](https://github.com/becem-gharbi/nuxt-directus/commit/939fee6))
+- **useDirectusSession:** Minor refactoring ([8141262](https://github.com/becem-gharbi/nuxt-directus/commit/8141262))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.5
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.4...v2.1.5)
