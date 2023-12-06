@@ -76,7 +76,7 @@ export function useDirectusSession () {
 
     isRefreshOn.value = true
 
-    const cookie = useRequestHeaders(['cookie']).cookie || ''
+    const headers = useRequestHeaders(['cookie'])
 
     await $fetch
       .raw<AuthenticationData>('/auth/refresh', {
@@ -86,9 +86,7 @@ export function useDirectusSession () {
         body: {
           mode: 'cookie'
         },
-        headers: {
-          cookie
-        }
+        headers
       })
       .then((res) => {
         const setCookie = res.headers.get('set-cookie') ?? ''
@@ -126,8 +124,8 @@ export function useDirectusSession () {
   }
 
   function isTokenExpired (token: string) {
-    const decoded = jwtDecode(token) as { exp: number }
-    const expires = decoded.exp * 1000 - msRefreshBeforeExpires
+    const decoded = jwtDecode(token)
+    const expires = decoded.exp! * 1000 - msRefreshBeforeExpires
     return expires < Date.now()
   }
 
