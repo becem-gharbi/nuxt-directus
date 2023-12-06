@@ -55,7 +55,8 @@ export function useDirectusSession () {
   }
 
   const _refreshToken = {
-    get: () => process.server && getCookie(event, refreshTokenCookieName)
+    get: () => process.server && getCookie(event, refreshTokenCookieName),
+    clear: () => process.server && deleteCookie(event, refreshTokenCookieName)
   }
 
   const _loggedIn = {
@@ -89,7 +90,7 @@ export function useDirectusSession () {
         }
       })
       .then((res) => {
-        const setCookie = res.headers.get('set-cookie') || ''
+        const setCookie = res.headers.get('set-cookie') ?? ''
         const cookies = splitCookiesString(setCookie)
         for (const cookie of cookies) {
           appendResponseHeader(event, 'set-cookie', cookie)
@@ -104,6 +105,7 @@ export function useDirectusSession () {
       .catch(async () => {
         isRefreshOn.value = false
         _accessToken.clear()
+        _refreshToken.clear()
         _loggedIn.set(false)
         user.value = null
         if (process.client) {
