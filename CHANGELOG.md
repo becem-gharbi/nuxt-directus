@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v2.1.7
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.6...v2.1.7)
+
+### 💅 Refactors
+
+- **composables:** Create `useDirectusToken` ([95c617b](https://github.com/becem-gharbi/nuxt-directus/commit/95c617b))
+- **accessToken:** Migrate from cookie storage to in-memory storage ([71b9c4f](https://github.com/becem-gharbi/nuxt-directus/commit/71b9c4f))
+- Minor refactoring ([fd5c5aa](https://github.com/becem-gharbi/nuxt-directus/commit/fd5c5aa))
+- Exclude `useDirectusToken` from auto-import ([6a07b0f](https://github.com/becem-gharbi/nuxt-directus/commit/6a07b0f))
+- Reload window when logged in from other tab ([49c19d9](https://github.com/becem-gharbi/nuxt-directus/commit/49c19d9))
+
+### 📖 Documentation
+
+- Remove `accessTokenCookieName` config option ([c8eda58](https://github.com/becem-gharbi/nuxt-directus/commit/c8eda58))
+
+### 🏡 Chore
+
+- Remove outdated design folder ([e0b57cf](https://github.com/becem-gharbi/nuxt-directus/commit/e0b57cf))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.6
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.5...v2.1.6)
