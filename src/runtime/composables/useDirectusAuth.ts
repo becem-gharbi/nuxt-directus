@@ -2,6 +2,7 @@ import { readMe, passwordRequest, passwordReset } from '@directus/sdk'
 import { joinURL, withQuery } from 'ufo'
 import type { DirectusUser } from '@directus/sdk'
 import type { AuthenticationData } from '../types'
+import type { Ref } from '#imports'
 import {
   useState,
   useRuntimeConfig,
@@ -14,18 +15,14 @@ import {
   useDirectusToken
 } from '#imports'
 
-import type { Ref } from '#imports'
-
 export function useDirectusAuth<DirectusSchema extends object> () {
   const user: Ref<Readonly<DirectusUser<DirectusSchema> | null>> = useState(
-    'directus-user',
+    'directus-auth-user',
     () => null
   )
 
   const config = useRuntimeConfig().public.directus
-
   const { _loggedIn } = useDirectusSession()
-
   const token = useDirectusToken()
 
   async function login (email: string, password: string, otp?: string) {
@@ -58,7 +55,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   }
 
   async function fetchUser () {
-    const fields = config.auth.userFields || ['*']
+    const fields = config.auth.userFields ?? ['*']
     try {
       // @ts-ignore
       user.value = await useDirectusRest(readMe({ fields }))
@@ -68,6 +65,8 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   }
 
   function loginWithProvider (provider: string) {
+    if (process.server) { return }
+
     const route = useRoute()
     const returnToPath = route.query.redirect?.toString()
     let redirectUrl = getRedirectUrl(config.auth.redirect.callback)
@@ -76,16 +75,14 @@ export function useDirectusAuth<DirectusSchema extends object> () {
       redirectUrl = withQuery(redirectUrl, { redirect: returnToPath })
     }
 
-    if (process.client) {
-      const url = withQuery(
-        joinURL(config.rest.baseUrl, '/auth/login', provider),
-        {
-          redirect: redirectUrl
-        }
-      )
+    const url = withQuery(
+      joinURL(config.rest.baseUrl, '/auth/login', provider),
+      {
+        redirect: redirectUrl
+      }
+    )
 
-      window.location.replace(url)
-    }
+    window.location.replace(url)
   }
 
   function requestPasswordReset (email: string) {

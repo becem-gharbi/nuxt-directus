@@ -8,7 +8,7 @@ export default defineNuxtPlugin({
 
       const accessToken = await getToken()
 
-      args.token = accessToken || null
+      args.token = accessToken ?? ''
     },
     'apollo:ws-auth': async (args) => {
       const { getToken } = useDirectusSession()
@@ -16,7 +16,7 @@ export default defineNuxtPlugin({
       const accessToken = await getToken()
 
       args.params = {
-        access_token: accessToken || null
+        access_token: accessToken ?? ''
       }
     }
   }

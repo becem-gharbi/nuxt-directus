@@ -4,7 +4,6 @@ import {
   splitCookiesString,
   appendResponseHeader
 } from 'h3'
-
 import type { AuthenticationData } from '../types'
 import {
   useRequestEvent,
@@ -20,27 +19,21 @@ export function useDirectusSession () {
   const config = useRuntimeConfig().public.directus
   const token = useDirectusToken()
 
-  const refreshTokenCookieName = config.auth.refreshTokenCookieName
-  const loggedInName = config.auth.loggedInFlagName
-
   const _refreshToken = {
-    get: () => process.server && getCookie(event, refreshTokenCookieName),
-    clear: () => process.server && deleteCookie(event, refreshTokenCookieName)
+    get: () => process.server && getCookie(event, config.auth.refreshTokenCookieName),
+    clear: () => process.server && deleteCookie(event, config.auth.refreshTokenCookieName)
   }
 
   const _loggedIn = {
-    get: () => process.client && localStorage.getItem(loggedInName),
-    set: (value: boolean) =>
-      process.client && localStorage.setItem(loggedInName, value.toString())
+    get: () => process.client && localStorage.getItem(config.auth.loggedInFlagName),
+    set: (value: boolean) => process.client && localStorage.setItem(config.auth.loggedInFlagName, value.toString())
   }
 
   async function refresh () {
-    const isRefreshOn = useState('directus-refresh-loading', () => false)
-    const user = useState('directus-user')
+    const isRefreshOn = useState('directus-auth-refresh-loading', () => false)
+    const user = useState('directus-auth-user')
 
-    if (isRefreshOn.value) {
-      return
-    }
+    if (isRefreshOn.value) { return }
 
     isRefreshOn.value = true
 
@@ -51,12 +44,11 @@ export function useDirectusSession () {
         baseURL: config.rest.baseUrl,
         method: 'POST',
         credentials: 'include',
-        body: {
-          mode: 'cookie'
-        },
+        body: { mode: 'cookie' },
         headers
       })
       .then((res) => {
+        isRefreshOn.value = false
         const setCookie = res.headers.get('set-cookie') ?? ''
         const cookies = splitCookiesString(setCookie)
         for (const cookie of cookies) {
@@ -69,7 +61,6 @@ export function useDirectusSession () {
           }
           _loggedIn.set(true)
         }
-        isRefreshOn.value = false
         return res
       })
       .catch(async () => {

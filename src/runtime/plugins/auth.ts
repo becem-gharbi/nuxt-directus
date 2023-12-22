@@ -9,31 +9,24 @@ import {
   useDirectusAuth,
   useRoute,
   useDirectusSession,
-  useNuxtApp,
   useDirectusToken
 } from '#imports'
 
-export default defineNuxtPlugin(async () => {
+export default defineNuxtPlugin(async (nuxtApp) => {
   try {
     const config = useRuntimeConfig().public.directus
 
     addRouteMiddleware('common', common, { global: true })
-
-    addRouteMiddleware('auth', auth, {
-      global: config.auth.enableGlobalAuthMiddleware
-    })
-
+    addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
     addRouteMiddleware('guest', guest)
 
     const initialized = useState('directus-auth-initialized', () => false)
-
     const { _loggedIn } = useDirectusSession()
 
-    const token = useDirectusToken()
-
     if (initialized.value === false) {
+      initialized.value = true
+      const token = useDirectusToken()
       const { path } = useRoute()
-
       const { fetchUser } = useDirectusAuth()
       const { _refreshToken, refresh } = useDirectusSession()
 
@@ -52,10 +45,7 @@ export default defineNuxtPlugin(async () => {
       }
     }
 
-    initialized.value = true
-
     const { user } = useDirectusAuth()
-    const nuxtApp = useNuxtApp()
 
     if (user.value) {
       _loggedIn.set(true)

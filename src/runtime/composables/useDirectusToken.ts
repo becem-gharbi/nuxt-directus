@@ -5,11 +5,9 @@ import { useState, useRuntimeConfig } from '#imports'
 const memory = memoryStorage()
 
 export function useDirectusToken () {
-  const config = useRuntimeConfig().public.directus.auth
-  const tokenCookieName = config.accessTokenCookieName
-  const msRefreshBeforeExpires = config.msRefreshBeforeExpires
-  const stateName = `directus-token-${tokenCookieName}`
-  const state = useState<TokenStore | null>(stateName, () => null)
+  const config = useRuntimeConfig().public.directus
+  const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
+  const state = useState<TokenStore | null>('directus-auth-token', () => null)
 
   if (process.client && state.value) {
     memory.value = { ...state.value }

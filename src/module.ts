@@ -51,11 +51,11 @@ export default defineNuxtModule<ModuleOptions>({
 
   async setup (options, nuxt) {
     if (!options.rest.baseUrl) {
-      logger.warn(`[${name}] Please make sure to set Directus baseUrl`)
+      logger.warn('[nuxt-directus] Please make sure to set Directus baseUrl')
     }
 
     if (!options.rest.nuxtBaseUrl) {
-      logger.warn(`[${name}] Please make sure to set Nuxt baseUrl`)
+      logger.warn('[nuxt-directus] Please make sure to set Nuxt baseUrl')
     }
 
     // Get the runtime directory
@@ -66,9 +66,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
 
     // Initialize the module options
-    nuxt.options.runtimeConfig.public.directus = defu(
-      nuxt.options.runtimeConfig.public.directus,
-      options
+    nuxt.options.runtimeConfig.public = defu(
+      nuxt.options.runtimeConfig.public,
+      { directus: options }
     )
 
     // Add plugins
