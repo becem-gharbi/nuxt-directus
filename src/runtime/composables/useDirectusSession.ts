@@ -5,13 +5,13 @@ import {
   appendResponseHeader
 } from 'h3'
 import type { AuthenticationData } from '../types'
+import { useDirectusToken } from './useDirectusToken'
 import {
   useRequestEvent,
   useRuntimeConfig,
   useState,
   useRequestHeaders,
-  navigateTo,
-  useDirectusToken
+  navigateTo
 } from '#imports'
 
 export function useDirectusSession () {

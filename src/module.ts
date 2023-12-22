@@ -3,7 +3,6 @@ import {
   defineNuxtModule,
   addPlugin,
   createResolver,
-  addImportsDir,
   logger,
   installModule,
   addImports
@@ -90,9 +89,21 @@ export default defineNuxtModule<ModuleOptions>({
       addPlugin(authPlugin, { append: true })
     }
 
-    // Add composables directory
-    const composables = resolve(runtimeDir, 'composables')
-    addImportsDir(composables)
+    // Add composables
+    addImports([
+      {
+        name: 'useDirectusAuth',
+        from: resolve(runtimeDir, './composables/useDirectusAuth')
+      },
+      {
+        name: 'useDirectusRest',
+        from: resolve(runtimeDir, './composables/useDirectusRest')
+      },
+      {
+        name: 'useDirectusSession',
+        from: resolve(runtimeDir, './composables/useDirectusSession')
+      }
+    ])
 
     // Auto-import Directus SDK rest commands
     const commands = [

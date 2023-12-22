@@ -1,6 +1,7 @@
 import common from '../middleware/common'
 import auth from '../middleware/auth'
 import guest from '../middleware/guest'
+import { useDirectusToken } from '../composables/useDirectusToken'
 import {
   defineNuxtPlugin,
   addRouteMiddleware,
@@ -8,8 +9,7 @@ import {
   useState,
   useDirectusAuth,
   useRoute,
-  useDirectusSession,
-  useDirectusToken
+  useDirectusSession
 } from '#imports'
 
 export default defineNuxtPlugin(async (nuxtApp) => {

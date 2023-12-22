@@ -2,6 +2,7 @@ import { readMe, passwordRequest, passwordReset } from '@directus/sdk'
 import { joinURL, withQuery } from 'ufo'
 import type { DirectusUser } from '@directus/sdk'
 import type { AuthenticationData } from '../types'
+import { useDirectusToken } from './useDirectusToken'
 import type { Ref } from '#imports'
 import {
   useState,
@@ -11,8 +12,7 @@ import {
   navigateTo,
   clearNuxtData,
   useDirectusSession,
-  useNuxtApp,
-  useDirectusToken
+  useNuxtApp
 } from '#imports'
 
 export function useDirectusAuth<DirectusSchema extends object> () {
