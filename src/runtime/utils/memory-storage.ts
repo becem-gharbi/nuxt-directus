@@ -1,14 +1,14 @@
 import type { TokenStore } from '../types'
 
-export const memoryStorage = (scope: string) => {
-  const store: Record<string, TokenStore | null> = {}
+export const memoryStorage = () => {
+  let store: TokenStore | null = null
 
   return {
     get value () {
-      return store[scope] ?? null
+      return store
     },
     set value (data: TokenStore | null) {
-      if (process.client) { store[scope] = data }
+      if (process.client) { store = data }
     }
   }
 }

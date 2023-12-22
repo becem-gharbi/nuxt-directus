@@ -10,7 +10,8 @@ import {
   navigateTo,
   clearNuxtData,
   useDirectusSession,
-  useNuxtApp
+  useNuxtApp,
+  useDirectusToken
 } from '#imports'
 
 import type { Ref } from '#imports'
@@ -23,10 +24,12 @@ export function useDirectusAuth<DirectusSchema extends object> () {
 
   const config = useRuntimeConfig().public.directus
 
-  const { _accessToken, _loggedIn } = useDirectusSession()
+  const { _loggedIn } = useDirectusSession()
+
+  const token = useDirectusToken()
 
   async function login (email: string, password: string, otp?: string) {
-    const { data } = await $fetch<AuthenticationData>('/auth/login', {
+    const res = await $fetch<AuthenticationData>('/auth/login', {
       baseURL: config.rest.baseUrl,
       method: 'POST',
       credentials: 'include',
@@ -38,7 +41,12 @@ export function useDirectusAuth<DirectusSchema extends object> () {
       }
     })
 
-    await _onLogin(data.access_token)
+    token.value = {
+      access_token: res.data.access_token,
+      expires: new Date().getTime() + res.data.expires
+    }
+
+    await _onLogin()
   }
 
   async function logout () {
@@ -96,8 +104,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     return joinURL(config.rest.nuxtBaseUrl, path)
   }
 
-  async function _onLogin (accessToken: string) {
-    _accessToken.set(accessToken)
+  async function _onLogin () {
     await fetchUser()
     if (user.value === null) { return }
     const route = useRoute()
@@ -114,7 +121,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     const { callHook } = useNuxtApp()
     await callHook('directus:loggedIn', false)
     user.value = null
-    _accessToken.clear()
+    token.value = null
     _loggedIn.set(false)
     clearNuxtData()
     await navigateTo(config.auth.redirect.logout)
@@ -128,7 +135,6 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     requestPasswordReset,
     resetPassword,
     _onLogout,
-    _onLogin,
     user
   }
 }

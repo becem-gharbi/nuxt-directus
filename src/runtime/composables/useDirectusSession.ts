@@ -1,11 +1,8 @@
-import { jwtDecode } from 'jwt-decode'
-import Cookies from 'js-cookie'
 import {
   deleteCookie,
   getCookie,
   splitCookiesString,
-  appendResponseHeader,
-  setCookie
+  appendResponseHeader
 } from 'h3'
 
 import type { AuthenticationData } from '../types'
@@ -14,46 +11,17 @@ import {
   useRuntimeConfig,
   useState,
   useRequestHeaders,
-  navigateTo
+  navigateTo,
+  useDirectusToken
 } from '#imports'
 
 export function useDirectusSession () {
   const event = useRequestEvent()
   const config = useRuntimeConfig().public.directus
+  const token = useDirectusToken()
 
-  const accessTokenCookieName = config.auth.accessTokenCookieName
   const refreshTokenCookieName = config.auth.refreshTokenCookieName
-  const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
   const loggedInName = config.auth.loggedInFlagName
-
-  const _accessToken = {
-    get: () =>
-      process.server
-        ? event.context[accessTokenCookieName] ||
-          getCookie(event, accessTokenCookieName)
-        : Cookies.get(accessTokenCookieName),
-    set: (value: string) => {
-      if (process.server) {
-        event.context[accessTokenCookieName] = value
-        setCookie(event, accessTokenCookieName, value, {
-          sameSite: 'lax',
-          secure: true
-        })
-      } else {
-        Cookies.set(accessTokenCookieName, value, {
-          sameSite: 'lax',
-          secure: true
-        })
-      }
-    },
-    clear: () => {
-      if (process.server) {
-        deleteCookie(event, accessTokenCookieName)
-      } else {
-        Cookies.remove(accessTokenCookieName)
-      }
-    }
-  }
 
   const _refreshToken = {
     get: () => process.server && getCookie(event, refreshTokenCookieName),
@@ -95,7 +63,10 @@ export function useDirectusSession () {
           appendResponseHeader(event, 'set-cookie', cookie)
         }
         if (res._data) {
-          _accessToken.set(res._data?.data.access_token)
+          token.value = {
+            access_token: res._data.data.access_token,
+            expires: new Date().getTime() + res._data.data.expires
+          }
           _loggedIn.set(true)
         }
         isRefreshOn.value = false
@@ -103,7 +74,7 @@ export function useDirectusSession () {
       })
       .catch(async () => {
         isRefreshOn.value = false
-        _accessToken.clear()
+        token.value = null
         _refreshToken.clear()
         _loggedIn.set(false)
         user.value = null
@@ -114,20 +85,12 @@ export function useDirectusSession () {
   }
 
   async function getToken (): Promise<string | null | undefined> {
-    const accessToken = _accessToken.get()
-
-    if (accessToken && isTokenExpired(accessToken)) {
+    if (token.expired) {
       await refresh()
     }
 
-    return _accessToken.get()
+    return token.value?.access_token
   }
 
-  function isTokenExpired (token: string) {
-    const decoded = jwtDecode(token)
-    const expires = decoded.exp! * 1000 - msRefreshBeforeExpires
-    return expires < Date.now()
-  }
-
-  return { refresh, getToken, _accessToken, _refreshToken, _loggedIn }
+  return { refresh, getToken, _refreshToken, _loggedIn }
 }

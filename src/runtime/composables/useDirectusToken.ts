@@ -2,13 +2,14 @@ import type { TokenStore } from '../types'
 import { memoryStorage } from '../utils/memory-storage'
 import { useState, useRuntimeConfig } from '#imports'
 
+const memory = memoryStorage()
+
 export function useDirectusToken () {
   const config = useRuntimeConfig().public.directus.auth
   const tokenCookieName = config.accessTokenCookieName
   const msRefreshBeforeExpires = config.msRefreshBeforeExpires
   const stateName = `directus-token-${tokenCookieName}`
   const state = useState<TokenStore | null>(stateName, () => null)
-  const memory = memoryStorage(tokenCookieName)
 
   if (process.client && state.value) {
     memory.value = { ...state.value }
@@ -33,7 +34,7 @@ export function useDirectusToken () {
 
     get expired () {
       if (this.value) {
-        const expires = this.value.expires * 1000 - msRefreshBeforeExpires
+        const expires = this.value.expires - msRefreshBeforeExpires
         return expires < Date.now()
       }
       return false
