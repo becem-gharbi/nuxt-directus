@@ -6,3 +6,8 @@ export interface AuthenticationData {
     access_token: string;
   };
 }
+
+export interface TokenStore {
+  access_token: string;
+  expires: number;
+}
