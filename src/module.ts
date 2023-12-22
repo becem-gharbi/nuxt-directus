@@ -3,7 +3,6 @@ import {
   defineNuxtModule,
   addPlugin,
   createResolver,
-  addImportsDir,
   logger,
   installModule,
   addImports
@@ -38,7 +37,6 @@ export default defineNuxtModule<ModuleOptions>({
       msRefreshBeforeExpires: 3000,
       enableGlobalAuthMiddleware: false,
       refreshTokenCookieName: 'directus_refresh_token',
-      accessTokenCookieName: 'directus_access_token',
       loggedInFlagName: 'directus_logged_in',
       redirect: {
         home: '/home',
@@ -52,11 +50,11 @@ export default defineNuxtModule<ModuleOptions>({
 
   async setup (options, nuxt) {
     if (!options.rest.baseUrl) {
-      logger.warn(`[${name}] Please make sure to set Directus baseUrl`)
+      logger.warn('[nuxt-directus] Please make sure to set Directus baseUrl')
     }
 
     if (!options.rest.nuxtBaseUrl) {
-      logger.warn(`[${name}] Please make sure to set Nuxt baseUrl`)
+      logger.warn('[nuxt-directus] Please make sure to set Nuxt baseUrl')
     }
 
     // Get the runtime directory
@@ -67,9 +65,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
 
     // Initialize the module options
-    nuxt.options.runtimeConfig.public.directus = defu(
-      nuxt.options.runtimeConfig.public.directus,
-      options
+    nuxt.options.runtimeConfig.public = defu(
+      nuxt.options.runtimeConfig.public,
+      { directus: options }
     )
 
     // Add plugins
@@ -91,9 +89,21 @@ export default defineNuxtModule<ModuleOptions>({
       addPlugin(authPlugin, { append: true })
     }
 
-    // Add composables directory
-    const composables = resolve(runtimeDir, 'composables')
-    addImportsDir(composables)
+    // Add composables
+    addImports([
+      {
+        name: 'useDirectusAuth',
+        from: resolve(runtimeDir, './composables/useDirectusAuth')
+      },
+      {
+        name: 'useDirectusRest',
+        from: resolve(runtimeDir, './composables/useDirectusRest')
+      },
+      {
+        name: 'useDirectusSession',
+        from: resolve(runtimeDir, './composables/useDirectusSession')
+      }
+    ])
 
     // Auto-import Directus SDK rest commands
     const commands = [

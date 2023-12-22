@@ -14,7 +14,6 @@ interface Authentication {
   userFields?: string[];
   enableGlobalAuthMiddleware: boolean;
   refreshTokenCookieName?: string;
-  accessTokenCookieName?: string;
   loggedInFlagName?: string;
   msRefreshBeforeExpires?: number;
   redirect: {
