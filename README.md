@@ -48,7 +48,6 @@ export default defineNuxtConfig({
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       userFields: ["*"], // Select user fields
       refreshTokenCookieName: "directus_refresh_token",
-      accessTokenCookieName: "directus_access_token",
       loggedInFlagName: "directus_logged_in",
       msRefreshBeforeExpires: 3000,
       redirect: {
