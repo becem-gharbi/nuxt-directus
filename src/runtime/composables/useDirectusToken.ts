@@ -27,7 +27,6 @@ const memory = memoryStorage()
  */
 export function useDirectusToken () {
   const config = useRuntimeConfig().public.directus
-  const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
   const state = useState<TokenStore | null>('directus-auth-token', () => null)
 
   if (process.client && state.value) {
@@ -53,7 +52,7 @@ export function useDirectusToken () {
 
     get expired () {
       if (this.value) {
-        const expires = this.value.expires - msRefreshBeforeExpires
+        const expires = this.value.expires - config.auth.msRefreshBeforeExpires
         return expires < Date.now()
       }
       return false
