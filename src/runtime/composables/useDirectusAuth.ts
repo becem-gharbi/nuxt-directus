@@ -22,7 +22,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   )
 
   const config = useRuntimeConfig().public.directus
-  const { _loggedIn } = useDirectusSession()
+  const { _loggedInFlag } = useDirectusSession()
   const token = useDirectusToken()
 
   async function login (email: string, password: string, otp?: string) {
@@ -108,7 +108,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     const { callHook } = useNuxtApp()
     const returnToPath = route.query.redirect?.toString()
     const redirectTo = returnToPath ?? config.auth.redirect.home
-    _loggedIn.set(true)
+    _loggedInFlag.value = true
     await callHook('directus:loggedIn', true)
     await navigateTo(redirectTo)
   }
@@ -119,7 +119,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     await callHook('directus:loggedIn', false)
     user.value = null
     token.value = null
-    _loggedIn.set(false)
+    _loggedInFlag.value = false
     clearNuxtData()
     await navigateTo(config.auth.redirect.logout)
   }
