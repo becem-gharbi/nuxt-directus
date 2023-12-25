@@ -6,7 +6,6 @@ import {
   defineNuxtPlugin,
   addRouteMiddleware,
   useRuntimeConfig,
-  useState,
   useDirectusAuth,
   useRoute,
   useDirectusSession
@@ -20,13 +19,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
     addRouteMiddleware('guest', guest)
 
-    const initialized = useState('directus-auth-initialized', () => false)
     const { _loggedInFlag } = useDirectusSession()
     const token = useDirectusToken()
 
-    if (initialized.value === false) {
-      initialized.value = true
+    const isPrerenderd = typeof nuxtApp.payload.prerenderedAt === 'number'
+    const isServerRendered = nuxtApp.payload.serverRendered
+    const firstTime = (process.server && !isPrerenderd) || (process.client && (!isServerRendered || isPrerenderd))
 
+    if (firstTime) {
       const { path } = useRoute()
       const { fetchUser } = useDirectusAuth()
       const { _refreshToken, refresh } = useDirectusSession()
