@@ -1,9 +1,30 @@
-import type { TokenStore } from '../types'
-import { memoryStorage } from '../utils/memory-storage'
 import { useState, useRuntimeConfig } from '#imports'
+
+interface TokenStore {
+  access_token: string;
+  expires: number;
+}
+
+function memoryStorage () {
+  let store: TokenStore | null = null
+
+  return {
+    get value () {
+      return store
+    },
+    set value (data: TokenStore | null) {
+      if (process.client) { store = data }
+    }
+  }
+}
 
 const memory = memoryStorage()
 
+/**
+ * This composable permits the storage of access token in memory
+ * On server-side, it's stored with `useState`. On client-side its stored in a scoped memory.
+ * Given that `useState` is accessible on global context, it's cleared on client-side.
+ */
 export function useDirectusToken () {
   const config = useRuntimeConfig().public.directus
   const msRefreshBeforeExpires = config.auth.msRefreshBeforeExpires
