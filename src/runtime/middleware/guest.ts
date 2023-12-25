@@ -1,8 +1,8 @@
+import { useDirectusToken } from '../composables/useDirectusToken'
 import {
   defineNuxtRouteMiddleware,
   useRuntimeConfig,
-  navigateTo,
-  useDirectusAuth
+  navigateTo
 } from '#imports'
 
 export default defineNuxtRouteMiddleware((to) => {
@@ -15,9 +15,7 @@ export default defineNuxtRouteMiddleware((to) => {
     return
   }
 
-  const { user } = useDirectusAuth()
-
-  if (user.value) {
+  if (useDirectusToken().value) {
     return navigateTo(config.auth.redirect.home)
   }
 })
