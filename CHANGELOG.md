@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.1.8
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.7...v2.1.8)
+
+### 💅 Refactors
+
+- Replace _loggedIn with _loggedInFlag ([32b3014](https://github.com/becem-gharbi/nuxt-directus/commit/32b3014))
+- No significant change ([e31c039](https://github.com/becem-gharbi/nuxt-directus/commit/e31c039))
+- **auth plugin:** Implement new method for initialization check ([c46979e](https://github.com/becem-gharbi/nuxt-directus/commit/c46979e))
+- **middleware:** Replace user with access token to check logged in status ([dcd7769](https://github.com/becem-gharbi/nuxt-directus/commit/dcd7769))
+
+### 🏡 Chore
+
+- Move memory-storage utility to useDirectusToken source file ([3b89ce0](https://github.com/becem-gharbi/nuxt-directus/commit/3b89ce0))
+- No significant change ([56448ae](https://github.com/becem-gharbi/nuxt-directus/commit/56448ae))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.7
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.6...v2.1.7)
