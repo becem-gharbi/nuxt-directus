@@ -11,13 +11,12 @@ import {
   useRuntimeConfig,
   useState,
   useRequestHeaders,
-  navigateTo
+  useDirectusAuth
 } from '#imports'
 
 export function useDirectusSession () {
   const event = useRequestEvent()
   const config = useRuntimeConfig().public.directus
-  const token = useDirectusToken()
 
   const _refreshToken = {
     get: () => process.server && getCookie(event, config.auth.refreshTokenCookieName),
@@ -38,13 +37,12 @@ export function useDirectusSession () {
 
   async function refresh () {
     const isRefreshOn = useState('directus-auth-refresh-loading', () => false)
-    const user = useState('directus-auth-user')
 
     if (isRefreshOn.value) { return }
-
     isRefreshOn.value = true
 
     const headers = useRequestHeaders(['cookie'])
+    const accessToken = useDirectusToken()
 
     await $fetch
       .raw<AuthenticationData>('/auth/refresh', {
@@ -55,39 +53,39 @@ export function useDirectusSession () {
         headers
       })
       .then((res) => {
-        isRefreshOn.value = false
         const setCookie = res.headers.get('set-cookie') ?? ''
         const cookies = splitCookiesString(setCookie)
         for (const cookie of cookies) {
           appendResponseHeader(event, 'set-cookie', cookie)
         }
         if (res._data) {
-          token.value = {
+          accessToken.value = {
             access_token: res._data.data.access_token,
             expires: new Date().getTime() + res._data.data.expires
           }
-          _loggedInFlag.value = true
         }
         return res
       })
       .catch(async () => {
-        isRefreshOn.value = false
-        token.value = null
         _refreshToken.clear()
-        _loggedInFlag.value = false
-        user.value = null
-        if (process.client) {
-          await navigateTo(config.auth.redirect.logout)
-        }
+        await useDirectusAuth()._onLogout()
+      }).finally(() => {
+        isRefreshOn.value = false
       })
   }
 
+  /**
+   * Async get access token
+   * @returns Fresh access token (refreshed if expired)
+   */
   async function getToken (): Promise<string | null | undefined> {
-    if (token.expired) {
+    const accessToken = useDirectusToken()
+
+    if (accessToken.expired) {
       await refresh()
     }
 
-    return token.value?.access_token
+    return accessToken.value?.access_token
   }
 
   return { refresh, getToken, _refreshToken, _loggedInFlag }

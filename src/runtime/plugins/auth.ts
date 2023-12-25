@@ -22,10 +22,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
     const initialized = useState('directus-auth-initialized', () => false)
     const { _loggedInFlag } = useDirectusSession()
+    const token = useDirectusToken()
 
     if (initialized.value === false) {
       initialized.value = true
-      const token = useDirectusToken()
+
       const { path } = useRoute()
       const { fetchUser } = useDirectusAuth()
       const { _refreshToken, refresh } = useDirectusSession()
@@ -55,10 +56,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
     nuxtApp.hook('app:mounted', () => {
       addEventListener('storage', (event) => {
-        const loggedInName = config.auth.loggedInFlagName
-
-        if (event.key === loggedInName) {
-          if (event.oldValue === 'true' && event.newValue === 'false') {
+        if (event.key === config.auth.loggedInFlagName) {
+          if (event.oldValue === 'true' && event.newValue === 'false' && token.value) {
             useDirectusAuth()._onLogout()
           } else if (event.oldValue === 'false' && event.newValue === 'true') {
             location.reload()

@@ -14,9 +14,7 @@ export default defineNuxtPlugin(() => {
     rest({
       onRequest: async (request) => {
         if (config.auth.enabled) {
-          const { getToken } = useDirectusSession()
-
-          const accessToken = await getToken()
+          const accessToken = await useDirectusSession().getToken()
 
           if (accessToken) {
             request.headers = {
