@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.1.9
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.8...v2.1.9)
+
+### 🩹 Fixes
+
+- **refresh:** Wait until previous refresh call is completed ([27f0631](https://github.com/becem-gharbi/nuxt-directus/commit/27f0631))
+
+### 💅 Refactors
+
+- **refresh:** Only pass cookies on SSR ([612c6fd](https://github.com/becem-gharbi/nuxt-directus/commit/612c6fd))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.8
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.7...v2.1.8)
