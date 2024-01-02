@@ -41,7 +41,6 @@ export function useDirectusSession () {
     if (isRefreshOn.value) { return }
     isRefreshOn.value = true
 
-    const headers = useRequestHeaders(['cookie'])
     const accessToken = useDirectusToken()
 
     await $fetch
@@ -50,13 +49,15 @@ export function useDirectusSession () {
         method: 'POST',
         credentials: 'include',
         body: { mode: 'cookie' },
-        headers
+        headers: process.server ? useRequestHeaders(['cookie']) : {}
       })
       .then((res) => {
-        const setCookie = res.headers.get('set-cookie') ?? ''
-        const cookies = splitCookiesString(setCookie)
-        for (const cookie of cookies) {
-          appendResponseHeader(event, 'set-cookie', cookie)
+        if (process.server) {
+          const cookies = splitCookiesString(res.headers.get('set-cookie') ?? '')
+
+          for (const cookie of cookies) {
+            appendResponseHeader(event, 'set-cookie', cookie)
+          }
         }
         if (res._data) {
           accessToken.value = {
