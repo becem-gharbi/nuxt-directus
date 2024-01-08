@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.10
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.9...v2.1.10)
+
+### 💅 Refactors
+
+- Use `$fetch` instead of `fetch` ([b4c5870](https://github.com/becem-gharbi/nuxt-directus/commit/b4c5870))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.9
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.8...v2.1.9)
