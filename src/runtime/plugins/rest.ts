@@ -8,7 +8,11 @@ import {
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig().public.directus
 
-  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl)
+  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl, {
+    globals: {
+      fetch: $fetch
+    }
+  })
 
   const restClient = directus.with(
     rest({
