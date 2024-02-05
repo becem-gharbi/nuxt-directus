@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.11
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.10...v2.1.11)
+
+### 🩹 Fixes
+
+- **auth:** Solve failed refresh on Cloudflare workers ([613f831](https://github.com/becem-gharbi/nuxt-directus/commit/613f831))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.10
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.9...v2.1.10)
