@@ -55,7 +55,8 @@ export function useDirectusSession () {
       .raw<AuthenticationData>('/auth/refresh', {
         baseURL: config.rest.baseUrl,
         method: 'POST',
-        credentials: 'include',
+        // Cloudflare Workers does not support "credentials" field
+        ...(process.client ? { credentials: 'include' } : {}),
         body: { mode: 'cookie' },
         headers: process.server ? useRequestHeaders(['cookie']) : {}
       })
