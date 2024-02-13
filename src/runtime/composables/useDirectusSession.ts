@@ -4,7 +4,7 @@ import {
   splitCookiesString,
   appendResponseHeader
 } from 'h3'
-import type { AuthenticationData } from '../types'
+import type { AuthenticationData, PublicConfig } from '../types'
 import { useDirectusToken } from './useDirectusToken'
 import {
   useRequestEvent,
@@ -16,22 +16,22 @@ import {
 
 export function useDirectusSession () {
   const event = useRequestEvent()
-  const config = useRuntimeConfig().public.directus
+  const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
 
   const _refreshToken = {
-    get: () => process.server && getCookie(event, config.auth.refreshTokenCookieName),
-    clear: () => process.server && deleteCookie(event, config.auth.refreshTokenCookieName)
+    get: () => process.server && getCookie(event!, config.auth.refreshTokenCookieName!),
+    clear: () => process.server && deleteCookie(event!, config.auth.refreshTokenCookieName!)
   }
 
   const _loggedInFlag = {
     get value () {
       if (process.client) {
-        return localStorage.getItem(config.auth.loggedInFlagName) === 'true'
+        return localStorage.getItem(config.auth.loggedInFlagName!) === 'true'
       }
       return false
     },
     set value (value: boolean) {
-      process.client && localStorage.setItem(config.auth.loggedInFlagName, value.toString())
+      process.client && localStorage.setItem(config.auth.loggedInFlagName!, value.toString())
     }
   }
 
@@ -65,7 +65,7 @@ export function useDirectusSession () {
           const cookies = splitCookiesString(res.headers.get('set-cookie') ?? '')
 
           for (const cookie of cookies) {
-            appendResponseHeader(event, 'set-cookie', cookie)
+            appendResponseHeader(event!, 'set-cookie', cookie)
           }
         }
         if (res._data) {

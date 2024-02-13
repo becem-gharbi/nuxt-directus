@@ -1,9 +1,9 @@
 import { readMe, passwordRequest, passwordReset } from '@directus/sdk'
 import { joinURL, withQuery } from 'ufo'
 import type { DirectusUser } from '@directus/sdk'
-import type { AuthenticationData } from '../types'
+import type { Ref } from 'vue'
+import type { AuthenticationData, PublicConfig } from '../types'
 import { useDirectusToken } from './useDirectusToken'
-import type { Ref } from '#imports'
 import {
   useState,
   useRuntimeConfig,
@@ -15,7 +15,7 @@ import {
 } from '#imports'
 
 export function useDirectusAuth<DirectusSchema extends object> () {
-  const config = useRuntimeConfig().public.directus
+  const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
 
   const user: Ref<Readonly<DirectusUser<DirectusSchema> | null>> = useState(
     'directus-auth-user',

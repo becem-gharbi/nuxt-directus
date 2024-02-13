@@ -1,4 +1,5 @@
 import { useDirectusToken } from '../composables/useDirectusToken'
+import type { PublicConfig } from '../types'
 import {
   defineNuxtRouteMiddleware,
   useRuntimeConfig,
@@ -6,7 +7,7 @@ import {
 } from '#imports'
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  const config = useRuntimeConfig().public.directus
+  const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
 
   if (
     to.path === config.auth.redirect.login ||

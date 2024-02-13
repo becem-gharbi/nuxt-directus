@@ -1,3 +1,4 @@
+import type { PublicConfig } from '../types'
 import { useState, useRuntimeConfig } from '#imports'
 
 interface TokenStore {
@@ -26,7 +27,8 @@ const memory = memoryStorage()
  * Given that `useState` is accessible on global context, it's cleared on client-side.
  */
 export function useDirectusToken () {
-  const config = useRuntimeConfig().public.directus
+  const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
+
   const state = useState<TokenStore | null>('directus-auth-token', () => null)
 
   if (process.client && state.value) {
@@ -52,7 +54,7 @@ export function useDirectusToken () {
 
     get expired () {
       if (this.value) {
-        const expires = this.value.expires - config.auth.msRefreshBeforeExpires
+        const expires = this.value.expires - config.auth.msRefreshBeforeExpires!
         return expires < Date.now()
       }
       return false

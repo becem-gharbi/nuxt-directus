@@ -1,4 +1,5 @@
 import { createDirectus, rest } from '@directus/sdk'
+import type { PublicConfig } from '../types'
 import {
   defineNuxtPlugin,
   useRuntimeConfig,
@@ -6,7 +7,7 @@ import {
 } from '#imports'
 
 export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig().public.directus
+  const config = useRuntimeConfig().public.directus as PublicConfig
 
   const directus = createDirectus<DirectusSchema>(config.rest.baseUrl, {
     globals: {
