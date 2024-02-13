@@ -46,7 +46,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "changelogen": "^0.5.5",
     "eslint": "^8.55.0",
-    "nuxt": "^3.9.1"
+    "nuxt": "^3.10.1"
   },
   "repository": {
     "type": "git",
