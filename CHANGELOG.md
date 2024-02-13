@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.2.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.11...v2.2.0)
+
+### 🚀 Enhancements
+
+- Upgrade `@directus/sdk` to v15 ([05fef5f](https://github.com/becem-gharbi/nuxt-directus/commit/05fef5f))
+
+### 💅 Refactors
+
+- Avoid auto-import of `useDirectusAuth` `useDirectusSession` if `auth` disabled ([416b483](https://github.com/becem-gharbi/nuxt-directus/commit/416b483))
+
+### 🌊 Types
+
+- Solve typecheck issues ([b413f15](https://github.com/becem-gharbi/nuxt-directus/commit/b413f15))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.1.11
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.10...v2.1.11)
