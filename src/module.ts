@@ -11,7 +11,7 @@ import { defu } from 'defu'
 import { name, version } from '../package.json'
 import type { PublicConfig } from './runtime/types'
 
-export interface ModuleOptions extends PublicConfig {}
+export interface ModuleOptions extends PublicConfig { }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -65,47 +65,27 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
 
     // Initialize the module options
-    nuxt.options.runtimeConfig.public = defu(
-      nuxt.options.runtimeConfig.public,
-      { directus: options }
+    nuxt.options.runtimeConfig = defu(
+      nuxt.options.runtimeConfig,
+      {
+        app: {},
+        public: {
+          directus: options
+        }
+      }
     )
 
-    // Add plugins
+    // ##############################################
+    // ################# Rest setup #################
+    // ##############################################
+
     const restPlugin = resolve(runtimeDir, './plugins/rest')
     addPlugin(restPlugin, { append: true })
 
-    if (options.graphql.enabled) {
-      nuxt.options.build.transpile.push('@vue/apollo-composable')
-
-      const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
-      addPlugin(graphqlPlugin, { append: true })
-
-      await installModule('nuxt-apollo', {
-        httpEndpoint: options.graphql.httpEndpoint,
-        wsEndpoint: options.graphql.wsEndpoint
-      })
-    }
-
-    if (options.auth.enabled) {
-      const authPlugin = resolve(runtimeDir, './plugins/auth')
-      addPlugin(authPlugin, { append: true })
-    }
-
-    // Add composables
-    addImports([
-      {
-        name: 'useDirectusAuth',
-        from: resolve(runtimeDir, './composables/useDirectusAuth')
-      },
-      {
-        name: 'useDirectusRest',
-        from: resolve(runtimeDir, './composables/useDirectusRest')
-      },
-      {
-        name: 'useDirectusSession',
-        from: resolve(runtimeDir, './composables/useDirectusSession')
-      }
-    ])
+    addImports({
+      name: 'useDirectusRest',
+      from: resolve(runtimeDir, './composables/useDirectusRest')
+    })
 
     // Auto-import Directus SDK rest commands
     const commands = [
@@ -166,5 +146,41 @@ export default defineNuxtModule<ModuleOptions>({
         from: '@directus/sdk'
       })
     })
+
+    // ##############################################
+    // ################# Auth setup #################
+    // ##############################################
+
+    if (options.auth.enabled) {
+      addImports([
+        {
+          name: 'useDirectusAuth',
+          from: resolve(runtimeDir, './composables/useDirectusAuth')
+        },
+        {
+          name: 'useDirectusSession',
+          from: resolve(runtimeDir, './composables/useDirectusSession')
+        }
+      ])
+
+      const authPlugin = resolve(runtimeDir, './plugins/auth')
+      addPlugin(authPlugin, { append: true })
+    }
+
+    // #################################################
+    // ################# GraphQL setup #################
+    // #################################################
+
+    if (options.graphql.enabled) {
+      nuxt.options.build.transpile.push('@vue/apollo-composable')
+
+      const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
+      addPlugin(graphqlPlugin, { append: true })
+
+      await installModule('nuxt-apollo', {
+        httpEndpoint: options.graphql.httpEndpoint,
+        wsEndpoint: options.graphql.wsEndpoint
+      })
+    }
   }
 })
