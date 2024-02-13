@@ -75,6 +75,8 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(restPlugin, { append: true })
 
     if (options.graphql.enabled) {
+      nuxt.options.build.transpile.push('@vue/apollo-composable')
+
       const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
       addPlugin(graphqlPlugin, { append: true })
 
