@@ -1,50 +1,42 @@
 <template>
   <div>
-    <h1>Home</h1>
-    {{ user }}
-    <hr>
-    {{ data }}
-    <hr>
-    <button @click="logout()">
-      Logout
-    </button>
-    <button @click="refresh()">
-      REFRESH
-    </button>
+    <h3>Auth</h3>
+    <p>{{ user }}</p>
+    <button @click="logout()">Logout</button>
+    <hr />
+
+    <h3>Rest</h3>
+    <p>{{ data }}</p>
+    <button @click="refresh()">REFRESH</button>
+
+    <hr />
+    <h3>GraphQL</h3>
+    <p>{{ dataQL }}</p>
+    <button @click="refreshQL()">refreshQL</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { readItems } from '@directus/sdk'
-import { graphql } from '~/gql'
+import { readItems } from "@directus/sdk";
 
-definePageMeta({ middleware: 'auth' })
+definePageMeta({ middleware: "auth" });
 
-const { logout, user } = useDirectusAuth()
+const { logout, user } = useDirectusAuth();
 
-const { $directus } = useNuxtApp()
+const { data, refresh } = await useAsyncData(() =>
+  useDirectusRest(readItems("country"))
+);
 
-const { data, refresh } = await useAsyncData('country', () => useDirectusRest(readItems('country')))
+const { load, refetch } = useLazyQuery(gql`
+  query getCountries {
+    country {
+      id
+      name
+    }
+  }
+`);
 
-// const query = graphql(`
-// query GetBook {
-//   book {
-//     id
-//   }
-// }
-// `)
-
-// const subQuery = gql`
-// subscription SubBook {
-//   book_mutated {
-//     data {
-//       name
-//     }
-//   }
-// }
-// `
-
-// const { result: subResult } = useSubscription(subQuery)
-
-// const { result, refetch } = useQuery(query)
+const { data: dataQL, refresh: refreshQL } = useAsyncData(
+  async () => load() || refetch()
+);
 </script>
