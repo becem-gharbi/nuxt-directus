@@ -2,8 +2,7 @@ import { createDirectus, rest } from '@directus/sdk'
 import type { PublicConfig } from '../types'
 import {
   defineNuxtPlugin,
-  useRuntimeConfig,
-  useDirectusSession
+  useRuntimeConfig
 } from '#imports'
 
 export default defineNuxtPlugin(() => {
@@ -15,22 +14,7 @@ export default defineNuxtPlugin(() => {
     }
   })
 
-  const restClient = directus.with(
-    rest({
-      onRequest: async (request) => {
-        const accessToken = await useDirectusSession().getToken()
-
-        if (accessToken) {
-          request.headers = {
-            ...request.headers,
-            authorization: `Bearer ${accessToken}`
-          }
-        }
-
-        return request
-      }
-    })
-  )
+  const restClient = directus.with(rest())
 
   return {
     provide: {

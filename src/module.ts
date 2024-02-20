@@ -79,7 +79,7 @@ export default defineNuxtModule<ModuleOptions>({
     // ################# Rest setup #################
     // ##############################################
 
-    const restPlugin = resolve(runtimeDir, './plugins/rest')
+    const restPlugin = resolve(runtimeDir, options.auth.enabled ? './plugins/rest' : './plugins/rest.basic')
     addPlugin(restPlugin, { append: true })
 
     addImports({
@@ -174,8 +174,10 @@ export default defineNuxtModule<ModuleOptions>({
     if (options.graphql.enabled) {
       nuxt.options.build.transpile.push('@vue/apollo-composable')
 
-      const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
-      addPlugin(graphqlPlugin, { append: true })
+      if (options.auth.enabled) {
+        const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
+        addPlugin(graphqlPlugin, { append: true })
+      }
 
       await installModule('nuxt-apollo', {
         httpEndpoint: options.graphql.httpEndpoint,
