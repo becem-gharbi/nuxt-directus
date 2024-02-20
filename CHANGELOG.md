@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.2.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.0...v2.2.1)
+
+### 🩹 Fixes
+
+- Fix failed to find "useDirectusSession" ([93dcc98](https://github.com/becem-gharbi/nuxt-directus/commit/93dcc98))
+
+### 🏡 Chore
+
+- **playground:** Add GrapQL query check ([79b200d](https://github.com/becem-gharbi/nuxt-directus/commit/79b200d))
+- **playground:** No significant change ([e0bccfd](https://github.com/becem-gharbi/nuxt-directus/commit/e0bccfd))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.2.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.1.11...v2.2.0)
