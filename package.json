@@ -51,5 +51,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/becem-gharbi/nuxt-directus.git"
+  },
+  "peerDependencies": {
+    "@vue/apollo-composable": "^4.0.1"
   }
 }
