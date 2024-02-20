@@ -36,7 +36,7 @@ const { load, refetch } = useLazyQuery(gql`
   }
 `);
 
-const { data: dataQL, refresh: refreshQL } = useAsyncData(
+const { data: dataQL, refresh: refreshQL } = await useAsyncData(
   async () => load() || refetch()
 );
 </script>
