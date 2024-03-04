@@ -5,7 +5,7 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-Directus SDK for Nuxt 3
+Directus SDK for Nuxt 3.
 
 - ✔️ SSR support
 - ✔️ Rest client via `useDirectusRest` composable based on the new [Directus SDK](https://github.com/directus/directus/tree/main/sdk)
@@ -99,6 +99,8 @@ type DirectusTypes =
 declare global {
   interface DirectusSchema extends Omit<CustomDirectusTypes, DirectusTypes> {}
 }
+
+export {}
 ```
 
 ## Graphql
@@ -113,7 +115,7 @@ To use graphql subscription make sure to set
 
 Directus and Nuxt apps should share the same domain name because cookies's sameSite policy is set to `lax`. Also make sure to add `NODE_OPTIONS=--dns-result-order=ipv4first` env in development in order to resolve localhost domain for Node +v17.
 
-The module has `useDirectusAuth` composable for handling authentication with cookie based storage.
+The module has `useDirectusAuth` composable for handling authentication.
 
 - `login` login with email/password and redirect to login page
 - `logout` logout, clear states and redirect to logout page
