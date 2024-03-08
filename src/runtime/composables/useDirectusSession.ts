@@ -23,6 +23,11 @@ export function useDirectusSession () {
     clear: () => process.server && deleteCookie(event!, config.auth.refreshTokenCookieName!)
   }
 
+  const _sessionToken = {
+    get: () => process.server && getCookie(event!, config.auth.sessionTokenCookieName!),
+    clear: () => process.server && deleteCookie(event!, config.auth.sessionTokenCookieName!)
+  }
+
   const _loggedInFlag = {
     get value () {
       if (process.client) {
@@ -57,7 +62,7 @@ export function useDirectusSession () {
         method: 'POST',
         // Cloudflare Workers does not support "credentials" field
         ...(process.client ? { credentials: 'include' } : {}),
-        body: { mode: 'cookie' },
+        body: { mode: config.auth.mode },
         headers: process.server ? useRequestHeaders(['cookie']) : {}
       })
       .then((res) => {
@@ -70,7 +75,7 @@ export function useDirectusSession () {
         }
         if (res._data) {
           accessToken.value = {
-            access_token: res._data.data.access_token,
+            access_token: res._data.data.access_token ?? 'none',
             expires: new Date().getTime() + res._data.data.expires
           }
         }
@@ -78,6 +83,7 @@ export function useDirectusSession () {
       })
       .catch(async () => {
         _refreshToken.clear()
+        _sessionToken.clear()
         await useDirectusAuth()._onLogout()
       }).finally(() => {
         isRefreshOn.value = false
@@ -98,5 +104,5 @@ export function useDirectusSession () {
     return accessToken.value?.access_token
   }
 
-  return { refresh, getToken, _refreshToken, _loggedInFlag }
+  return { refresh, getToken, _refreshToken, _loggedInFlag, _sessionToken }
 }

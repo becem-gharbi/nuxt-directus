@@ -32,9 +32,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         await useDirectusAuth().fetchUser()
       } else {
         const isCallback = useRoute().path === config.auth.redirect.callback
-        const { _refreshToken, refresh } = useDirectusSession()
+        const { _refreshToken, _sessionToken, refresh } = useDirectusSession()
 
-        if (isCallback || _loggedInFlag.value || _refreshToken.get()) {
+        if (isCallback || _loggedInFlag.value || _refreshToken.get() || _sessionToken.get()) {
           await refresh()
           if (token.value) {
             await useDirectusAuth().fetchUser()

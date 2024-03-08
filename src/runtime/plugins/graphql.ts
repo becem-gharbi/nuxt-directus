@@ -1,5 +1,6 @@
 import { defineNuxtPlugin, useDirectusSession } from '#imports'
 
+// TODO: allow cookie-based authorization in `nuxt-apollo`
 export default defineNuxtPlugin({
   enforce: 'pre',
   hooks: {

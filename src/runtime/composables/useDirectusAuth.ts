@@ -28,7 +28,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
       method: 'POST',
       credentials: 'include',
       body: {
-        mode: 'cookie',
+        mode: config.auth.mode,
         email,
         password,
         otp
@@ -36,7 +36,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     })
 
     useDirectusToken().value = {
-      access_token: res.data.access_token,
+      access_token: res.data.access_token ?? 'none',
       expires: new Date().getTime() + res.data.expires
     }
 
@@ -47,7 +47,8 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     await $fetch('/auth/logout', {
       baseURL: config.rest.baseUrl,
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
+      body: { mode: config.auth.mode }
     }).finally(_onLogout)
   }
 
