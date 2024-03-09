@@ -28,17 +28,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     const firstTime = (process.server && !isPrerenderd) || (process.client && (!isServerRendered || isPrerenderd))
 
     if (firstTime) {
-      if (token.value) {
-        await useDirectusAuth().fetchUser()
-      } else {
-        const isCallback = useRoute().path === config.auth.redirect.callback
-        const { _refreshToken, refresh } = useDirectusSession()
+      const isCallback = useRoute().path === config.auth.redirect.callback
+      const { _refreshToken, refresh } = useDirectusSession()
 
-        if (isCallback || _loggedInFlag.value || _refreshToken.get()) {
-          await refresh()
-          if (token.value) {
-            await useDirectusAuth().fetchUser()
-          }
+      if (isCallback || _loggedInFlag.value || _refreshToken.get()) {
+        await refresh()
+        if (token.value) {
+          await useDirectusAuth().fetchUser()
         }
       }
     }
