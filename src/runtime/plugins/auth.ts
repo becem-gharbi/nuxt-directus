@@ -8,13 +8,14 @@ import {
   addRouteMiddleware,
   useRuntimeConfig,
   useDirectusAuth,
-  useRoute,
-  useDirectusSession
+  useDirectusSession,
+  useRouter
 } from '#imports'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   try {
     const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
+    const router = useRouter()
 
     addRouteMiddleware('common', common, { global: true })
     addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
@@ -23,15 +24,16 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     const { _loggedInFlag } = useDirectusSession()
     const token = useDirectusToken()
 
+    const isPageFound = router.currentRoute.value?.matched.length > 0
     const isPrerenderd = typeof nuxtApp.payload.prerenderedAt === 'number'
     const isServerRendered = nuxtApp.payload.serverRendered
-    const firstTime = (process.server && !isPrerenderd) || (process.client && (!isServerRendered || isPrerenderd))
+    const firstTime = (process.server && !isPrerenderd && isPageFound) || (process.client && (!isServerRendered || isPrerenderd || !isPageFound))
 
     if (firstTime) {
       if (token.value) {
         await useDirectusAuth().fetchUser()
       } else {
-        const isCallback = useRoute().path === config.auth.redirect.callback
+        const isCallback = router.currentRoute.value?.path === config.auth.redirect.callback
         const { _refreshToken, refresh } = useDirectusSession()
 
         if (isCallback || _loggedInFlag.value || _refreshToken.get()) {
