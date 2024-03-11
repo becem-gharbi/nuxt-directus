@@ -1,6 +1,39 @@
 # Changelog
 
 
+## v2.2.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.1...v2.2.2)
+
+### 🩹 Fixes
+
+- **auth:** Avoid auto-logout when page not found ([#79](https://github.com/becem-gharbi/nuxt-directus/pull/79))
+
+### 💅 Refactors
+
+- **auth:** No significant change ([41fbc4c](https://github.com/becem-gharbi/nuxt-directus/commit/41fbc4c))
+- **auth:** Remove extra token check ([c9fa3c7](https://github.com/becem-gharbi/nuxt-directus/commit/c9fa3c7))
+- No significant change ([d4fb37e](https://github.com/becem-gharbi/nuxt-directus/commit/d4fb37e))
+
+### 📖 Documentation
+
+- Update README.md ([1886a81](https://github.com/becem-gharbi/nuxt-directus/commit/1886a81))
+- Mention SSO login setup for directus +v10.10 ([#77](https://github.com/becem-gharbi/nuxt-directus/pull/77))
+
+### 🏡 Chore
+
+- **deps-dev:** Bump undici from 5.28.2 to 5.28.3 in /playground ([37d6034](https://github.com/becem-gharbi/nuxt-directus/commit/37d6034))
+- **deps-dev:** Bump ip from 2.0.0 to 2.0.1 in /playground ([881387a](https://github.com/becem-gharbi/nuxt-directus/commit/881387a))
+- Refresh lockfile ([663f891](https://github.com/becem-gharbi/nuxt-directus/commit/663f891))
+- **playground:** Remove register page link ([b84a9f9](https://github.com/becem-gharbi/nuxt-directus/commit/b84a9f9))
+- **playground:** Remove unused deps ([cd93cd9](https://github.com/becem-gharbi/nuxt-directus/commit/cd93cd9))
+- **playground:** Add missing config options ([dc0e172](https://github.com/becem-gharbi/nuxt-directus/commit/dc0e172))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v2.2.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.0...v2.2.1)
