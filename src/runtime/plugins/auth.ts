@@ -30,7 +30,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     const firstTime = (process.server && !isPrerenderd && isPageFound) || (process.client && (!isServerRendered || isPrerenderd || !isPageFound))
 
     if (firstTime) {
-      const isCallback = useRoute().path === config.auth.redirect.callback
+      const isCallback = router.currentRoute.value?.path === config.auth.redirect.callback
       const { _refreshToken, refresh } = useDirectusSession()
 
       if (isCallback || _loggedInFlag.value || _refreshToken.get()) {

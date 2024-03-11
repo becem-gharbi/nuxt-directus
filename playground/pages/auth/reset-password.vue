@@ -8,6 +8,9 @@
 </template>
 
 <script setup>
+import { definePageMeta, useDirectusAuth } from '#imports'
+
 definePageMeta({ middleware: 'guest' })
+
 const { resetPassword } = useDirectusAuth()
 </script>

@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { readItems } from "@directus/sdk";
+import { definePageMeta, useLazyQuery, gql, useDirectusAuth, useDirectusRest, readItems, useAsyncData } from '#imports'
 
 definePageMeta({ middleware: "auth" });
 
