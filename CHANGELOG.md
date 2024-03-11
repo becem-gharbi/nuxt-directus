@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.2.3
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.2...v2.2.3)
+
+### 🏡 Chore
+
+- Disable auto import ([be260b3](https://github.com/becem-gharbi/nuxt-directus/commit/be260b3))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.2.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.1...v2.2.2)
