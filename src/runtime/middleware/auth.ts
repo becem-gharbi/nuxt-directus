@@ -18,14 +18,8 @@ export default defineNuxtRouteMiddleware((to) => {
 
   const isPageFound = to.matched.length > 0
 
-  if (!isPageFound && process.server) {
+  if ((!isPageFound && process.server) || (config.auth.enableGlobalAuthMiddleware && to.meta.auth === false)) {
     return
-  }
-
-  if (config.auth.enableGlobalAuthMiddleware === true) {
-    if (to.meta.auth === false) {
-      return
-    }
   }
 
   if (!useDirectusToken().value) {
