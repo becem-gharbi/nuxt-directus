@@ -3,8 +3,5 @@
   "name": "my-module-playground",
   "devDependencies": {
     "nuxt": "^3.7.0"
-  },
-  "dependencies": {
-    "@vue/apollo-composable": "^4.0.1"
   }
 }

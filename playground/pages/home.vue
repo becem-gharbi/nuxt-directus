@@ -21,12 +21,6 @@ import { readItems } from "@directus/sdk";
 
 definePageMeta({ middleware: "auth" });
 
-const { logout, user } = useDirectusAuth();
-
-const { data, refresh } = await useAsyncData(() =>
-  useDirectusRest(readItems("country"))
-);
-
 const { load, refetch } = useLazyQuery(gql`
   query getCountries {
     country {
@@ -35,6 +29,12 @@ const { load, refetch } = useLazyQuery(gql`
     }
   }
 `);
+
+const { logout, user } = useDirectusAuth();
+
+const { data, refresh } = await useAsyncData(() =>
+  useDirectusRest(readItems("country"))
+);
 
 const { data: dataQL, refresh: refreshQL } = await useAsyncData(
   async () => load() || refetch()
