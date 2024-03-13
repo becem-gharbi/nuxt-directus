@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { definePageMeta, useDirectusAuth, ref } from '#imports'
 
 definePageMeta({ middleware: 'guest' })
 

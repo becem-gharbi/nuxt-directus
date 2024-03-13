@@ -54,12 +54,8 @@ export function useDirectusAuth<DirectusSchema extends object> () {
 
   async function fetchUser () {
     const fields = config.auth.userFields ?? ['*']
-    try {
-      // @ts-ignore
-      user.value = await useDirectusRest(readMe({ fields }))
-    } catch (error) {
-      user.value = null
-    }
+    // @ts-ignore
+    user.value = await useDirectusRest(readMe({ fields })).catch(() => null)
   }
 
   function loginWithProvider (provider: string) {

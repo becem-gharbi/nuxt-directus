@@ -7,7 +7,15 @@ export default defineNuxtConfig({
   directus: {
     auth: {
       enabled: true,
-      userFields: ['first_name', 'last_name']
+      userFields: ['first_name', 'last_name'],
+      enableGlobalAuthMiddleware: false,
+      redirect: {
+        login: '/auth/login',
+        callback: '/auth/callback',
+        resetPassword: '/auth/reset-password',
+        home: '/home',
+        logout: '/auth/login'
+      }
     }
   }
 })

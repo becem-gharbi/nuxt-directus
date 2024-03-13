@@ -17,15 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { readItems } from "@directus/sdk";
+import { definePageMeta, useLazyQuery, gql, useDirectusAuth, useDirectusRest, readItems, useAsyncData } from '#imports'
 
 definePageMeta({ middleware: "auth" });
-
-const { logout, user } = useDirectusAuth();
-
-const { data, refresh } = await useAsyncData(() =>
-  useDirectusRest(readItems("country"))
-);
 
 const { load, refetch } = useLazyQuery(gql`
   query getCountries {
@@ -35,6 +29,12 @@ const { load, refetch } = useLazyQuery(gql`
     }
   }
 `);
+
+const { logout, user } = useDirectusAuth();
+
+const { data, refresh } = await useAsyncData(() =>
+  useDirectusRest(readItems("country"))
+);
 
 const { data: dataQL, refresh: refreshQL } = await useAsyncData(
   async () => load() || refetch()
