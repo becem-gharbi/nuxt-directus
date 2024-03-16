@@ -20,15 +20,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
   addRouteMiddleware('guest', guest)
 
+  nuxtApp.hook('directus:loggedIn', (state) => {
+    _loggedInFlag.value = state
+  })
+
   const isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
 
   if (_loggedInFlag.value || isSSO) {
     await refresh().then(useDirectusAuth().fetchUser)
   }
-
-  nuxtApp.hook('directus:loggedIn', (state) => {
-    _loggedInFlag.value = state
-  })
 
   if (user.value) {
     await nuxtApp.callHook('directus:loggedIn', true)

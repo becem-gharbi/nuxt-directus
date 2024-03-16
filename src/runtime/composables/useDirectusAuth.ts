@@ -21,10 +21,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   )
 
   async function login (email: string, password: string, otp?: string) {
-    await useNuxtApp().$directus.client.login(email, password, {
-      mode: 'cookie',
-      otp
-    }).then(_onLogin)
+    await useNuxtApp().$directus.client.login(email, password, { otp }).then(_onLogin)
   }
 
   async function logout () {

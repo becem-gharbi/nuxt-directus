@@ -12,8 +12,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   const client = directus
-    .with(rest())
-    .with(authentication('cookie', {
+    .with(rest({ credentials: 'include' }))
+    .with(authentication(config.auth.mode, {
       autoRefresh: true,
       msRefreshBeforeExpires: config.auth.msRefreshBeforeExpires,
       credentials: 'include'
