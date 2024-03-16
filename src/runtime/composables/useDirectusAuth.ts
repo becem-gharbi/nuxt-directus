@@ -2,16 +2,14 @@ import { readMe, passwordRequest, passwordReset } from '@directus/sdk'
 import { joinURL, withQuery } from 'ufo'
 import type { DirectusUser } from '@directus/sdk'
 import type { Ref } from 'vue'
-import type { AuthenticationData, PublicConfig } from '../types'
-import { useDirectusToken } from './useDirectusToken'
+import type { PublicConfig } from '../types'
 import {
   useState,
   useRuntimeConfig,
-  useDirectusRest,
   useRoute,
   navigateTo,
-  useDirectusSession,
-  useNuxtApp
+  useNuxtApp,
+  useDirectusRest
 } from '#imports'
 
 export function useDirectusAuth<DirectusSchema extends object> () {
@@ -23,32 +21,14 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   )
 
   async function login (email: string, password: string, otp?: string) {
-    const res = await $fetch<AuthenticationData>('/auth/login', {
-      baseURL: config.rest.baseUrl,
-      method: 'POST',
-      credentials: 'include',
-      body: {
-        mode: 'cookie',
-        email,
-        password,
-        otp
-      }
-    })
-
-    useDirectusToken().value = {
-      access_token: res.data.access_token,
-      expires: new Date().getTime() + res.data.expires
-    }
-
-    await _onLogin()
+    await useNuxtApp().$directus.client.login(email, password, {
+      mode: 'cookie',
+      otp
+    }).then(_onLogin)
   }
 
   async function logout () {
-    await $fetch('/auth/logout', {
-      baseURL: config.rest.baseUrl,
-      method: 'POST',
-      credentials: 'include'
-    }).finally(_onLogout)
+    await useNuxtApp().$directus.client.logout().finally(_onLogout)
   }
 
   async function fetchUser () {
@@ -76,15 +56,14 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     })
   }
 
-  function requestPasswordReset (email: string) {
+  async function requestPasswordReset (email: string) {
     const resetUrl = getRedirectUrl(config.auth.redirect.resetPassword)
-    return useDirectusRest(passwordRequest(email, resetUrl))
+    return await useDirectusRest(passwordRequest(email, resetUrl))
   }
 
-  function resetPassword (password: string) {
+  async function resetPassword (password: string) {
     const token = useRoute().query.token as string
-
-    return useDirectusRest(passwordReset(token, password))
+    return await useDirectusRest(passwordReset(token, password))
   }
 
   function getRedirectUrl (path: string) {
@@ -93,18 +72,16 @@ export function useDirectusAuth<DirectusSchema extends object> () {
 
   async function _onLogin () {
     await fetchUser()
-    if (user.value === null) { return }
-    const returnToPath = useRoute().query.redirect?.toString()
-    const redirectTo = returnToPath ?? config.auth.redirect.home
-    useDirectusSession()._loggedInFlag.value = true
-    await useNuxtApp().callHook('directus:loggedIn', true)
-    await navigateTo(redirectTo)
+    if (user.value) {
+      const returnToPath = useRoute().query.redirect?.toString()
+      const redirectTo = returnToPath ?? config.auth.redirect.home
+      await useNuxtApp().callHook('directus:loggedIn', true)
+      await navigateTo(redirectTo)
+    }
   }
 
   async function _onLogout () {
     await useNuxtApp().callHook('directus:loggedIn', false)
-    useDirectusToken().value = null
-    useDirectusSession()._loggedInFlag.value = false
     await navigateTo(config.auth.redirect.logout, { external: true })
   }
 

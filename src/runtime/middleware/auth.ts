@@ -1,9 +1,9 @@
-import { useDirectusToken } from '../composables/useDirectusToken'
 import type { PublicConfig } from '../types'
 import {
   defineNuxtRouteMiddleware,
   useRuntimeConfig,
-  navigateTo
+  navigateTo,
+  useDirectusAuth
 } from '#imports'
 
 export default defineNuxtRouteMiddleware((to) => {
@@ -16,13 +16,11 @@ export default defineNuxtRouteMiddleware((to) => {
     return
   }
 
-  const isPageFound = to.matched.length > 0
-
-  if ((!isPageFound && process.server) || (config.auth.enableGlobalAuthMiddleware && to.meta.auth === false)) {
+  if (config.auth.enableGlobalAuthMiddleware && to.meta.auth === false) {
     return
   }
 
-  if (!useDirectusToken().value) {
+  if (!useDirectusAuth().user.value) {
     return navigateTo({
       path: config.auth.redirect.login,
       query: { redirect: to.path }

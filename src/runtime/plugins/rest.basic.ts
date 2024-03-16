@@ -1,9 +1,6 @@
 import { createDirectus, rest } from '@directus/sdk'
 import type { PublicConfig } from '../types'
-import {
-  defineNuxtPlugin,
-  useRuntimeConfig
-} from '#imports'
+import { defineNuxtPlugin, useRuntimeConfig } from '#imports'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig().public.directus as PublicConfig
@@ -14,12 +11,12 @@ export default defineNuxtPlugin(() => {
     }
   })
 
-  const restClient = directus.with(rest())
+  const client = directus.with(rest())
 
   return {
     provide: {
       directus: {
-        rest: restClient
+        client
       }
     }
   }
