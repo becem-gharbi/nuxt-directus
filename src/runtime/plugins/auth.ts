@@ -12,8 +12,8 @@ import {
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = nuxtApp.$config.public.directus as PublicConfig & { auth: { enabled: true } }
-  const { _loggedInFlag, refresh } = useDirectusSession()
-  const { user, _onLogout } = useDirectusAuth()
+  const { _loggedInFlag, refresh, getToken } = useDirectusSession()
+  const { user, _onLogout, fetchUser } = useDirectusAuth()
   const { currentRoute } = useRouter()
 
   addRouteMiddleware('common', common, { global: true })
@@ -23,16 +23,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   nuxtApp.hook('directus:loggedIn', (state) => {
     _loggedInFlag.value = state
   })
-
-  const isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
-
-  if (_loggedInFlag.value || isSSO) {
-    await refresh().then(useDirectusAuth().fetchUser)
-  }
-
-  if (user.value) {
-    await nuxtApp.callHook('directus:loggedIn', true)
-  }
 
   nuxtApp.hook('app:mounted', () => {
     addEventListener('storage', (event) => {
@@ -45,4 +35,20 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       }
     })
   })
+
+  const isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
+
+  if (_loggedInFlag.value || isSSO) {
+    if (config.auth.mode === 'cookie') {
+      await refresh().then(getToken).then(t => t && fetchUser)
+    } else if (config.auth.mode === 'session') {
+      isSSO ? await refresh().then(fetchUser) : await fetchUser()
+    }
+  }
+
+  if (user.value) {
+    await nuxtApp.callHook('directus:loggedIn', true)
+  } else {
+    _loggedInFlag.value = false
+  }
 })

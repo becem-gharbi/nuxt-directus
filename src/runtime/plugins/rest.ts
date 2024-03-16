@@ -1,5 +1,6 @@
 import { createDirectus, rest, authentication } from '@directus/sdk'
 import type { PublicConfig } from '../types'
+import { useDirectusStorage } from '../composables/useDirectusStorage'
 import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -16,7 +17,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     .with(authentication(config.auth.mode, {
       autoRefresh: true,
       msRefreshBeforeExpires: config.auth.msRefreshBeforeExpires,
-      credentials: 'include'
+      credentials: 'include',
+      storage: useDirectusStorage()
     }))
 
   return {
