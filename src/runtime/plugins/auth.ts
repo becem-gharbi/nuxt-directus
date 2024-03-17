@@ -40,9 +40,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   if (_loggedInFlag.value || isSSO) {
     if (config.auth.mode === 'cookie') {
-      await refresh().then(getToken).then(t => t && fetchUser)
+      await refresh().then(getToken).then(t => t ? fetchUser() : null)
     } else if (config.auth.mode === 'session') {
-      isSSO ? await refresh().then(fetchUser) : await fetchUser()
+      await refresh().then(fetchUser)
     }
   }
 
