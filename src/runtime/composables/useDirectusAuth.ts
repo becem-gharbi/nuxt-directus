@@ -9,7 +9,6 @@ import {
   useRoute,
   navigateTo,
   useNuxtApp,
-  useDirectusRest,
   useDirectusSession
 } from '#imports'
 
@@ -20,6 +19,9 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     'directus-auth-user',
     () => null
   )
+
+  const { autoRefresh } = useDirectusSession()
+  const { callHook, $directus } = useNuxtApp()
 
   async function login (email: string, password: string, otp?: string) {
     await useNuxtApp().$directus.client.login(email, password, { otp }).then(_onLogin)
@@ -32,7 +34,7 @@ export function useDirectusAuth<DirectusSchema extends object> () {
   async function fetchUser () {
     const fields = config.auth.userFields ?? ['*']
     // @ts-ignore
-    user.value = await useDirectusRest(readMe({ fields })).catch(() => null)
+    user.value = await $directus.client.request(readMe({ fields })).catch(() => null)
   }
 
   function loginWithProvider (provider: string) {
@@ -56,12 +58,12 @@ export function useDirectusAuth<DirectusSchema extends object> () {
 
   async function requestPasswordReset (email: string) {
     const resetUrl = getRedirectUrl(config.auth.redirect.resetPassword)
-    return await useDirectusRest(passwordRequest(email, resetUrl))
+    return await $directus.client.request(passwordRequest(email, resetUrl))
   }
 
   async function resetPassword (password: string) {
     const token = useRoute().query.token as string
-    return await useDirectusRest(passwordReset(token, password))
+    return await $directus.client.request(passwordReset(token, password))
   }
 
   function getRedirectUrl (path: string) {
@@ -73,16 +75,18 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     if (user.value) {
       const returnToPath = useRoute().query.redirect?.toString()
       const redirectTo = returnToPath ?? config.auth.redirect.home
-      await useDirectusSession().autoRefresh(true)
-      await useNuxtApp().callHook('directus:loggedIn', true)
+      await autoRefresh(true)
+      await callHook('directus:loggedIn', true)
       await navigateTo(redirectTo)
     }
   }
 
   async function _onLogout () {
-    await useDirectusSession().autoRefresh(false)
-    await useNuxtApp().callHook('directus:loggedIn', false)
-    await navigateTo(config.auth.redirect.logout, { external: true })
+    await autoRefresh(false)
+    await callHook('directus:loggedIn', false)
+    if (process.client) {
+      await navigateTo(config.auth.redirect.logout, { external: true })
+    }
   }
 
   return {

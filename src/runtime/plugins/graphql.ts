@@ -3,6 +3,7 @@ import { defineNuxtPlugin, useDirectusSession } from '#imports'
 export default defineNuxtPlugin({
   enforce: 'pre',
   hooks: {
+    // TODO: support session mode
     'apollo:http-auth': async (args) => {
       const accessToken = await useDirectusSession().getToken()
 
