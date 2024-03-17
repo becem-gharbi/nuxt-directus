@@ -9,7 +9,8 @@ import {
   useRoute,
   navigateTo,
   useNuxtApp,
-  useDirectusRest
+  useDirectusRest,
+  useDirectusSession
 } from '#imports'
 
 export function useDirectusAuth<DirectusSchema extends object> () {
@@ -72,12 +73,14 @@ export function useDirectusAuth<DirectusSchema extends object> () {
     if (user.value) {
       const returnToPath = useRoute().query.redirect?.toString()
       const redirectTo = returnToPath ?? config.auth.redirect.home
+      await useDirectusSession().autoRefresh(true)
       await useNuxtApp().callHook('directus:loggedIn', true)
       await navigateTo(redirectTo)
     }
   }
 
   async function _onLogout () {
+    await useDirectusSession().autoRefresh(false)
     await useNuxtApp().callHook('directus:loggedIn', false)
     await navigateTo(config.auth.redirect.logout, { external: true })
   }

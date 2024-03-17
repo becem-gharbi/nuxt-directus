@@ -1,9 +1,12 @@
 import type { PublicConfig } from '../types'
+import { useDirectusStorage } from './useDirectusStorage'
 import {
   useRuntimeConfig,
   useDirectusAuth,
   useNuxtApp
 } from '#imports'
+
+let refreshTimeout: NodeJS.Timeout | null = null
 
 export function useDirectusSession () {
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
@@ -17,8 +20,27 @@ export function useDirectusSession () {
     }
   }
 
+  async function autoRefresh (enabled: boolean) {
+    if (process.server) {
+      return
+    }
+
+    if (!enabled) {
+      return refreshTimeout && clearTimeout(refreshTimeout)
+    }
+
+    const authData = await useDirectusStorage().get()
+
+    if (authData?.expires && authData.expires > config.auth.msRefreshBeforeExpires! && authData.expires < Number.MAX_SAFE_INTEGER) {
+      refreshTimeout && clearTimeout(refreshTimeout)
+
+      refreshTimeout = setTimeout(refresh, authData.expires - config.auth.msRefreshBeforeExpires!)
+    }
+  }
+
   async function refresh () {
     await useNuxtApp().$directus.client.refresh()
+      .then(() => autoRefresh(true))
       .catch(useDirectusAuth()._onLogout)
   }
 
@@ -26,5 +48,5 @@ export function useDirectusSession () {
     return await useNuxtApp().$directus.client.getToken()
   }
 
-  return { refresh, getToken, _loggedInFlag }
+  return { refresh, getToken, autoRefresh, _loggedInFlag }
 }
