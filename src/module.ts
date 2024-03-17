@@ -35,7 +35,7 @@ export default defineNuxtModule<ModuleOptions>({
     auth: {
       enabled: true,
       mode: 'cookie',
-      msRefreshBeforeExpires: 3000,
+      msRefreshBeforeExpires: 10000,
       enableGlobalAuthMiddleware: false,
       refreshTokenCookieName: 'directus_refresh_token',
       loggedInFlagName: 'directus_logged_in',
