@@ -1,7 +1,6 @@
 import type { AuthenticationStorage } from '@directus/sdk'
-import { getCookie } from 'h3'
 import type { PublicConfig } from '../types'
-import { useRuntimeConfig, useState, useRequestEvent } from '#imports'
+import { useRuntimeConfig, useState } from '#imports'
 
 function memoryStorage () {
   let store: Record<string, any> | null = null
@@ -25,37 +24,55 @@ const setLocalStorageNumber = (key: string, value: number | null | undefined) =>
 export function useDirectusStorage () {
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
   const state = useState<Record<string, any> | null>('directus-auth-store', () => null)
-  const event = useRequestEvent()
 
   if (process.client && state.value) {
-    memory.value = { access_token: state.value.access_token }
-    setLocalStorageNumber('directus_expires', state.value.expires)
-    setLocalStorageNumber('directus_expires_at', state.value.expires_at)
+    if (config.auth.mode === 'cookie') {
+      memory.value = { ...state.value }
+    } else if (config.auth.mode === 'session') {
+      setLocalStorageNumber('directus_expires', state.value.expires)
+      setLocalStorageNumber('directus_expires_at', state.value.expires_at)
+    }
     state.value = null
   }
 
   const storage: AuthenticationStorage = {
     get () {
       if (process.client) {
-        return {
-          access_token: memory.value?.access_token,
-          expires: getLocalStorageNumber('directus_expires'),
-          expires_at: getLocalStorageNumber('directus_expires_at'),
-          refresh_token: null
+        if (config.auth.mode === 'cookie') {
+          return {
+            access_token: memory.value?.access_token,
+            expires: memory.value?.expires,
+            expires_at: memory.value?.expires_at,
+            refresh_token: null
+          }
+        } else if (config.auth.mode === 'session') {
+          return {
+            access_token: null,
+            expires: getLocalStorageNumber('directus_expires'),
+            expires_at: getLocalStorageNumber('directus_expires_at'),
+            refresh_token: null
+          }
         }
       }
       return {
         access_token: state.value?.access_token,
         expires: state.value?.expires,
         expires_at: state.value?.expires_at,
-        refresh_token: getCookie(event!, config.auth.refreshTokenCookieName!) ?? null
+        refresh_token: null
       }
     },
     set (data) {
       if (process.client) {
-        memory.value = { access_token: data?.access_token }
-        setLocalStorageNumber('directus_expires', data?.expires)
-        setLocalStorageNumber('directus_expires_at', data?.expires_at)
+        if (config.auth.mode === 'cookie') {
+          memory.value = {
+            access_token: data?.access_token,
+            expires: data?.expires,
+            expires_at: data?.expires_at
+          }
+        } else if (config.auth.mode === 'session') {
+          setLocalStorageNumber('directus_expires', data?.expires)
+          setLocalStorageNumber('directus_expires_at', data?.expires_at)
+        }
       } else {
         state.value = {
           access_token: data?.access_token,
