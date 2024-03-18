@@ -1,41 +1,55 @@
-import { createDirectus, rest } from '@directus/sdk'
+import { createDirectus, rest, authentication } from '@directus/sdk'
+import { splitCookiesString, appendResponseHeader } from 'h3'
 import type { PublicConfig } from '../types'
-import {
-  defineNuxtPlugin,
-  useRuntimeConfig,
-  useDirectusSession
-} from '#imports'
+import { useDirectusStorage } from '../composables/useDirectusStorage'
+import { defineNuxtPlugin, useRequestHeaders, useRequestEvent } from '#imports'
 
-export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig().public.directus as PublicConfig
+export default defineNuxtPlugin((nuxtApp) => {
+  const config = nuxtApp.$config.public.directus as PublicConfig & { auth: { enabled: true } }
+  const event = useRequestEvent()
+  const reqHeaders = useRequestHeaders(['cookie'])
 
-  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl, {
-    globals: {
-      fetch: $fetch
+  const fetch = $fetch.create({
+    onRequest ({ options }) {
+      if (process.server) {
+        options.headers = {
+          ...options.headers,
+          ...reqHeaders
+        }
+      }
+    },
+    onResponse ({ response }) {
+      if (process.server) {
+        const cookies = splitCookiesString(response.headers.get('set-cookie') ?? '')
+
+        for (const cookie of cookies) {
+          appendResponseHeader(event!, 'set-cookie', cookie)
+        }
+      }
     }
   })
 
-  const restClient = directus.with(
-    rest({
-      onRequest: async (request) => {
-        const accessToken = await useDirectusSession().getToken()
+  const directus = createDirectus<DirectusSchema>(config.rest.baseUrl, {
+    globals: {
+      fetch
+    }
+  })
 
-        if (accessToken) {
-          request.headers = {
-            ...request.headers,
-            authorization: `Bearer ${accessToken}`
-          }
-        }
-
-        return request
-      }
-    })
-  )
+  const client = directus
+    .with(rest({
+      credentials: config.auth.mode === 'session' ? 'include' : 'same-origin'
+    }))
+    .with(authentication(config.auth.mode, {
+      autoRefresh: false,
+      msRefreshBeforeExpires: config.auth.msRefreshBeforeExpires,
+      credentials: 'include',
+      storage: useDirectusStorage()
+    }))
 
   return {
     provide: {
       directus: {
-        rest: restClient
+        client
       }
     }
   }

@@ -3,8 +3,6 @@ import { useNuxtApp } from '#imports'
 
 export async function useDirectusRest<Output extends object> (
   options: RestCommand<Output, DirectusSchema>
-):Promise<Output> {
-  const { $directus } = useNuxtApp()
-
-  return await $directus.rest.request<Output>(options)
+): Promise<Output> {
+  return await useNuxtApp().$directus.client.request<Output>(options)
 }

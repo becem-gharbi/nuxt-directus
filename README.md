@@ -10,7 +10,7 @@ Directus SDK for Nuxt 3.
 - ✔️ SSR support
 - ✔️ Rest client via `useDirectusRest` composable based on the new [Directus SDK](https://github.com/directus/directus/tree/main/sdk)
 - ✔️ Graphql client based on [Nuxt Apollo](https://github.com/becem-gharbi/nuxt-apollo) module
-- ✔️ Auth handler via `useDirectusAuth` with auto refresh of access token and auto redirection.
+- ✔️ Auth handler via `useDirectusAuth` with auto refresh of token and auto redirection.
 - ✔️ Ready to use [starter](https://github.com/becem-gharbi/directus-starter)
 
 ## Installation
@@ -18,6 +18,9 @@ Directus SDK for Nuxt 3.
 Add `@bg-dev/nuxt-directus` dependency to your project
 
 ```bash
+# Using npm
+npm install --save-dev @bg-dev/nuxt-directus
+
 # Using pnpm
 pnpm install --save-dev @bg-dev/nuxt-directus
 
@@ -45,11 +48,13 @@ export default defineNuxtConfig({
     },
     auth: {
       enabled: true,
+      mode: "session", // Auth mode 'session' or 'cookie'
       enableGlobalAuthMiddleware: false, // Enable auth middleware on every page
       userFields: ["*"], // Select user fields
       refreshTokenCookieName: "directus_refresh_token",
+      sessionTokenCookieName: "directus_session_token",
       loggedInFlagName: "directus_logged_in",
-      msRefreshBeforeExpires: 3000,
+      msRefreshBeforeExpires: 10000,
       redirect: {
         login: "/auth/login", // Path to redirect when login is required
         logout: "/auth/login", // Path to redirect after logout
@@ -100,23 +105,26 @@ declare global {
   interface DirectusSchema extends Omit<CustomDirectusTypes, DirectusTypes> {}
 }
 
-export {}
+export {};
 ```
 
 ## Graphql
 
 The module uses [nuxt-apollo](https://github.com/becem-gharbi/nuxt-apollo) for Graphql data fetching with auto refresh of access token. Please refer to docs for API usage and DX optimizations.
-To use graphql subscription make sure to set
 
-- `WEBSOCKETS_ENABLED` env to `true`
-- `WEBSOCKETS_GRAPHQL_ENABLED` env to `true`
+To use graphql subscription make sure to set:
+
+- The module's auth mode to `cookie`
+- `WEBSOCKETS_ENABLED` env variable to `true`
+- `WEBSOCKETS_GRAPHQL_ENABLED` env variable to `true`
 
 ## Auth
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
+>
 > - Directus and Nuxt apps should share the same domain name because cookies's sameSite policy is set to `lax`.
 > - Make sure to add `NODE_OPTIONS=--dns-result-order=ipv4first` env variable in order to resolve `localhost` domain on Node +v17.
-> - For SSO login please make sure to set `AUTH_<PROVIDER>_MODE=cookie` env variable on Directus +v10.10.
+> - For SSO login with `cookie` mode please make sure to set `AUTH_<PROVIDER>_MODE=cookie` env variable on Directus +v10.10.
 
 The module has `useDirectusAuth` composable for handling authentication.
 

@@ -34,9 +34,11 @@ export default defineNuxtModule<ModuleOptions>({
     },
     auth: {
       enabled: true,
-      msRefreshBeforeExpires: 3000,
+      mode: 'session',
+      msRefreshBeforeExpires: 10000,
       enableGlobalAuthMiddleware: false,
       refreshTokenCookieName: 'directus_refresh_token',
+      sessionTokenCookieName: 'directus_session_token',
       loggedInFlagName: 'directus_logged_in',
       redirect: {
         home: '/home',
@@ -57,14 +59,11 @@ export default defineNuxtModule<ModuleOptions>({
       logger.warn('[nuxt-directus] Please make sure to set Nuxt baseUrl')
     }
 
-    // Get the runtime directory
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
 
-    // Transpile the runtime directory
     nuxt.options.build.transpile.push(runtimeDir)
 
-    // Initialize the module options
     nuxt.options.runtimeConfig = defu(
       nuxt.options.runtimeConfig,
       {
@@ -75,9 +74,9 @@ export default defineNuxtModule<ModuleOptions>({
       }
     )
 
-    // ##############################################
-    // ################# Rest setup #################
-    // ##############################################
+    // ################################################################################
+    // ################################## Rest setup ##################################
+    // ################################################################################
 
     const restPlugin = resolve(runtimeDir, options.auth.enabled ? './plugins/rest' : './plugins/rest.basic')
     addPlugin(restPlugin, { append: true })
@@ -87,7 +86,6 @@ export default defineNuxtModule<ModuleOptions>({
       from: resolve(runtimeDir, './composables/useDirectusRest')
     })
 
-    // Auto-import Directus SDK rest commands
     const commands = [
       'createComment',
       'updateComment',
@@ -147,9 +145,9 @@ export default defineNuxtModule<ModuleOptions>({
       })
     })
 
-    // ##############################################
-    // ################# Auth setup #################
-    // ##############################################
+    // ################################################################################
+    // ################################## Auth setup ##################################
+    // ################################################################################
 
     if (options.auth.enabled) {
       addImports([
@@ -167,19 +165,21 @@ export default defineNuxtModule<ModuleOptions>({
       addPlugin(authPlugin, { append: true })
     }
 
-    // #################################################
-    // ################# GraphQL setup #################
-    // #################################################
+    // ###################################################################################
+    // ################################## GraphQL setup ##################################
+    // ###################################################################################
 
     if (options.graphql.enabled) {
-      if (options.auth.enabled) {
+      if (options.auth.enabled && options.auth.mode === 'cookie') {
         const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
         addPlugin(graphqlPlugin, { append: true })
       }
 
       await installModule('nuxt-apollo', {
         httpEndpoint: options.graphql.httpEndpoint,
-        wsEndpoint: options.graphql.wsEndpoint
+        wsEndpoint: options.graphql.wsEndpoint,
+        proxyCookies: true,
+        credentials: (options.auth.enabled && options.auth.mode === 'session') ? 'include' : 'same-origin'
       })
     }
   }

@@ -1,102 +1,99 @@
+import { getCookie, deleteCookie } from 'h3'
+import type { PublicConfig } from '../types'
+import { getLocalStorageNumber, setLocalStorageNumber } from '../utils'
+import { useDirectusStorage } from './useDirectusStorage'
 import {
-  deleteCookie,
-  getCookie,
-  splitCookiesString,
-  appendResponseHeader
-} from 'h3'
-import type { AuthenticationData, PublicConfig } from '../types'
-import { useDirectusToken } from './useDirectusToken'
-import {
-  useRequestEvent,
   useRuntimeConfig,
-  useState,
-  useRequestHeaders,
-  useDirectusAuth
+  useDirectusAuth,
+  useNuxtApp,
+  useRequestEvent
 } from '#imports'
 
+let refreshTimeout: NodeJS.Timeout | null = null
+
 export function useDirectusSession () {
-  const event = useRequestEvent()
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
+  const event = useRequestEvent()
+  const { $directus } = useNuxtApp()
 
   const _refreshToken = {
     get: () => process.server && getCookie(event!, config.auth.refreshTokenCookieName!),
     clear: () => process.server && deleteCookie(event!, config.auth.refreshTokenCookieName!)
   }
 
+  const _sessionToken = {
+    get: () => process.server && getCookie(event!, config.auth.sessionTokenCookieName!),
+    clear: () => process.server && deleteCookie(event!, config.auth.sessionTokenCookieName!)
+  }
+
   const _loggedInFlag = {
     get value () {
-      if (process.client) {
-        return localStorage.getItem(config.auth.loggedInFlagName!) === 'true'
-      }
-      return false
+      return getLocalStorageNumber(config.auth.loggedInFlagName!)
     },
-    set value (value: boolean) {
-      process.client && localStorage.setItem(config.auth.loggedInFlagName!, value.toString())
+    set value (v) {
+      setLocalStorageNumber(config.auth.loggedInFlagName!, v)
+    }
+  }
+
+  const _refreshOn = {
+    get value () {
+      return getLocalStorageNumber('directus_refresh_on')
+    },
+    set value (v) {
+      setLocalStorageNumber('directus_refresh_on', v)
+    }
+  }
+
+  async function autoRefresh (enabled: boolean) {
+    if (process.server) {
+      return
+    }
+
+    if (!enabled) {
+      return refreshTimeout && clearTimeout(refreshTimeout)
+    }
+
+    const authData = await useDirectusStorage().get()
+
+    const now = new Date().getTime()
+    const delay = (authData?.expires_at ?? 0) - now - config.auth.msRefreshBeforeExpires!
+
+    if (delay > 0) {
+      refreshTimeout && clearTimeout(refreshTimeout)
+      refreshTimeout = setTimeout(refresh, delay)
     }
   }
 
   async function refresh () {
-    const isRefreshOn = useState('directus-auth-refresh-loading', () => false)
-
-    if (isRefreshOn.value && process.client) {
-      // Wait until previous refresh call is completed
-      while (isRefreshOn.value) {
-        let timeoutId
-        await new Promise((resolve) => { timeoutId = setTimeout(resolve, 200) })
-        clearTimeout(timeoutId)
-      }
-      return
+    if (config.auth.mode === 'session' && _refreshOn.value) {
+      return new Promise<boolean>((resolve) => {
+        const timeout = setTimeout(async () => {
+          await autoRefresh(true)
+          clearTimeout(timeout)
+          resolve(true)
+        }, config.auth.msRefreshBeforeExpires!)
+      })
     }
-    isRefreshOn.value = true
 
-    const accessToken = useDirectusToken()
+    _refreshOn.value = 1
 
-    await $fetch
-      .raw<AuthenticationData>('/auth/refresh', {
-        baseURL: config.rest.baseUrl,
-        method: 'POST',
-        // Cloudflare Workers does not support "credentials" field
-        ...(process.client ? { credentials: 'include' } : {}),
-        body: { mode: 'cookie' },
-        headers: process.server ? useRequestHeaders(['cookie']) : {}
-      })
-      .then((res) => {
-        if (process.server) {
-          const cookies = splitCookiesString(res.headers.get('set-cookie') ?? '')
+    const { _onLogout } = useDirectusAuth()
 
-          for (const cookie of cookies) {
-            appendResponseHeader(event!, 'set-cookie', cookie)
-          }
-        }
-        if (res._data) {
-          accessToken.value = {
-            access_token: res._data.data.access_token,
-            expires: new Date().getTime() + res._data.data.expires
-          }
-        }
-        return res
-      })
-      .catch(async () => {
+    return await $directus.client.refresh()
+      .then(() => autoRefresh(true).then(() => true))
+      .catch(() => {
         _refreshToken.clear()
-        await useDirectusAuth()._onLogout()
-      }).finally(() => {
-        isRefreshOn.value = false
+        _sessionToken.clear()
+        return _onLogout().then(() => false)
+      })
+      .finally(() => {
+        _refreshOn.value = 0
       })
   }
 
-  /**
-   * Async get access token
-   * @returns Fresh access token (refreshed if expired)
-   */
-  async function getToken (): Promise<string | null | undefined> {
-    const accessToken = useDirectusToken()
-
-    if (accessToken.expired) {
-      await refresh()
-    }
-
-    return accessToken.value?.access_token
+  async function getToken (): Promise<string | null | void> {
+    return await $directus.client.getToken().catch(() => null)
   }
 
-  return { refresh, getToken, _refreshToken, _loggedInFlag }
+  return { refresh, getToken, autoRefresh, _loggedInFlag, _refreshToken, _sessionToken, _refreshOn }
 }

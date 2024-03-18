@@ -1,63 +1,73 @@
 import common from '../middleware/common'
 import auth from '../middleware/auth'
 import guest from '../middleware/guest'
-import { useDirectusToken } from '../composables/useDirectusToken'
 import type { PublicConfig } from '../types'
+import { useDirectusStorage } from '../composables/useDirectusStorage'
 import {
   defineNuxtPlugin,
   addRouteMiddleware,
-  useRuntimeConfig,
-  useDirectusAuth,
   useDirectusSession,
+  useDirectusAuth,
   useRouter
 } from '#imports'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-  try {
-    const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
-    const router = useRouter()
+  const config = nuxtApp.$config.public.directus as PublicConfig & { auth: { enabled: true } }
+  const { _loggedInFlag, _refreshOn, refresh, autoRefresh } = useDirectusSession()
+  const { user, _onLogout, fetchUser } = useDirectusAuth()
+  const { currentRoute } = useRouter()
 
-    addRouteMiddleware('common', common, { global: true })
-    addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
-    addRouteMiddleware('guest', guest)
+  _refreshOn.value = 0
 
-    const { _loggedInFlag } = useDirectusSession()
-    const token = useDirectusToken()
+  addRouteMiddleware('common', common, { global: true })
+  addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
+  addRouteMiddleware('guest', guest)
 
-    const isPageFound = router.currentRoute.value?.matched.length > 0
-    const isPrerenderd = typeof nuxtApp.payload.prerenderedAt === 'number'
-    const isServerRendered = nuxtApp.payload.serverRendered
-    const firstTime = (process.server && !isPrerenderd && isPageFound) || (process.client && (!isServerRendered || isPrerenderd || !isPageFound))
+  nuxtApp.hook('directus:loggedIn', (state) => {
+    _loggedInFlag.value = state ? 1 : 0
+  })
 
-    if (firstTime) {
-      const isCallback = router.currentRoute.value?.path === config.auth.redirect.callback
-      const { _refreshToken, refresh } = useDirectusSession()
-
-      if (isCallback || _loggedInFlag.value || _refreshToken.get()) {
-        await refresh()
-        if (token.value) {
-          await useDirectusAuth().fetchUser()
+  nuxtApp.hook('app:mounted', () => {
+    addEventListener('storage', (event) => {
+      if (event.key === config.auth.loggedInFlagName) {
+        if (event.oldValue === '1' && event.newValue === '0' && user.value) {
+          _onLogout()
+        } else if (event.oldValue === '0' && event.newValue === '1') {
+          location.reload()
         }
       }
-    }
-
-    if (token.value) {
-      _loggedInFlag.value = true
-      await nuxtApp.callHook('directus:loggedIn', true)
-    } else {
-      _loggedInFlag.value = false
-    }
-
-    nuxtApp.hook('app:mounted', () => {
-      addEventListener('storage', (event) => {
-        if (event.key === config.auth.loggedInFlagName) {
-          if (event.oldValue === 'true' && event.newValue === 'false' && token.value) {
-            useDirectusAuth()._onLogout()
-          } else if (event.oldValue === 'false' && event.newValue === 'true') {
-            location.reload()
-          }
-        }
-      })
     })
-  } catch (e) {}
+  })
+
+  function isFirstTime () {
+    const isPageFound = currentRoute.value?.matched.length > 0
+    const isPrerenderd = typeof nuxtApp.payload.prerenderedAt === 'number'
+    const isServerRendered = nuxtApp.payload.serverRendered
+    return (process.server && !isPrerenderd && isPageFound) || (process.client && (!isServerRendered || isPrerenderd || !isPageFound))
+  }
+
+  async function isExpired () {
+    const authData = await useDirectusStorage().get()
+    const now = new Date().getTime()
+    return !authData?.expires_at || authData.expires_at < now + config.auth.msRefreshBeforeExpires!
+  }
+
+  function canFetchUser () {
+    const isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
+    const { _loggedInFlag, _refreshToken, _sessionToken } = useDirectusSession()
+    return isSSO || _loggedInFlag.value || _refreshToken.get() || _sessionToken.get()
+  }
+
+  if (isFirstTime() && canFetchUser()) {
+    await isExpired()
+      ? await refresh().then(b => b ? fetchUser() : null)
+      : await fetchUser()
+  }
+
+  if (user.value) {
+    await autoRefresh(true)
+    await nuxtApp.callHook('directus:loggedIn', true)
+  } else {
+    _loggedInFlag.value = 0
+  }
 })

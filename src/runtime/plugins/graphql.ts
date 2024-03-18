@@ -5,14 +5,16 @@ export default defineNuxtPlugin({
   hooks: {
     'apollo:http-auth': async (args) => {
       const accessToken = await useDirectusSession().getToken()
-
-      args.token = accessToken ?? ''
+      if (accessToken) {
+        args.authorization = `Bearer ${accessToken}`
+      }
     },
     'apollo:ws-auth': async (args) => {
       const accessToken = await useDirectusSession().getToken()
-
-      args.params = {
-        access_token: accessToken ?? ''
+      if (accessToken) {
+        args.params = {
+          access_token: accessToken
+        }
       }
     }
   }
