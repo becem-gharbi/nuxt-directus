@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.3.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.0...v2.3.1)
+
+### 🏡 Chore
+
+- Move nuxt-apollo from dev deps ([9598eed](https://github.com/becem-gharbi/nuxt-directus/commit/9598eed))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.3.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.3...v2.3.0)
