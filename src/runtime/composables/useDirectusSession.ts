@@ -35,6 +35,15 @@ export function useDirectusSession () {
     }
   }
 
+  const _refreshOn = {
+    get value () {
+      return getLocalStorageNumber('directus_refresh_on')
+    },
+    set value (v) {
+      setLocalStorageNumber('directus_refresh_on', v)
+    }
+  }
+
   async function autoRefresh (enabled: boolean) {
     if (process.server) {
       return
@@ -56,6 +65,18 @@ export function useDirectusSession () {
   }
 
   async function refresh () {
+    if (config.auth.mode === 'session' && _refreshOn.value) {
+      return new Promise<boolean>((resolve) => {
+        const timeout = setTimeout(async () => {
+          await autoRefresh(true)
+          clearTimeout(timeout)
+          resolve(true)
+        }, config.auth.msRefreshBeforeExpires!)
+      })
+    }
+
+    _refreshOn.value = 1
+
     const { _onLogout } = useDirectusAuth()
 
     return await $directus.client.refresh()
@@ -65,11 +86,14 @@ export function useDirectusSession () {
         _sessionToken.clear()
         return _onLogout().then(() => false)
       })
+      .finally(() => {
+        _refreshOn.value = 0
+      })
   }
 
   async function getToken (): Promise<string | null | void> {
     return await $directus.client.getToken().catch(() => null)
   }
 
-  return { refresh, getToken, autoRefresh, _loggedInFlag, _refreshToken, _sessionToken }
+  return { refresh, getToken, autoRefresh, _loggedInFlag, _refreshToken, _sessionToken, _refreshOn }
 }

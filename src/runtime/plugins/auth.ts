@@ -13,9 +13,11 @@ import {
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = nuxtApp.$config.public.directus as PublicConfig & { auth: { enabled: true } }
-  const { _loggedInFlag, refresh, autoRefresh } = useDirectusSession()
+  const { _loggedInFlag, _refreshOn, refresh, autoRefresh } = useDirectusSession()
   const { user, _onLogout, fetchUser } = useDirectusAuth()
   const { currentRoute } = useRouter()
+
+  _refreshOn.value = 0
 
   addRouteMiddleware('common', common, { global: true })
   addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
