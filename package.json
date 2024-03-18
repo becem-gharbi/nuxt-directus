@@ -37,7 +37,8 @@
     "@directus/sdk": "^15.0.3",
     "@nuxt/kit": "^3.10.3",
     "defu": "^6.1.4",
-    "jwt-decode": "^4.0.0"
+    "jwt-decode": "^4.0.0",
+    "nuxt-apollo": "^0.2.0"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.5.5",
@@ -46,8 +47,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "changelogen": "^0.5.5",
     "eslint": "^8.57.0",
-    "nuxt": "^3.11.0",
-    "nuxt-apollo": "^0.2.0"
+    "nuxt": "^3.11.0"
   },
   "repository": {
     "type": "git",
