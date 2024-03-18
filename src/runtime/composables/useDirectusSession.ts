@@ -56,12 +56,13 @@ export function useDirectusSession () {
 
   async function refresh () {
     const { _onLogout } = useDirectusAuth()
-    await $directus.client.refresh()
-      .then(() => autoRefresh(true))
+
+    return await $directus.client.refresh()
+      .then(() => autoRefresh(true).then(() => true))
       .catch(() => {
         _refreshToken.clear()
         _sessionToken.clear()
-        return _onLogout()
+        return _onLogout().then(() => false)
       })
   }
 

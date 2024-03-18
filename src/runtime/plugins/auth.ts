@@ -2,6 +2,7 @@ import common from '../middleware/common'
 import auth from '../middleware/auth'
 import guest from '../middleware/guest'
 import type { PublicConfig } from '../types'
+import { useDirectusStorage } from '../composables/useDirectusStorage'
 import {
   defineNuxtPlugin,
   addRouteMiddleware,
@@ -12,7 +13,7 @@ import {
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = nuxtApp.$config.public.directus as PublicConfig & { auth: { enabled: true } }
-  const { _loggedInFlag, _refreshToken, _sessionToken, refresh, getToken, autoRefresh } = useDirectusSession()
+  const { _loggedInFlag, _refreshToken, _sessionToken, refresh, autoRefresh } = useDirectusSession()
   const { user, _onLogout, fetchUser } = useDirectusAuth()
   const { currentRoute } = useRouter()
 
@@ -44,12 +45,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   if (firstTime) {
     if (isSSO || _loggedInFlag.value || _refreshToken.get() || _sessionToken.get()) {
-      if (config.auth.mode === 'cookie') {
-        await refresh().then(getToken).then(t => t ? fetchUser() : null)
-      } else if (config.auth.mode === 'session') {
-        // TODO: avoid refresh if token not expired
-        await refresh().then(fetchUser)
-      }
+      const authData = await useDirectusStorage().get()
+      const now = new Date().getTime()
+      const expired = !authData?.expires_at || authData.expires_at < now + config.auth.msRefreshBeforeExpires!
+
+      expired ? await refresh().then(b => b ? fetchUser() : null) : await fetchUser()
     }
   }
 
