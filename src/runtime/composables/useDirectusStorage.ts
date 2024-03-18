@@ -1,6 +1,7 @@
 import type { AuthenticationStorage } from '@directus/sdk'
+import { jwtDecode } from 'jwt-decode'
 import type { PublicConfig } from '../types'
-import { useRuntimeConfig, useState } from '#imports'
+import { useRuntimeConfig, useState, useDirectusSession } from '#imports'
 
 function memoryStorage () {
   let store: Record<string, any> | null = null
@@ -33,6 +34,16 @@ export function useDirectusStorage () {
       setLocalStorageNumber('directus_expires_at', state.value.expires_at)
     }
     state.value = null
+  }
+
+  if (process.server && !state.value) {
+    const sessionToken = useDirectusSession()._sessionToken.get()
+    if (sessionToken) {
+      const { exp } = jwtDecode(sessionToken)
+      state.value = {
+        expires_at: exp ? exp * 1000 : null
+      }
+    }
   }
 
   const storage: AuthenticationStorage = {
