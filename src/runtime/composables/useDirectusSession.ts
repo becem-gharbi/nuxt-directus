@@ -45,10 +45,12 @@ export function useDirectusSession () {
 
     const authData = await useDirectusStorage().get()
 
-    if (authData?.expires && authData.expires > config.auth.msRefreshBeforeExpires! && authData.expires < Number.MAX_SAFE_INTEGER) {
-      refreshTimeout && clearTimeout(refreshTimeout)
+    const now = new Date().getTime()
+    const delay = (authData?.expires_at ?? 0) - now - config.auth.msRefreshBeforeExpires!
 
-      refreshTimeout = setTimeout(refresh, authData.expires - config.auth.msRefreshBeforeExpires!)
+    if (delay > 0) {
+      refreshTimeout && clearTimeout(refreshTimeout)
+      refreshTimeout = setTimeout(refresh, delay)
     }
   }
 
