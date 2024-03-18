@@ -37,7 +37,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const client = directus
     .with(rest({
-      credentials: 'include'
+      credentials: config.auth.mode === 'session' ? 'include' : 'same-origin'
     }))
     .with(authentication(config.auth.mode, {
       autoRefresh: false,
