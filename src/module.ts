@@ -174,14 +174,16 @@ export default defineNuxtModule<ModuleOptions>({
     // #################################################
 
     if (options.graphql.enabled) {
-      if (options.auth.enabled) {
+      if (options.auth.enabled && options.auth.mode === 'cookie') {
         const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
         addPlugin(graphqlPlugin, { append: true })
       }
 
       await installModule('nuxt-apollo', {
         httpEndpoint: options.graphql.httpEndpoint,
-        wsEndpoint: options.graphql.wsEndpoint
+        wsEndpoint: options.graphql.wsEndpoint,
+        proxyCookies: true,
+        credentials: (options.auth.enabled && options.auth.mode === 'session') ? 'include' : 'same-origin'
       })
     }
   }
