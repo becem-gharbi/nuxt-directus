@@ -1,5 +1,6 @@
 import { getCookie, deleteCookie } from 'h3'
 import type { PublicConfig } from '../types'
+import { getLocalStorageNumber, setLocalStorageNumber } from '../utils'
 import { useDirectusStorage } from './useDirectusStorage'
 import {
   useRuntimeConfig,
@@ -27,10 +28,10 @@ export function useDirectusSession () {
 
   const _loggedInFlag = {
     get value () {
-      return !!process.client && localStorage.getItem(config.auth.loggedInFlagName!) === 'true'
+      return getLocalStorageNumber(config.auth.loggedInFlagName!)
     },
-    set value (value) {
-      process.client && localStorage.setItem(config.auth.loggedInFlagName!, value.toString())
+    set value (v) {
+      setLocalStorageNumber(config.auth.loggedInFlagName!, v)
     }
   }
 

@@ -1,6 +1,7 @@
 import type { AuthenticationStorage } from '@directus/sdk'
 import { jwtDecode } from 'jwt-decode'
 import type { PublicConfig } from '../types'
+import { getLocalStorageNumber, setLocalStorageNumber } from '../utils'
 import { useRuntimeConfig, useState, useDirectusSession } from '#imports'
 
 function memoryStorage () {
@@ -16,11 +17,6 @@ function memoryStorage () {
 }
 
 const memory = memoryStorage()
-
-const getLocalStorageNumber = (key:string) => parseInt(localStorage.getItem(key) ?? '') || null
-const setLocalStorageNumber = (key: string, value: number | null | undefined) => {
-  value ? localStorage.setItem(key, value.toString()) : localStorage.removeItem(key)
-}
 
 export function useDirectusStorage () {
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }

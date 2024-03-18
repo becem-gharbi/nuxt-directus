@@ -22,15 +22,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   addRouteMiddleware('guest', guest)
 
   nuxtApp.hook('directus:loggedIn', (state) => {
-    _loggedInFlag.value = state
+    _loggedInFlag.value = state ? 1 : 0
   })
 
   nuxtApp.hook('app:mounted', () => {
     addEventListener('storage', (event) => {
       if (event.key === config.auth.loggedInFlagName) {
-        if (event.oldValue === 'true' && event.newValue === 'false' && user.value) {
+        if (event.oldValue === '1' && event.newValue === '0' && user.value) {
           _onLogout()
-        } else if (event.oldValue === 'false' && event.newValue === 'true') {
+        } else if (event.oldValue === '0' && event.newValue === '1') {
           location.reload()
         }
       }
@@ -66,6 +66,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     await autoRefresh(true)
     await nuxtApp.callHook('directus:loggedIn', true)
   } else {
-    _loggedInFlag.value = false
+    _loggedInFlag.value = 0
   }
 })
