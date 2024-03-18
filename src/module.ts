@@ -69,6 +69,7 @@ export default defineNuxtModule<ModuleOptions>({
       {
         app: {},
         public: {
+          apollo: {},
           directus: options
         }
       }
