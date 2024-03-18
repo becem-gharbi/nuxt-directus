@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.3.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.3...v2.3.0)
+
+### 🚀 Enhancements
+
+- **auth:** Support session mode ([#81](https://github.com/becem-gharbi/nuxt-directus/pull/81))
+
+### 🌊 Types
+
+- Fix issues ([8d38b7a](https://github.com/becem-gharbi/nuxt-directus/commit/8d38b7a))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v2.2.3
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.2.2...v2.2.3)
