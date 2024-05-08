@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.4.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.1...v2.4.0)
+
+### 🚀 Enhancements
+
+- Upgrade `@directus/sdk` to v16 ([2f1a01d](https://github.com/becem-gharbi/nuxt-directus/commit/2f1a01d))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.3.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.0...v2.3.1)
