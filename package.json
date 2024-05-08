@@ -34,7 +34,7 @@
     "typecheck": "nuxi typecheck"
   },
   "dependencies": {
-    "@directus/sdk": "^15.0.3",
+    "@directus/sdk": "^16.0.0",
     "@nuxt/kit": "^3.10.3",
     "defu": "^6.1.4",
     "jwt-decode": "^4.0.0",
