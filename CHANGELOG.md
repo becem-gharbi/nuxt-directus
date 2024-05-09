@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.4.1
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.0...v2.4.1)
+
+### 🌊 Types
+
+- **useDirectusRest:** Set unset `DirectusSchema` type to `any` #84 ([#84](https://github.com/becem-gharbi/nuxt-directus/issues/84))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.4.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.3.1...v2.4.0)
