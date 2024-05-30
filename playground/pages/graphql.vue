@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>GraphQL</h1>
-    <p>{{ counter }}</p>
+    <p data-testid="counter">
+      {{ counter }}
+    </p>
     <button
       v-if="config.public.directus.auth.mode ==='session'"
       @click="refresh()"

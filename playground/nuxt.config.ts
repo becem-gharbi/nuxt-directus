@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   modules: ['../src/module'],
-  ssr: true,
+  ssr: process.env.NUXT_SSR !== 'false',
   directus: {
     auth: {
       enabled: true,

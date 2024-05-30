@@ -54,6 +54,7 @@
     "@nuxt/schema": "^3.10.3",
     "@playwright/test": "^1.44.1",
     "changelogen": "^0.5.5",
+    "cross-env": "^7.0.3",
     "directus": "^10.11.2",
     "eslint": "^8.57.0",
     "nuxt": "^3.11.0",

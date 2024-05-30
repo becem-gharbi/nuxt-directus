@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h3>Home</h3>
-    <p>{{ user }}</p>
+    <h1>Home</h1>
+    <p data-testid="user-data">
+      {{ user }}
+    </p>
+    <button @click="fetchUser()">
+      Fetch user
+    </button>
     <button @click="logout()">
       Logout
     </button>
@@ -11,5 +16,5 @@
 <script setup lang="ts">
 import { useDirectusAuth } from '#imports'
 
-const { logout, user } = useDirectusAuth()
+const { logout, user, fetchUser } = useDirectusAuth()
 </script>
