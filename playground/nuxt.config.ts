@@ -26,4 +26,7 @@ export default defineNuxtConfig({
       wsEndpoint: 'ws://localhost:8055/graphql',
     },
   },
+  vite: {
+    logLevel: 'silent',
+  },
 })
