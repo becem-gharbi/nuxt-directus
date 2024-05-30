@@ -25,13 +25,19 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build",
     "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run lint && npm run typecheck && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "dev:build:ssr": "nuxi build playground",
+    "dev:build:spa": "cross-env NUXT_SSR=false nuxi build playground",
+    "test": "playwright test --ui",
+    "test:prod:ssr": "cross-env NODE_ENV=production && npm run dev:build:ssr && playwright test",
+    "test:prod:spa": "cross-env NODE_ENV=production && npm run dev:build:spa && playwright test",
+    "test:prod": "npm run test:prod:ssr && npm run test:prod:spa",
     "lint": "eslint .",
-    "typecheck": "nuxi typecheck"
+    "typecheck": "nuxi typecheck",
+    "prepack": "nuxt-module-build",
+    "release:pre": "npm run typecheck && npm run lint && npm run prepack",
+    "release": "npm run release:pre && npm run test:prod && changelogen --release && npm publish && git push --follow-tags"
   },
   "dependencies": {
     "@directus/sdk": "^16.0.0",
@@ -44,6 +50,7 @@
     "@nuxt/eslint-config": "^0.3.13",
     "@nuxt/module-builder": "^0.5.5",
     "@nuxt/schema": "^3.10.3",
+    "@playwright/test": "^1.44.1",
     "changelogen": "^0.5.5",
     "eslint": "^8.57.0",
     "nuxt": "^3.11.0",

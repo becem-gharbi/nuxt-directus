@@ -56,3 +56,5 @@ Temporary Items
 .apdisk
 
 package
+test-results/
+playwright-report/
