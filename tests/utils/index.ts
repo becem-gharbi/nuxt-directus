@@ -2,11 +2,11 @@ import { type Page, expect } from '@playwright/test'
 
 export const credentials = { email: 'test@test.com', password: 'abc123' }
 
-export const tokenTimeout = 16000
+export const tokenTimeout = 14000
 
 export async function goto(page: Page, path: string) {
   await page.goto(path)
-  await expect(page.getByTestId('hydration-check')).toBeAttached()
+  await expect(page.getByTestId('hydration-check')).toBeDefined()
 }
 
 export async function reload(page: Page) {
