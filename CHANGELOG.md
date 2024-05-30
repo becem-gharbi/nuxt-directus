@@ -1,6 +1,38 @@
 # Changelog
 
 
+## v2.4.2
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.1...v2.4.2)
+
+### 💅 Refactors
+
+- Change `refreshTimeout` scope ([18132b8](https://github.com/becem-gharbi/nuxt-directus/commit/18132b8))
+
+### 📖 Documentation
+
+- Update README.md ([b486f66](https://github.com/becem-gharbi/nuxt-directus/commit/b486f66))
+- Update Rest section ([35c3ab1](https://github.com/becem-gharbi/nuxt-directus/commit/35c3ab1))
+
+### 🏡 Chore
+
+- **lint:** Migrate to `@nuxt/eslint` ([9062618](https://github.com/becem-gharbi/nuxt-directus/commit/9062618))
+- Add directus server ([1237e2d](https://github.com/becem-gharbi/nuxt-directus/commit/1237e2d))
+- **playground:** Rewrite with multi-pages ([67732e7](https://github.com/becem-gharbi/nuxt-directus/commit/67732e7))
+- Split test scripts ([5b068cf](https://github.com/becem-gharbi/nuxt-directus/commit/5b068cf))
+
+### ✅ Tests
+
+- Install playwright ([40e5138](https://github.com/becem-gharbi/nuxt-directus/commit/40e5138))
+- Add basic tests ([0248f73](https://github.com/becem-gharbi/nuxt-directus/commit/0248f73))
+- Add auth session mode testing ([b997d80](https://github.com/becem-gharbi/nuxt-directus/commit/b997d80))
+- Set exact token timeout ([d8c26d7](https://github.com/becem-gharbi/nuxt-directus/commit/d8c26d7))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v2.4.1
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.0...v2.4.1)
