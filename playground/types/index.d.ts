@@ -23,6 +23,8 @@ type DirectusTypes =
   | 'directus_translations'
   | 'directus_users'
   | 'directus_webhooks'
+  | 'directus_extensions'
+  | 'directus_versions'
 
 declare global {
   interface DirectusSchema extends Omit<CustomDirectusTypes, DirectusTypes> {}

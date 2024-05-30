@@ -75,7 +75,7 @@ The module has `useDirectusRest` composable for data fetching with REST API. It 
 For better DX, you can get the types definition of your directus project via [directus-extension-generate-types](https://github.com/maltejur/directus-extension-generate-types). The generated `types.ts` file can be used in your Nuxt project via the global `DirectusSchema` type.
 
 ```ts
-import { CustomDirectusTypes } from "./types";
+import type { CustomDirectusTypes } from "./types";
 
 type DirectusTypes =
   | "directus_activity"
@@ -99,7 +99,9 @@ type DirectusTypes =
   | "directus_shares"
   | "directus_translations"
   | "directus_users"
-  | "directus_webhooks";
+  | "directus_webhooks"
+  | "directus_extensions"
+  | "directus_versions";
 
 declare global {
   interface DirectusSchema extends Omit<CustomDirectusTypes, DirectusTypes> {}
