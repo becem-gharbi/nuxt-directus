@@ -1,11 +1,11 @@
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 import {
   defineNuxtModule,
   addPlugin,
   createResolver,
   logger,
   installModule,
-  addImports
+  addImports,
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { name, version } from '../package.json'
@@ -19,18 +19,18 @@ export default defineNuxtModule<ModuleOptions>({
     version,
     configKey: 'directus',
     compatibility: {
-      nuxt: '^3.0.0'
-    }
+      nuxt: '^3.0.0',
+    },
   },
 
   defaults: {
     rest: {
       baseUrl: 'http://localhost:8055',
-      nuxtBaseUrl: 'http://localhost:3000'
+      nuxtBaseUrl: 'http://localhost:3000',
     },
     graphql: {
       enabled: true,
-      httpEndpoint: 'http://localhost:8055/graphql'
+      httpEndpoint: 'http://localhost:8055/graphql',
     },
     auth: {
       enabled: true,
@@ -45,12 +45,12 @@ export default defineNuxtModule<ModuleOptions>({
         login: '/auth/login',
         logout: '/auth/login',
         resetPassword: '/auth/reset-password',
-        callback: '/auth/callback'
-      }
-    }
+        callback: '/auth/callback',
+      },
+    },
   },
 
-  async setup (options, nuxt) {
+  async setup(options, nuxt) {
     if (!options.rest.baseUrl) {
       logger.warn('[nuxt-directus] Please make sure to set Directus baseUrl')
     }
@@ -70,9 +70,9 @@ export default defineNuxtModule<ModuleOptions>({
         app: {},
         public: {
           apollo: {},
-          directus: options
-        }
-      }
+          directus: options,
+        },
+      },
     )
 
     // ################################################################################
@@ -84,7 +84,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addImports({
       name: 'useDirectusRest',
-      from: resolve(runtimeDir, './composables/useDirectusRest')
+      from: resolve(runtimeDir, './composables/useDirectusRest'),
     })
 
     const commands = [
@@ -135,14 +135,14 @@ export default defineNuxtModule<ModuleOptions>({
       'updateUsers',
       'uploadFiles',
       'withToken',
-      'aggregate'
+      'aggregate',
     ]
 
     commands.forEach((name) => {
       addImports({
         name,
         as: name,
-        from: '@directus/sdk'
+        from: '@directus/sdk',
       })
     })
 
@@ -154,12 +154,12 @@ export default defineNuxtModule<ModuleOptions>({
       addImports([
         {
           name: 'useDirectusAuth',
-          from: resolve(runtimeDir, './composables/useDirectusAuth')
+          from: resolve(runtimeDir, './composables/useDirectusAuth'),
         },
         {
           name: 'useDirectusSession',
-          from: resolve(runtimeDir, './composables/useDirectusSession')
-        }
+          from: resolve(runtimeDir, './composables/useDirectusSession'),
+        },
       ])
 
       const authPlugin = resolve(runtimeDir, './plugins/auth')
@@ -180,8 +180,8 @@ export default defineNuxtModule<ModuleOptions>({
         httpEndpoint: options.graphql.httpEndpoint,
         wsEndpoint: options.graphql.wsEndpoint,
         proxyCookies: true,
-        credentials: (options.auth.enabled && options.auth.mode === 'session') ? 'include' : 'same-origin'
+        credentials: (options.auth.enabled && options.auth.mode === 'session') ? 'include' : 'same-origin',
       })
     }
-  }
+  },
 })

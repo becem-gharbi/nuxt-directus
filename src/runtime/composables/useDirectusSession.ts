@@ -6,46 +6,46 @@ import {
   useRuntimeConfig,
   useDirectusAuth,
   useNuxtApp,
-  useRequestEvent
+  useRequestEvent,
 } from '#imports'
 
 let refreshTimeout: NodeJS.Timeout | null = null
 
-export function useDirectusSession () {
+export function useDirectusSession() {
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
   const event = useRequestEvent()
   const { $directus } = useNuxtApp()
 
   const _refreshToken = {
-    get: () => process.server && getCookie(event!, config.auth.refreshTokenCookieName!),
-    clear: () => process.server && deleteCookie(event!, config.auth.refreshTokenCookieName!)
+    get: () => import.meta.server && getCookie(event!, config.auth.refreshTokenCookieName!),
+    clear: () => import.meta.server && deleteCookie(event!, config.auth.refreshTokenCookieName!),
   }
 
   const _sessionToken = {
-    get: () => process.server && getCookie(event!, config.auth.sessionTokenCookieName!),
-    clear: () => process.server && deleteCookie(event!, config.auth.sessionTokenCookieName!)
+    get: () => import.meta.server && getCookie(event!, config.auth.sessionTokenCookieName!),
+    clear: () => import.meta.server && deleteCookie(event!, config.auth.sessionTokenCookieName!),
   }
 
   const _loggedInFlag = {
-    get value () {
+    get value() {
       return getLocalStorageNumber(config.auth.loggedInFlagName!)
     },
-    set value (v) {
+    set value(v) {
       setLocalStorageNumber(config.auth.loggedInFlagName!, v)
-    }
+    },
   }
 
   const _refreshOn = {
-    get value () {
+    get value() {
       return getLocalStorageNumber('directus_refresh_on')
     },
-    set value (v) {
+    set value(v) {
       setLocalStorageNumber('directus_refresh_on', v)
-    }
+    },
   }
 
-  async function autoRefresh (enabled: boolean) {
-    if (process.server) {
+  async function autoRefresh(enabled: boolean) {
+    if (import.meta.server) {
       return
     }
 
@@ -64,7 +64,7 @@ export function useDirectusSession () {
     }
   }
 
-  async function refresh () {
+  async function refresh() {
     if (config.auth.mode === 'session' && _refreshOn.value) {
       return new Promise<boolean>((resolve) => {
         const timeout = setTimeout(async () => {
@@ -91,7 +91,7 @@ export function useDirectusSession () {
       })
   }
 
-  async function getToken (): Promise<string | null | void> {
+  async function getToken(): Promise<string | null> {
     return await $directus.client.getToken().catch(() => null)
   }
 

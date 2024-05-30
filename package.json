@@ -41,10 +41,9 @@
     "nuxt-apollo": "^0.2.0"
   },
   "devDependencies": {
+    "@nuxt/eslint-config": "^0.3.13",
     "@nuxt/module-builder": "^0.5.5",
     "@nuxt/schema": "^3.10.3",
-    "@nuxtjs/eslint-config": "^12.0.0",
-    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "changelogen": "^0.5.5",
     "eslint": "^8.57.0",
     "nuxt": "^3.11.0",

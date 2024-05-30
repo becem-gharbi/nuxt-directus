@@ -3,11 +3,19 @@
     <h1>Login</h1>
     <div>
       <label>E-Mail:</label>
-      <input v-model="email" type="email" placeholder="Email">
+      <input
+        v-model="email"
+        type="email"
+        placeholder="Email"
+      >
     </div>
     <div>
       <label>Password:</label>
-      <input v-model="password" type="password" placeholder="Password">
+      <input
+        v-model="password"
+        type="password"
+        placeholder="Password"
+      >
     </div>
 
     <div>
@@ -44,5 +52,4 @@ button + button,
 input {
   margin-left: 0.5rem;
 }
-
 </style>

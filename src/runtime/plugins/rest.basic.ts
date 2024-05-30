@@ -7,8 +7,8 @@ export default defineNuxtPlugin(() => {
 
   const directus = createDirectus<DirectusSchema>(config.rest.baseUrl, {
     globals: {
-      fetch: $fetch
-    }
+      fetch: $fetch,
+    },
   })
 
   const client = directus.with(rest())
@@ -16,8 +16,8 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       directus: {
-        client
-      }
-    }
+        client,
+      },
+    },
   }
 })

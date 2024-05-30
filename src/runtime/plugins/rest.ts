@@ -10,47 +10,47 @@ export default defineNuxtPlugin((nuxtApp) => {
   const reqHeaders = useRequestHeaders(['cookie'])
 
   const fetch = $fetch.create({
-    onRequest ({ options }) {
-      if (process.server) {
+    onRequest({ options }) {
+      if (import.meta.server) {
         options.headers = {
           ...options.headers,
-          ...reqHeaders
+          ...reqHeaders,
         }
       }
     },
-    onResponse ({ response }) {
-      if (process.server) {
+    onResponse({ response }) {
+      if (import.meta.server) {
         const cookies = splitCookiesString(response.headers.get('set-cookie') ?? '')
 
         for (const cookie of cookies) {
           appendResponseHeader(event!, 'set-cookie', cookie)
         }
       }
-    }
+    },
   })
 
   const directus = createDirectus<DirectusSchema>(config.rest.baseUrl, {
     globals: {
-      fetch
-    }
+      fetch,
+    },
   })
 
   const client = directus
     .with(rest({
-      credentials: config.auth.mode === 'session' ? 'include' : 'same-origin'
+      credentials: config.auth.mode === 'session' ? 'include' : 'same-origin',
     }))
     .with(authentication(config.auth.mode, {
       autoRefresh: false,
       msRefreshBeforeExpires: config.auth.msRefreshBeforeExpires,
       credentials: 'include',
-      storage: useDirectusStorage()
+      storage: useDirectusStorage(),
     }))
 
   return {
     provide: {
       directus: {
-        client
-      }
-    }
+        client,
+      },
+    },
   }
 })

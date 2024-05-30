@@ -1,7 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
-  // @ts-ignore
   modules: ['../src/module'],
   ssr: true,
   directus: {
@@ -14,8 +13,8 @@ export default defineNuxtConfig({
         callback: '/auth/callback',
         resetPassword: '/auth/reset-password',
         home: '/home',
-        logout: '/auth/login'
-      }
-    }
-  }
+        logout: '/auth/login',
+      },
+    },
+  },
 })

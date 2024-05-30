@@ -1,8 +1,8 @@
-import {defineNuxtPlugin} from '#imports'
+import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin({
   enforce: 'pre',
   hooks: {
-    'directus:loggedIn': state => console.log(`LoggedIn ${state}`)
-  }
+    'directus:loggedIn': state => console.log(`LoggedIn ${state}`),
+  },
 })

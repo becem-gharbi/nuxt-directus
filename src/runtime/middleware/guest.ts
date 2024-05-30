@@ -3,15 +3,15 @@ import {
   defineNuxtRouteMiddleware,
   useRuntimeConfig,
   navigateTo,
-  useDirectusAuth
+  useDirectusAuth,
 } from '#imports'
 
 export default defineNuxtRouteMiddleware((to) => {
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
 
   if (
-    to.path === config.auth.redirect.login ||
-    to.path === config.auth.redirect.callback
+    to.path === config.auth.redirect.login
+    || to.path === config.auth.redirect.callback
   ) {
     return
   }

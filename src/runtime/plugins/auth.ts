@@ -8,7 +8,7 @@ import {
   addRouteMiddleware,
   useDirectusSession,
   useDirectusAuth,
-  useRouter
+  useRouter,
 } from '#imports'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -32,27 +32,28 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       if (event.key === config.auth.loggedInFlagName) {
         if (event.oldValue === '1' && event.newValue === '0' && user.value) {
           _onLogout()
-        } else if (event.oldValue === '0' && event.newValue === '1') {
+        }
+        else if (event.oldValue === '0' && event.newValue === '1') {
           location.reload()
         }
       }
     })
   })
 
-  function isFirstTime () {
+  function isFirstTime() {
     const isPageFound = currentRoute.value?.matched.length > 0
     const isPrerenderd = typeof nuxtApp.payload.prerenderedAt === 'number'
     const isServerRendered = nuxtApp.payload.serverRendered
-    return (process.server && !isPrerenderd && isPageFound) || (process.client && (!isServerRendered || isPrerenderd || !isPageFound))
+    return (import.meta.server && !isPrerenderd && isPageFound) || (import.meta.client && (!isServerRendered || isPrerenderd || !isPageFound))
   }
 
-  async function isExpired () {
+  async function isExpired() {
     const authData = await useDirectusStorage().get()
     const now = new Date().getTime()
     return !authData?.expires_at || authData.expires_at < now + config.auth.msRefreshBeforeExpires!
   }
 
-  function canFetchUser () {
+  function canFetchUser() {
     const isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
     const { _loggedInFlag, _refreshToken, _sessionToken } = useDirectusSession()
     return isSSO || _loggedInFlag.value || _refreshToken.get() || _sessionToken.get()
@@ -67,7 +68,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   if (user.value) {
     await autoRefresh(true)
     await nuxtApp.callHook('directus:loggedIn', true)
-  } else {
+  }
+  else {
     _loggedInFlag.value = 0
   }
 })

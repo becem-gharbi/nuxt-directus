@@ -2,24 +2,30 @@
   <div>
     <h3>Auth</h3>
     <p>{{ user }}</p>
-    <button @click="logout()">Logout</button>
-    <hr />
+    <button @click="logout()">
+      Logout
+    </button>
+    <hr>
 
     <h3>Rest</h3>
     <p>{{ data }}</p>
-    <button @click="refresh()">REFRESH</button>
+    <button @click="refresh()">
+      REFRESH
+    </button>
 
-    <hr />
+    <hr>
     <h3>GraphQL</h3>
     <p>{{ dataQL }}</p>
-    <button @click="refreshQL()">refreshQL</button>
+    <button @click="refreshQL()">
+      refreshQL
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { definePageMeta, useLazyQuery, gql, useDirectusAuth, useDirectusRest, readItems, useAsyncData } from '#imports'
 
-definePageMeta({ middleware: "auth" });
+definePageMeta({ middleware: 'auth' })
 
 const { load, refetch } = useLazyQuery(gql`
   query getCountries {
@@ -28,15 +34,15 @@ const { load, refetch } = useLazyQuery(gql`
       name
     }
   }
-`);
+`)
 
-const { logout, user } = useDirectusAuth();
+const { logout, user } = useDirectusAuth()
 
 const { data, refresh } = await useAsyncData(() =>
-  useDirectusRest(readItems("country"))
-);
+  useDirectusRest(readItems('country')),
+)
 
 const { data: dataQL, refresh: refreshQL } = await useAsyncData(
-  async () => load() || refetch()
-);
+  async () => load() || refetch(),
+)
 </script>

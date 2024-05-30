@@ -13,9 +13,9 @@ export default defineNuxtPlugin({
       const accessToken = await useDirectusSession().getToken()
       if (accessToken) {
         args.params = {
-          access_token: accessToken
+          access_token: accessToken,
         }
       }
-    }
-  }
+    },
+  },
 })
