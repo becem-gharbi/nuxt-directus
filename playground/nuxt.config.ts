@@ -6,8 +6,12 @@ export default defineNuxtConfig({
   directus: {
     auth: {
       enabled: true,
-      userFields: ['first_name', 'last_name'],
-      enableGlobalAuthMiddleware: false,
+      mode: process.env.NUXT_PUBLIC_DIRECTUS_AUTH_MODE as 'session' | 'cookie',
+      enableGlobalAuthMiddleware: true,
+      refreshTokenCookieName: 'directus_refresh_token',
+      sessionTokenCookieName: 'directus_session_token',
+      loggedInFlagName: 'directus_logged_in',
+      msRefreshBeforeExpires: 5000,
       redirect: {
         login: '/auth/login',
         callback: '/auth/callback',
@@ -15,6 +19,11 @@ export default defineNuxtConfig({
         home: '/home',
         logout: '/auth/login',
       },
+    },
+    graphql: {
+      enabled: true,
+      httpEndpoint: 'http://localhost:8055/graphql',
+      wsEndpoint: 'ws://localhost:8055/graphql',
     },
   },
 })

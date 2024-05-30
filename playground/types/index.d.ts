@@ -1,4 +1,4 @@
-import type { CustomDirectusTypes } from './types'
+import type { CustomDirectusTypes } from './directus'
 
 type DirectusTypes =
   | 'directus_activity'
@@ -27,3 +27,5 @@ type DirectusTypes =
 declare global {
   interface DirectusSchema extends Omit<CustomDirectusTypes, DirectusTypes> {}
 }
+
+export {}

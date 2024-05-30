@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1>Index</h1>
-    <NuxtLink to="/auth/login">
+    <nuxt-link to="/auth/login">
       Login
-    </NuxtLink>
+    </nuxt-link>
   </div>
 </template>
 

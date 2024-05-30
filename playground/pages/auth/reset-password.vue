@@ -1,16 +1,24 @@
 <template>
   <div>
     <h1>Reset password</h1>
-    <button @click="resetPassword('pass123')">
+    <label>Password:</label>
+    <input
+      v-model="password"
+      type="password"
+      placeholder="Password"
+    >
+    <button @click="resetPassword(password)">
       Reset password
     </button>
   </div>
 </template>
 
 <script setup>
-import { definePageMeta, useDirectusAuth } from '#imports'
+import { definePageMeta, useDirectusAuth, ref } from '#imports'
 
 definePageMeta({ middleware: 'guest' })
 
 const { resetPassword } = useDirectusAuth()
+
+const password = ref()
 </script>
