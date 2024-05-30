@@ -9,8 +9,6 @@ import {
   useRequestEvent,
 } from '#imports'
 
-let refreshTimeout: NodeJS.Timeout | null = null
-
 export function useDirectusSession() {
   const config = useRuntimeConfig().public.directus as PublicConfig & { auth: { enabled: true } }
   const event = useRequestEvent()
@@ -50,7 +48,11 @@ export function useDirectusSession() {
     }
 
     if (!enabled) {
-      return refreshTimeout && clearTimeout(refreshTimeout)
+      if ($directus._refreshTimeout) {
+        clearTimeout($directus._refreshTimeout)
+        $directus._refreshTimeout = null
+      }
+      return
     }
 
     const authData = await useDirectusStorage().get()
@@ -59,8 +61,11 @@ export function useDirectusSession() {
     const delay = (authData?.expires_at ?? 0) - now - config.auth.msRefreshBeforeExpires!
 
     if (delay > 0) {
-      refreshTimeout && clearTimeout(refreshTimeout)
-      refreshTimeout = setTimeout(refresh, delay)
+      if ($directus._refreshTimeout) {
+        clearTimeout($directus._refreshTimeout)
+        $directus._refreshTimeout = null
+      }
+      $directus._refreshTimeout = setTimeout(refresh, delay)
     }
   }
 

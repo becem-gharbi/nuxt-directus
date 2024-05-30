@@ -50,6 +50,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     provide: {
       directus: {
         client,
+        _refreshTimeout: null,
       },
     },
   }

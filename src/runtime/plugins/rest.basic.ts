@@ -17,6 +17,7 @@ export default defineNuxtPlugin(() => {
     provide: {
       directus: {
         client,
+        _refreshTimeout: null,
       },
     },
   }
