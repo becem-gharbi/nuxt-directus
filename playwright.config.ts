@@ -17,12 +17,20 @@ export default defineConfig({
   reporter: 'html',
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: process.env.NODE_ENV === 'production' ? 'nuxi preview playground' : 'nuxi dev playground',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: [
+    {
+      command: 'npm run directus:start',
+      url: 'http://localhost:8055',
+      reuseExistingServer: !process.env.CI,
+      timeout: 30000,
+    },
+    {
+      command: process.env.NODE_ENV === 'production' ? 'nuxi preview playground' : 'nuxi dev playground',
+      url: 'http://localhost:3000',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+  ],
 
   use: {
     baseURL: 'http://localhost:3000',

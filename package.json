@@ -25,6 +25,8 @@
     "dist"
   ],
   "scripts": {
+    "directus:init": "cd directus && directus bootstrap",
+    "directus:start": "cd directus && directus start",
     "dev": "nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "dev:build:ssr": "nuxi build playground",
@@ -52,6 +54,7 @@
     "@nuxt/schema": "^3.10.3",
     "@playwright/test": "^1.44.1",
     "changelogen": "^0.5.5",
+    "directus": "^10.11.2",
     "eslint": "^8.57.0",
     "nuxt": "^3.11.0",
     "typescript": "^5.4.5"
