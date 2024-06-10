@@ -22,7 +22,9 @@ export default defineNuxtRouteMiddleware((to) => {
     return
   }
 
-  if (config.auth.enableGlobalAuthMiddleware && to.meta.auth === false) {
+  const isAuthDisabled = config.auth.enableGlobalAuthMiddleware && to.meta.auth === false
+
+  if (isAuthDisabled || to.meta.middleware === 'guest') {
     return
   }
 
