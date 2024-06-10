@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v2.4.3
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.2...v2.4.3)
+
+### 🩹 Fixes
+
+- Solve potential infinite redirections on Vercel ([c33edf3](https://github.com/becem-gharbi/nuxt-directus/commit/c33edf3))
+- Prioritize `guest` middleware over global `auth` middleware` ([dda5b72](https://github.com/becem-gharbi/nuxt-directus/commit/dda5b72))
+
+### 🌊 Types
+
+- Set PageMeta `middleware` type for `auth` and `guest` ([67572b6](https://github.com/becem-gharbi/nuxt-directus/commit/67572b6))
+
+### 🏡 Chore
+
+- Commit directus db ([d653370](https://github.com/becem-gharbi/nuxt-directus/commit/d653370))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.4.2
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.1...v2.4.2)
