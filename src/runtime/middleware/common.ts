@@ -15,7 +15,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
   ) {
     if (useDirectusAuth().user.value) {
       const returnToPath = from.query.redirect?.toString()
-      const redirectTo = returnToPath ?? config.auth.redirect.home
+      const decodedReturnToPath = returnToPath && decodeURIComponent(returnToPath)
+      const redirectTo = decodedReturnToPath ?? config.auth.redirect.home
       return navigateTo(redirectTo)
     }
   }
