@@ -1,11 +1,7 @@
-import common from '../middleware/common'
-import auth from '../middleware/auth'
-import guest from '../middleware/guest'
 import type { PublicConfig } from '../types'
 import { useDirectusStorage } from '../composables/useDirectusStorage'
 import {
   defineNuxtPlugin,
-  addRouteMiddleware,
   useDirectusSession,
   useDirectusAuth,
   useRouter,
@@ -18,10 +14,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const { currentRoute } = useRouter()
 
   _refreshOn.value = 0
-
-  addRouteMiddleware('common', common, { global: true })
-  addRouteMiddleware('auth', auth, { global: config.auth.enableGlobalAuthMiddleware })
-  addRouteMiddleware('guest', guest)
 
   nuxtApp.hook('directus:loggedIn', (state) => {
     _loggedInFlag.value = state ? 1 : 0

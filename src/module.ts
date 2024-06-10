@@ -6,6 +6,7 @@ import {
   logger,
   installModule,
   addImports,
+  addRouteMiddleware,
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { name, version } from '../package.json'
@@ -164,6 +165,23 @@ export default defineNuxtModule<ModuleOptions>({
 
       const authPlugin = resolve(runtimeDir, './plugins/auth')
       addPlugin(authPlugin, { append: true })
+
+      addRouteMiddleware({
+        name: 'auth',
+        path: resolve('./runtime/middleware/auth'),
+        global: !!options.auth.enableGlobalAuthMiddleware,
+      })
+
+      addRouteMiddleware({
+        name: 'guest',
+        path: resolve('./runtime/middleware/guest'),
+      })
+
+      addRouteMiddleware({
+        name: '_auth-common',
+        path: resolve('./runtime/middleware/common'),
+        global: true,
+      })
     }
 
     // ###################################################################################
