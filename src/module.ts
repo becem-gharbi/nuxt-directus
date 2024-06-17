@@ -67,6 +67,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.runtimeConfig.public = defu(
       nuxt.options.runtimeConfig.public, {
+        apollo: {},
         directus: options,
       },
     )
