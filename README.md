@@ -141,7 +141,6 @@ To implement a custom logic on user login/logout events, you can use `directus:l
 
 ```js
 export default defineNuxtPlugin({
-  enforce: "pre", // Should be registered before built-in `auth` plugin
   hooks: {
     "directus:loggedIn": (state) => {},
   },

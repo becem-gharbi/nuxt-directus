@@ -10,6 +10,7 @@ import {
 export default defineNuxtPlugin({
   name: 'directus:auth',
   dependsOn: ['directus:rest'],
+  enforce: 'post',
 
   setup: async (nuxtApp) => {
     const config = nuxtApp.$config.public.directus as PublicConfig & { auth: { enabled: true } }
