@@ -34,10 +34,10 @@
     "dev:build:ssr:cookie": "cross-env NUXT_SSR=true NUXT_PUBLIC_DIRECTUS_AUTH_MODE=cookie NODE_OPTIONS=--no-deprecation nuxi build playground",
     "dev:build:spa:cookie": "cross-env NUXT_SSR=false NUXT_PUBLIC_DIRECTUS_AUTH_MODE=cookie NODE_OPTIONS=--no-deprecation nuxi build playground",
     "test": "playwright test --ui",
-    "test:prod:ssr:session": "cross-env NODE_ENV=production npm run dev:build:ssr:session && playwright test",
-    "test:prod:spa:session": "cross-env NODE_ENV=production npm run dev:build:spa:session && playwright test",
-    "test:prod:ssr:cookie": "cross-env NODE_ENV=production npm run dev:build:ssr:cookie && playwright test",
-    "test:prod:spa:cookie": "cross-env NODE_ENV=production npm run dev:build:spa:cookie && playwright test",
+    "test:prod:ssr:session": "npm run dev:build:ssr:session && cross-env NODE_ENV=production playwright test",
+    "test:prod:spa:session": "npm run dev:build:spa:session && cross-env NODE_ENV=production playwright test",
+    "test:prod:ssr:cookie": "npm run dev:build:ssr:cookie && cross-env NODE_ENV=production playwright test",
+    "test:prod:spa:cookie": "npm run dev:build:spa:cookie && cross-env NODE_ENV=production playwright test",
     "test:prod": "npm run test:prod:ssr:session && npm run test:prod:ssr:cookie && npm run test:prod:spa:session && npm run test:prod:spa:cookie",
     "lint": "eslint .",
     "typecheck": "nuxi typecheck",
@@ -61,7 +61,7 @@
     "cross-env": "^7.0.3",
     "directus": "^10.11.2",
     "eslint": "^8.57.0",
-    "nuxt": "^3.11.0",
+    "nuxt": "^3.12.2",
     "typescript": "^5.4.5"
   },
   "repository": {
