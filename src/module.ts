@@ -75,8 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
     // ################################## Rest setup ##################################
     // ################################################################################
 
-    const restPlugin = resolve(runtimeDir, options.auth.enabled ? './plugins/rest' : './plugins/rest.basic')
-    addPlugin(restPlugin, { append: true })
+    addPlugin(resolve(runtimeDir, options.auth.enabled ? './plugins/rest' : './plugins/rest.basic'))
 
     addImports({
       name: 'useDirectusRest',
@@ -158,8 +157,7 @@ export default defineNuxtModule<ModuleOptions>({
         },
       ])
 
-      const authPlugin = resolve(runtimeDir, './plugins/auth')
-      addPlugin(authPlugin, { append: true })
+      addPlugin(resolve(runtimeDir, './plugins/auth'))
 
       addRouteMiddleware({
         name: 'auth',
@@ -185,8 +183,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (options.graphql.enabled) {
       if (options.auth.enabled && options.auth.mode === 'cookie') {
-        const graphqlPlugin = resolve(runtimeDir, './plugins/graphql')
-        addPlugin(graphqlPlugin, { append: true })
+        addPlugin(resolve(runtimeDir, './plugins/graphql'))
       }
 
       await installModule('nuxt-apollo', {

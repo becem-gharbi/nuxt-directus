@@ -25,8 +25,8 @@
     "dist"
   ],
   "scripts": {
-    "directus:init": "cd directus && directus bootstrap",
-    "directus:start": "cd directus && directus start",
+    "directus:init": "cd directus && npx directus bootstrap",
+    "directus:start": "cd directus && npx directus start",
     "dev": "nuxi dev playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "dev:build:ssr:session": "cross-env NUXT_SSR=true NUXT_PUBLIC_DIRECTUS_AUTH_MODE=session NODE_OPTIONS=--no-deprecation nuxi build playground",
