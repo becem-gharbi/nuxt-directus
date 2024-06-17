@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v2.4.4
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.3...v2.4.4)
+
+### 🩹 Fixes
+
+- Remove encoding of `redirect` query param ([b22c44c](https://github.com/becem-gharbi/nuxt-directus/commit/b22c44c))
+
+### 💅 Refactors
+
+- Assing names for built-in plugins ([#86](https://github.com/becem-gharbi/nuxt-directus/pull/86))
+
+### 🏡 Chore
+
+- Add directus `.db` to gitignore ([29a3327](https://github.com/becem-gharbi/nuxt-directus/commit/29a3327))
+- **playground:** Fix `import.meta` not allowed ([a56dd56](https://github.com/becem-gharbi/nuxt-directus/commit/a56dd56))
+- Add directus .db to gitignore ([3ab82f2](https://github.com/becem-gharbi/nuxt-directus/commit/3ab82f2))
+- No significant change ([350f9d7](https://github.com/becem-gharbi/nuxt-directus/commit/350f9d7))
+
+### ❤️ Contributors
+
+- Becem <becem.gharbi@live.com>
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.4.3
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.2...v2.4.3)
