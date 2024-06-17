@@ -75,8 +75,7 @@ export function useDirectusAuth<DirectusSchema extends object>() {
     await fetchUser()
     if (user.value) {
       const returnToPath = useRoute().query.redirect?.toString()
-      const decodedReturnToPath = returnToPath && decodeURIComponent(returnToPath)
-      const redirectTo = decodedReturnToPath ?? config.auth.redirect.home
+      const redirectTo = returnToPath ?? config.auth.redirect.home
       await autoRefresh(true)
       await callHook('directus:loggedIn', true)
       await navigateTo(redirectTo)
