@@ -50,7 +50,7 @@
     "@nuxt/kit": "^3.10.3",
     "defu": "^6.1.4",
     "jwt-decode": "^4.0.0",
-    "nuxt-apollo": "^0.2.0"
+    "nuxt-apollo": "^0.2.1"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.3.13",
