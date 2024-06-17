@@ -58,3 +58,4 @@ Temporary Items
 package
 test-results/
 playwright-report/
+directus/data
