@@ -29,4 +29,11 @@ export default defineNuxtConfig({
   vite: {
     logLevel: 'silent',
   },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        module: 'ESNext',
+      },
+    },
+  },
 })
