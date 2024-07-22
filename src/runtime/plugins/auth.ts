@@ -25,7 +25,7 @@ export default defineNuxtPlugin({
     })
 
     nuxtApp.hook('app:mounted', () => {
-      addEventListener('storage', (event) => {
+      window.onstorage = (event) => {
         if (event.key === config.auth.loggedInFlagName) {
           if (event.oldValue === '1' && event.newValue === '0' && user.value) {
             _onLogout()
@@ -34,7 +34,7 @@ export default defineNuxtPlugin({
             location.reload()
           }
         }
-      })
+      }
     })
 
     function isFirstTime() {
