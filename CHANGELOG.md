@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v2.4.5
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.4...v2.4.5)
+
+### 🩹 Fixes
+
+- **auth:** Avoid params sanitization on login redirection ([8ec53b0](https://github.com/becem-gharbi/nuxt-directus/commit/8ec53b0))
+
+### 🏡 Chore
+
+- **directus:** Upgrade to latest ([4cfb731](https://github.com/becem-gharbi/nuxt-directus/commit/4cfb731))
+- Allow compatibility with `nuxt` v4 ([238bb49](https://github.com/becem-gharbi/nuxt-directus/commit/238bb49))
+- **playground:** Run on `nuxt` 4 ([152685c](https://github.com/becem-gharbi/nuxt-directus/commit/152685c))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.4.4
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.3...v2.4.4)
