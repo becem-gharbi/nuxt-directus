@@ -31,7 +31,7 @@ export default defineNuxtRouteMiddleware((to) => {
   if (!useDirectusAuth().user.value) {
     return navigateTo({
       path: config.auth.redirect.login,
-      query: { redirect: to.path },
+      query: { redirect: to.fullPath },
     })
   }
 })
