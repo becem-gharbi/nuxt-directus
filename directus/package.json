@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "directus": "^10.12.1"
+    "directus": "^10.13.1"
   },
   "description": ""
 }
