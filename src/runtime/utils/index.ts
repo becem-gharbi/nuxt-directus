@@ -8,6 +8,7 @@ export const getLocalStorageNumber = (key: string) => {
 export const setLocalStorageNumber = (key: string, value: number | null | undefined) => {
   if (import.meta.client) {
     const isNumber = typeof value === 'number'
-    isNumber ? localStorage.setItem(key, value.toString()) : localStorage.removeItem(key)
+    if (isNumber) localStorage.setItem(key, value.toString())
+    else localStorage.removeItem(key)
   }
 }

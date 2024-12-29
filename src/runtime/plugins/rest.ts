@@ -24,7 +24,6 @@ export default defineNuxtPlugin({
       onResponse({ response }) {
         if (import.meta.server) {
           const cookies = splitCookiesString(response.headers.get('set-cookie') ?? '')
-
           for (const cookie of cookies) {
             appendResponseHeader(event!, 'set-cookie', cookie)
           }

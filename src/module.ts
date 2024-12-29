@@ -12,6 +12,7 @@ import { defu } from 'defu'
 import { name, version } from '../package.json'
 import type { PublicConfig } from './runtime/types'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ModuleOptions extends PublicConfig { }
 
 export default defineNuxtModule<ModuleOptions>({

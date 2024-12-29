@@ -57,9 +57,9 @@ export default defineNuxtPlugin({
     }
 
     if (isFirstTime() && canFetchUser()) {
-      await isExpired()
-        ? await refresh().then(b => b ? fetchUser() : null)
-        : await fetchUser()
+      const expired = await isExpired()
+      if (expired) await refresh().then(b => b ? fetchUser() : null)
+      else await fetchUser()
     }
 
     if (user.value) {

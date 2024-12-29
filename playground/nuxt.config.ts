@@ -3,12 +3,17 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   modules: ['../src/module'],
   ssr: process.env.NUXT_SSR !== 'false',
+
   future: {
     compatibilityVersion: 4,
   },
+
+  compatibilityDate: '2024-12-29',
+
   vite: {
     logLevel: 'silent',
   },
+
   typescript: {
     tsConfig: {
       compilerOptions: {
@@ -16,6 +21,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   directus: {
     auth: {
       enabled: true,
