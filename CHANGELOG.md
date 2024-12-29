@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.5.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.5...v2.5.0)
+
+### 🚀 Enhancements
+
+- Upgrade `@directus/sdk` to v18 ([fd94381](https://github.com/becem-gharbi/nuxt-directus/commit/fd94381))
+
+### 🩹 Fixes
+
+- **auth:** Fix failed token refresh on SSR (Cookie mode) ([b533837](https://github.com/becem-gharbi/nuxt-directus/commit/b533837))
+
+### 🏡 Chore
+
+- **lint:** Fix ([3638f81](https://github.com/becem-gharbi/nuxt-directus/commit/3638f81))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.4.5
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.4...v2.4.5)
