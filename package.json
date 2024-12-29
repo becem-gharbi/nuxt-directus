@@ -46,22 +46,22 @@
     "release": "npm run release:pre && npm run test:prod && changelogen --release && npm publish && git push --follow-tags"
   },
   "dependencies": {
-    "@directus/sdk": "^16.0.2",
-    "@nuxt/kit": "^3.10.3",
+    "@directus/sdk": "^18.0.3",
+    "@nuxt/kit": "^3.15.0",
     "defu": "^6.1.4",
     "jwt-decode": "^4.0.0",
     "nuxt-apollo": "^0.2.1"
   },
   "devDependencies": {
-    "@nuxt/eslint-config": "^0.3.13",
-    "@nuxt/module-builder": "^0.5.5",
-    "@nuxt/schema": "^3.10.3",
-    "@playwright/test": "^1.44.1",
-    "changelogen": "^0.5.5",
+    "@nuxt/eslint-config": "^0.7.4",
+    "@nuxt/module-builder": "^0.8.4",
+    "@nuxt/schema": "^3.15.0",
+    "@playwright/test": "^1.49.1",
+    "changelogen": "^0.5.7",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
-    "nuxt": "^3.12.4",
-    "typescript": "^5.4.5"
+    "eslint": "^9.17.0",
+    "nuxt": "^3.15.0",
+    "typescript": "^5.7.2"
   },
   "repository": {
     "type": "git",
@@ -70,5 +70,5 @@
   "peerDependencies": {
     "@vue/apollo-composable": "^4.0.1"
   },
-  "packageManager": "pnpm@8.7.0+sha1.4a6f863625170af87d027789f72662e0601ecb57"
+  "packageManager": "pnpm@9.15.2"
 }

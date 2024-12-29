@@ -3,6 +3,19 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   modules: ['../src/module'],
   ssr: process.env.NUXT_SSR !== 'false',
+  future: {
+    compatibilityVersion: 4,
+  },
+  vite: {
+    logLevel: 'silent',
+  },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        module: 'ESNext',
+      },
+    },
+  },
   directus: {
     auth: {
       enabled: true,
@@ -25,18 +38,5 @@ export default defineNuxtConfig({
       httpEndpoint: 'http://localhost:8055/graphql',
       wsEndpoint: 'ws://localhost:8055/graphql',
     },
-  },
-  vite: {
-    logLevel: 'silent',
-  },
-  typescript: {
-    tsConfig: {
-      compilerOptions: {
-        module: 'ESNext',
-      },
-    },
-  },
-  future: {
-    compatibilityVersion: 4,
   },
 })
