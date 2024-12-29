@@ -15,10 +15,7 @@ export default defineNuxtPlugin({
     const fetch = $fetch.create({
       onRequest({ options }) {
         if (import.meta.server) {
-          options.headers = {
-            ...options.headers,
-            ...reqHeaders,
-          }
+          options.headers.set('cookie', reqHeaders.cookie ?? '')
         }
       },
       onResponse({ response }) {
