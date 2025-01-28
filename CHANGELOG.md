@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v2.6.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.5.0...v2.6.0)
+
+### 🚀 Enhancements
+
+- Upgrade `@directus/sdk` to v19 ([#93](https://github.com/becem-gharbi/nuxt-directus/pull/93))
+
+### 📖 Documentation
+
+- Update auth requirements ([c712067](https://github.com/becem-gharbi/nuxt-directus/commit/c712067))
+- Update auth requirements ([398660e](https://github.com/becem-gharbi/nuxt-directus/commit/398660e))
+
+### 🏡 Chore
+
+- Refresh lockfiles ([6617a23](https://github.com/becem-gharbi/nuxt-directus/commit/6617a23))
+
+### ❤️ Contributors
+
+- Becem <becem.gharbi@live.com>
+- Becem-gharbi <becem.gharbi@live.com>
+
 ## v2.5.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.4.5...v2.5.0)
