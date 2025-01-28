@@ -46,7 +46,7 @@
     "release": "npm run release:pre && npm run test:prod && changelogen --release && npm publish && git push --follow-tags"
   },
   "dependencies": {
-    "@directus/sdk": "^18.0.3",
+    "@directus/sdk": "^19.0.0",
     "@nuxt/kit": "^3.15.0",
     "defu": "^6.1.4",
     "jwt-decode": "^4.0.0",
