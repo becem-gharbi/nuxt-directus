@@ -51,7 +51,15 @@ export default defineNuxtPlugin({
     }
 
     function canFetchUser() {
-      const isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
+      let isSSO = false
+      if (import.meta.client) {
+        const path = window.location.pathname
+        const params = new URLSearchParams(window.location.search)
+        isSSO = path === config.auth.redirect.callback && !params.has('reason')
+      }
+      else {
+        isSSO = currentRoute.value?.path === config.auth.redirect.callback && !currentRoute.value.query.reason
+      }
       const { _loggedInFlag, _refreshToken, _sessionToken } = useDirectusSession()
       return isSSO || _loggedInFlag.value || _refreshToken.get() || _sessionToken.get()
     }
