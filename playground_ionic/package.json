@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "my-module-playground",
+  "devDependencies": {
+    "nuxt": "^3.7.0"
+  },
+  "dependencies": {
+    "@nuxtjs/ionic": "^0.16.0"
+  }
+}
