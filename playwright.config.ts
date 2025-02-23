@@ -25,7 +25,7 @@ export default defineConfig({
       timeout: 30000,
     },
     {
-      command: process.env.NODE_ENV === 'production' ? 'nuxi preview playground' : 'nuxi dev playground',
+      command: getNuxtCommand(),
       url: 'http://localhost:3000',
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
@@ -45,3 +45,16 @@ export default defineConfig({
     },
   ],
 })
+
+function getNuxtCommand() {
+  const isProd = process.env.NODE_ENV === 'production'
+  const isIonic = process.env.IS_IONIC === 'true'
+  if (isProd && isIonic)
+    return 'nuxi preview playground_ionic'
+  if (isProd && !isIonic)
+    return 'nuxi preview playground'
+  if (!isProd && isIonic)
+    return 'nuxi dev playground_ionic'
+  else
+    return 'nuxi dev playground'
+}

@@ -39,7 +39,7 @@ export function useDirectusAuth<DirectusSchema extends object>() {
   }
 
   function loginWithProvider(provider: string) {
-    const returnToPath = useRoute().query.redirect?.toString()
+    const returnToPath = _getQueryParam('redirect')
     let redirectUrl = getRedirectUrl(config.auth.redirect.callback)
 
     if (returnToPath) {
@@ -63,8 +63,11 @@ export function useDirectusAuth<DirectusSchema extends object>() {
   }
 
   async function resetPassword(password: string) {
-    const token = useRoute().query.token as string
-    return await $directus.client.request(passwordReset(token, password))
+    const token = _getQueryParam('token')
+    if (token)
+      return await $directus.client.request(passwordReset(token, password))
+    else
+      throw new Error('Token not found')
   }
 
   function getRedirectUrl(path: string) {
@@ -74,7 +77,7 @@ export function useDirectusAuth<DirectusSchema extends object>() {
   async function _onLogin() {
     await fetchUser()
     if (user.value) {
-      const returnToPath = useRoute().query.redirect?.toString()
+      const returnToPath = _getQueryParam('redirect')
       const redirectTo = returnToPath ?? config.auth.redirect.home
       await autoRefresh(true)
       await callHook('directus:loggedIn', true)
@@ -88,6 +91,13 @@ export function useDirectusAuth<DirectusSchema extends object>() {
     if (import.meta.client) {
       await navigateTo(config.auth.redirect.logout, { external: true })
     }
+  }
+
+  function _getQueryParam(key: string) {
+    if (import.meta.client)
+      return new URLSearchParams(window.location.search).get(key)
+    else
+      return useRoute().query[key]?.toString()
   }
 
   return {
