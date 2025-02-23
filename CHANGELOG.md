@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v2.7.0
+
+[compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.6.0...v2.7.0)
+
+### 🚀 Enhancements
+
+- **auth:** Support Ionic ([#97](https://github.com/becem-gharbi/nuxt-directus/pull/97))
+
+### ✅ Tests
+
+- **auth:** Remove extra `await` ([c5d6f27](https://github.com/becem-gharbi/nuxt-directus/commit/c5d6f27))
+
+### ❤️ Contributors
+
+- Becem-gharbi <becem.gharbi@live.com>
+- Becem <becem.gharbi@live.com>
+
 ## v2.6.0
 
 [compare changes](https://github.com/becem-gharbi/nuxt-directus/compare/v2.5.0...v2.6.0)
