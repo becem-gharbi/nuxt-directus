@@ -6,7 +6,7 @@ export const tokenTimeout = 14000
 
 export async function goto(page: Page, path: string) {
   await page.goto(path)
-  await expect(page.getByTestId('hydration-check')).toBeDefined()
+  expect(page.getByTestId('hydration-check')).toBeDefined()
 }
 
 export async function reload(page: Page) {
